@@ -1,0 +1,632 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="ECMAScript 6.0（以下简称ES6）是JavaScript语言的下一代标准，已经在2015年6月正式发布。 以下将着重介绍几个常用的新特性，希望大家多多翻阅阮老师的 es6入门，多看、多练、多用。
+
+1.箭头函数使用箭头函数，简化了函数的书写，你可以用更优雅的方式书写代码。
+比如这样：
+1234567// 使用箭头函数var sum = x =&amp;gt; x * x ;// 等价于var">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6特性笔记">
+<meta property="og:url" content="http://yoursite.com/2016/08/23/ES6特性笔记/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="ECMAScript 6.0（以下简称ES6）是JavaScript语言的下一代标准，已经在2015年6月正式发布。 以下将着重介绍几个常用的新特性，希望大家多多翻阅阮老师的 es6入门，多看、多练、多用。
+
+1.箭头函数使用箭头函数，简化了函数的书写，你可以用更优雅的方式书写代码。
+比如这样：
+1234567// 使用箭头函数var sum = x =&amp;gt; x * x ;// 等价于var">
+<meta property="og:updated_time" content="2016-08-24T12:15:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES6特性笔记">
+<meta name="twitter:description" content="ECMAScript 6.0（以下简称ES6）是JavaScript语言的下一代标准，已经在2015年6月正式发布。 以下将着重介绍几个常用的新特性，希望大家多多翻阅阮老师的 es6入门，多看、多练、多用。
+
+1.箭头函数使用箭头函数，简化了函数的书写，你可以用更优雅的方式书写代码。
+比如这样：
+1234567// 使用箭头函数var sum = x =&amp;gt; x * x ;// 等价于var">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/23/ES6特性笔记/"/>
+
+  <title> ES6特性笔记 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ES6特性笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-23T17:30:44+08:00" content="2016-08-23">
+              2016-08-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>ECMAScript 6.0（以下简称ES6）是JavaScript语言的下一代标准，已经在2015年6月正式发布。 以下将着重介绍几个常用的新特性，希望大家多多翻阅阮老师的 <a href="http://es6.ruanyifeng.com/#docs/intro" target="_blank" rel="external">es6入门</a>，多看、多练、多用。</p>
+</blockquote>
+<h3 id="1-箭头函数"><a href="#1-箭头函数" class="headerlink" title="1.箭头函数"></a>1.箭头函数</h3><p>使用箭头函数，简化了函数的书写，你可以用更优雅的方式书写代码。</p>
+<p>比如这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 使用箭头函数</div><div class="line">var sum = x =&gt; x * x ;</div><div class="line"></div><div class="line">// 等价于</div><div class="line">var sum = function( x ) &#123;</div><div class="line">	return x * x;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>或者这样(无参数)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var b = 4;</div><div class="line">var a = () =&gt; &#123; 3 * b &#125;</div></pre></td></tr></table></figure>
+<p>同时，可以使用箭头函数简化回调函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[1,2,3].map(function(x)&#123;</div><div class="line">	return x * x;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">//使用箭头函数</div><div class="line">[1,2,3].map( x =&gt; x * x );</div></pre></td></tr></table></figure>
+<p><strong>注意</strong></p>
+<ol>
+<li>函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象，可以省去我们的.bind(this) 操作。</li>
+<li>不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。请使用class代替。</li>
+</ol>
+<h3 id="2-let-const关键字"><a href="#2-let-const关键字" class="headerlink" title="2. let\const关键字"></a>2. let\const关键字</h3><h4 id="let"><a href="#let" class="headerlink" title="let"></a>let</h4><p>1.<strong>let 和 var 的使用方法类似，只在块级作用域有效（不是函数级作用域</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  let a = 10;</div><div class="line">  var b = 1;</div><div class="line">&#125;</div><div class="line"></div><div class="line">a // ReferenceError: a is not defined.</div><div class="line">b // 1</div></pre></td></tr></table></figure>
+<h4 id="const"><a href="#const" class="headerlink" title="const"></a>const</h4><p>const声明一个只读的常量。一旦声明，常量的值就不能改变</p>
+<p><strong>注意</strong></p>
+<ol>
+<li><strong>let、const不存在变量声明提升</strong></li>
+<li><strong>let、const不允许重复声明</strong></li>
+<li><strong>两种声明变量不在window下</strong></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">var a = 1;</div><div class="line"></div><div class="line">window.a  // 1</div><div class="line"></div><div class="line">const b = 2;</div><div class="line"></div><div class="line">window.b // undefined</div></pre></td></tr></table></figure>
+<h3 id="class-类的支持"><a href="#class-类的支持" class="headerlink" title="class 类的支持"></a>class 类的支持</h3><p>es5通过构造函数来定义并生成对象，和传统的OO语言差距很大。因此ES6 提供了新的模板来创建类。</p>
+<h4 id="使用姿势"><a href="#使用姿势" class="headerlink" title="使用姿势"></a>使用姿势</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">//类的定义</div><div class="line">class Animal &#123;</div><div class="line">	//ES6中新型构造器</div><div class="line">	constructor(name) &#123;</div><div class="line">		//用来定义属性	</div><div class="line">   		this.name = name;</div><div class="line">   	&#125;</div><div class="line">    //实例方法</div><div class="line">    sayName() &#123;</div><div class="line">        console.log(&apos;My name is &apos;+this.name);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//类的继承</div><div class="line">class Programmer extends Animal &#123;</div><div class="line">    constructor(name) &#123;</div><div class="line">    	//直接调用父类构造器进行初始化</div><div class="line">        super(name);</div><div class="line">    &#125;</div><div class="line">    program() &#123;</div><div class="line">        console.log(&quot;I&apos;m coding...&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">//测试我们的类</div><div class="line">var animal=new Animal(&apos;dummy&apos;),</div><div class="line">wayou=new Programmer(&apos;wayou&apos;);</div><div class="line">animal.sayName();//输出 ‘My name is dummy’</div><div class="line">wayou.sayName();//输出 ‘My name is wayou’</div><div class="line">wayou.program();//输出 ‘I&apos;m coding...’</div></pre></td></tr></table></figure>
+<h4 id="getter-setter"><a href="#getter-setter" class="headerlink" title="getter/setter"></a>getter/setter</h4><p>与es5一样，可以使用get\set关键字，来拦截存取行为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">class MyClass &#123;</div><div class="line">  constructor() &#123;</div><div class="line">    this.prop = 0;</div><div class="line">  &#125;</div><div class="line">  get prop() &#123;</div><div class="line">    return &apos;getter&apos;;</div><div class="line">  &#125;</div><div class="line">  set prop(value) &#123;</div><div class="line">    console.log(&apos;setter: &apos;+value);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">let inst = new MyClass();</div><div class="line">// setter: 0;</div><div class="line"></div><div class="line">inst.prop = 123;</div><div class="line">// setter: 123</div><div class="line"></div><div class="line">inst.prop</div><div class="line">// &apos;getter&apos;</div></pre></td></tr></table></figure>
+<p><strong>注意</strong></p>
+<ol>
+<li>Class不存在变量声明提升</li>
+</ol>
+<h3 id="字符串模板"><a href="#字符串模板" class="headerlink" title="字符串模板"></a>字符串模板</h3><p>可以使用字符串模板来省去复杂的字符串拼接;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var name = &apos;WWX&apos;;</div><div class="line"></div><div class="line">console.log(`my name is $&#123;name&#125;`);</div></pre></td></tr></table></figure>
+<h3 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h3><p>ES6允许我们以一种神奇的方式直接从数组和对象中提取值并赋值到变量，也就是解构</p>
+<h4 id="使用姿势-1"><a href="#使用姿势-1" class="headerlink" title="使用姿势"></a>使用姿势</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var a = &#123;</div><div class="line">	name: &apos;wwx&apos;,</div><div class="line">	age: 18,</div><div class="line">	sex: &apos;male&apos;,</div><div class="line">&#125;</div><div class="line">//old</div><div class="line">var name = a.name,</div><div class="line">	age = a.age;</div><div class="line">	</div><div class="line">//new</div><div class="line">var &#123; name, age &#125; = a;</div><div class="line">var &#123; name, ...others &#125; = a;</div></pre></td></tr></table></figure>
+<h4 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h4><p>解构允许我们使用默认值来进行解构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var [ a, b = 2] = [ 1 ];</div><div class="line"></div><div class="line">a // [ 1, 2 ]</div></pre></td></tr></table></figure>
+<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h4><ul>
+<li><p>交换变量</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var [ y, x ] = [ x, y ];</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>函数参数定义</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function f(&#123;x, y, z&#125;) &#123;</div><div class="line"> ... </div><div class="line">&#125;</div><div class="line"></div><div class="line">f( &#123; y: 1, x: 2&#125; );</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>提取json数据</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var jsonData = &#123;</div><div class="line">  id: 42,</div><div class="line">  status: &quot;OK&quot;,</div><div class="line">  data: [867, 5309]</div><div class="line">&#125;;</div><div class="line"></div><div class="line">let &#123; id, status, data: number &#125; = jsonData;</div><div class="line"></div><div class="line">console.log(id, status, number);</div><div class="line">// 42, &quot;OK&quot;, [867, 5309]</div></pre></td></tr></table></figure>
+</li>
+<li><p>参数默认值</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function test( &#123; </div><div class="line">		a = 1,</div><div class="line">		b = 2</div><div class="line">	&#125;, c &#125;&#123;</div><div class="line">	...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/18/webpack学习笔记/" rel="next" title="webpack学习笔记">
+                <i class="fa fa-chevron-left"></i> webpack学习笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/23/Vue学习笔记之-组件通信/" rel="prev" title="Vue学习笔记之--组件通信">
+                Vue学习笔记之--组件通信 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-箭头函数"><span class="nav-number">1.</span> <span class="nav-text">1.箭头函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-let-const关键字"><span class="nav-number">2.</span> <span class="nav-text">2. let\const关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#let"><span class="nav-number">2.1.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#const"><span class="nav-number">2.2.</span> <span class="nav-text">const</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#class-类的支持"><span class="nav-number">3.</span> <span class="nav-text">class 类的支持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用姿势"><span class="nav-number">3.1.</span> <span class="nav-text">使用姿势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getter-setter"><span class="nav-number">3.2.</span> <span class="nav-text">getter/setter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串模板"><span class="nav-number">4.</span> <span class="nav-text">字符串模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解构赋值"><span class="nav-number">5.</span> <span class="nav-text">解构赋值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用姿势-1"><span class="nav-number">5.1.</span> <span class="nav-text">使用姿势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#默认值"><span class="nav-number">5.2.</span> <span class="nav-text">默认值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用法"><span class="nav-number">5.3.</span> <span class="nav-text">用法</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

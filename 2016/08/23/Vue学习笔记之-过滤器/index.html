@@ -1,0 +1,616 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="刚开始使用vue进行项目重构的时候，对于一些需要固定规则的变量，往往会通过计算属性进行实现，比如这样:
+1234567891011data: function() &amp;#123;	return &amp;#123;		imgUrl: &apos;./a.jpg&apos;	&amp;#125;		&amp;#125;,computed: &amp;#123;	imgSrc: function() &amp;#123;		return `src($&amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue学习笔记之--过滤器">
+<meta property="og:url" content="http://yoursite.com/2016/08/23/Vue学习笔记之-过滤器/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="刚开始使用vue进行项目重构的时候，对于一些需要固定规则的变量，往往会通过计算属性进行实现，比如这样:
+1234567891011data: function() &amp;#123;	return &amp;#123;		imgUrl: &apos;./a.jpg&apos;	&amp;#125;		&amp;#125;,computed: &amp;#123;	imgSrc: function() &amp;#123;		return `src($&amp;#123;">
+<meta property="og:updated_time" content="2016-08-24T12:16:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue学习笔记之--过滤器">
+<meta name="twitter:description" content="刚开始使用vue进行项目重构的时候，对于一些需要固定规则的变量，往往会通过计算属性进行实现，比如这样:
+1234567891011data: function() &amp;#123;	return &amp;#123;		imgUrl: &apos;./a.jpg&apos;	&amp;#125;		&amp;#125;,computed: &amp;#123;	imgSrc: function() &amp;#123;		return `src($&amp;#123;">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/23/Vue学习笔记之-过滤器/"/>
+
+  <title> Vue学习笔记之--过滤器 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Vue学习笔记之--过滤器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-23T17:41:17+08:00" content="2016-08-23">
+              2016-08-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>刚开始使用vue进行项目重构的时候，对于一些需要固定规则的变量，往往会通过计算属性进行实现，比如这样:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">data: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">return</span> &#123;</div><div class="line">		imgUrl: <span class="string">'./a.jpg'</span></div><div class="line">	&#125;		</div><div class="line">&#125;,</div><div class="line"></div><div class="line">computed: &#123;</div><div class="line">	imgSrc: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">`src(<span class="subst">$&#123;this.imgUrl&#125;</span>)`</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>这种方式效果明显不是最好的。只需要用一个变量进行维护的值我们需要用两个变量进行控制，<br>增加了很多不必要的代码，而直接在template中进行拼接也不合适。</p>
+<p>终于，又过了一遍vue文档的时候发现了可以很好解决这个问题的东西–过滤器。</p>
+<h3 id="使用姿势"><a href="#使用姿势" class="headerlink" title="使用姿势"></a>使用姿势</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">:src</span>=<span class="string">"imgUrl | capitalize"</span> /&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- or --&gt;</span></div><div class="line">&#123;&#123; msg || capitalize &#125;&#125;</div></pre></td></tr></table></figure>
+<p>通过这种方式可以直接对变量进行过滤处理，方便、直观，酷！</p>
+<h3 id="常用过滤器"><a href="#常用过滤器" class="headerlink" title="常用过滤器"></a>常用过滤器</h3><p>官网给出了几种常用过滤器，直接抄几个常用的在这里，方便查看。</p>
+<ul>
+<li>uppercase 大写</li>
+<li>lowercase 小写</li>
+<li><p>debounce 函数延迟执行（必须是函数</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> @<span class="attr">keyup</span>=<span class="string">"onKeyup | debounce 500"</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>limitBy 限制指令执行个数，如：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 只显示开始 10 个元素 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-for</span>=<span class="string">"item in items | limitBy 10"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 显示第 5 到 15 元素--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-for</span>=<span class="string">"item in items | limitBy 10 5"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>filterBy: 过滤数组，跟我们平时使用.filter()方式类似，很好用噢</p>
+<ul>
+<li><p>参数为字符串，返回包含此字符串的元素</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 返回带hello的元素 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-for</span>=<span class="string">"item in items | filterBy 'hello'"</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>降低缩小范围</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 返回属性name为Jack的user --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-for</span>=<span class="string">"user in users | filterBy 'Jack' in 'name'"</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>上面两种，就很酷的实现了模糊搜索呀！</p>
+</li>
+<li>使用自己写的filter函数<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-for</span>=<span class="string">"user in users | filterBy myCustomFilterFunction"</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>orderBy 排序<br>  排序功能也很酷有没有！！！直观有效是不是！！直接看代码：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 按照name排序 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"user in users | orderBy 'name'"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 规定顺序 &gt;= 0 升序 | &lt;0 降序  --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"user in users | orderBy 'name' 1"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 原始类型的数组可以直接忽略键名 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"user in users | orderBy 1"</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- 使用sortFunction排序,和.sort()类似 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"user in users | orderBy sortFunction"</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="自定义过滤器"><a href="#自定义过滤器" class="headerlink" title="自定义过滤器"></a>自定义过滤器</h3><p>几种常用的方式，一个个抄下来感觉已经大部分满足我们的日常需要，<br>而我们经常使用像文章开头那样的，src,url这类东西的时候，往往定义一些自己的过滤器方便使用，<br>使用姿势如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//自定义过滤器的方式很简单，和我们日常书写filter函数一样</span></div><div class="line"><span class="comment">//通过Vue.filter()进行注册</span></div><div class="line"></div><div class="line">Vue.filter(<span class="string">'name'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="string">'name:'</span> + value;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="双向过滤器"><a href="#双向过滤器" class="headerlink" title="双向过滤器"></a>双向过滤器</h4><p>对于Input等进行双向数据绑定的元素，我们可以通过read,write来控制过滤的时机。<br>我们来看看官网的例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Vue.filter(<span class="string">'currencyDisplay'</span>, &#123;</div><div class="line">  <span class="comment">// model -&gt; view</span></div><div class="line">  <span class="comment">// 在更新 `&lt;input&gt;` 元素之前格式化值</span></div><div class="line">  read: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">'$'</span>+val.toFixed(<span class="number">2</span>)</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">// view -&gt; model</span></div><div class="line">  <span class="comment">// 在写回数据之前格式化值</span></div><div class="line">  write: <span class="function"><span class="keyword">function</span>(<span class="params">val, oldVal</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> number = +val.replace(<span class="regexp">/[^\d.]/g</span>, <span class="string">''</span>)</div><div class="line">    <span class="keyword">return</span> <span class="built_in">isNaN</span>(number) ? <span class="number">0</span> : <span class="built_in">parseFloat</span>(number.toFixed(<span class="number">2</span>))</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>乍一看，对于双向数据绑定理解不太深刻的同学可能不太理解这个意思（比如我。让我们来尝试一下：</p>
+<p>首先，我们在一个v-model里直接添加一个普通的过滤器：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;&#123;&#123; msg &#125;&#125;&lt;/p&gt;</div><div class="line">&lt;input type="text" v-model="msg | test"&gt;</div><div class="line"></div><div class="line">Vue.filter('test', function (val) &#123;</div><div class="line">  return val + 'test';</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>结果就是，提示警告，并且输入框输入变化时，msg值并没有变化。让我们使用双向过滤器尝试一下，到底发生了什么。<br>首先我们写一个双向过滤器：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Vue.filter(<span class="string">'test'</span>, &#123;</div><div class="line">	read: <span class="function"><span class="keyword">function</span> (<span class="params">val</span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'read'</span> + val);</div><div class="line">	  <span class="keyword">return</span> val + <span class="string">'test1'</span>;</div><div class="line">	&#125;,</div><div class="line">	write: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="string">'write'</span> + val);</div><div class="line">		<span class="keyword">return</span> val + <span class="string">'test2'</span>;</div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>将这个过滤器添加到普通的Mustache标签内，看看效果。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; msg | test &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">v-model</span>=<span class="string">"msg"</span>&gt;</span></div><div class="line"></div><div class="line">// =&gt; 'read' + val</div></pre></td></tr></table></figure>
+<p>每当输入变化时，显示’read’ + 新的值。所以日常的Mustache标签只使用read过滤方法，<br>即当model改变后-&gt;view渲染前，调用过滤器进行过滤。</p>
+<p>下面我们将这个过滤器添加到v-model内:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; msg &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">v-model</span>=<span class="string">" msg | test "</span>&gt;</span></div><div class="line"></div><div class="line">// =&gt; 'write' + val</div><div class="line">// =&gt; 'read' + val + 'test2'</div></pre></td></tr></table></figure></p>
+<p>每当输入变化时，控制台先输出’write’，也就是在数据写入model时进行过滤，<br>model存入过滤后的值，Mustache标签会自动渲染为write函数过滤后的值。<br>而当input 失焦时，触发view的更新，也就是会根据model =&gt; view,此时才会调用read过滤器，将’test1’加入到value内。</p>
+<p>总结下：</p>
+<ul>
+<li>read: 只针对 model =&gt; view 来进行过滤</li>
+<li>write: 针对写入model前进行过滤</li>
+</ul>
+<p>我们可以按需选择进行使用。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/23/Vue学习笔记之-组件通信/" rel="next" title="Vue学习笔记之--组件通信">
+                <i class="fa fa-chevron-left"></i> Vue学习笔记之--组件通信
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用姿势"><span class="nav-number">1.</span> <span class="nav-text">使用姿势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用过滤器"><span class="nav-number">2.</span> <span class="nav-text">常用过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义过滤器"><span class="nav-number">3.</span> <span class="nav-text">自定义过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#双向过滤器"><span class="nav-number">3.1.</span> <span class="nav-text">双向过滤器</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

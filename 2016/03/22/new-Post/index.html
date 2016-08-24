@@ -1,0 +1,570 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="定义在阅读代码的过程中，经常会看到call()和apply()两个函数。每次我见到这两个函数都很好奇他们的使用方法到底是怎样。今天抽空具体研究了一下，在此做下记录。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="apply&call 小记">
+<meta property="og:url" content="http://yoursite.com/2016/03/22/new-Post/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="定义在阅读代码的过程中，经常会看到call()和apply()两个函数。每次我见到这两个函数都很好奇他们的使用方法到底是怎样。今天抽空具体研究了一下，在此做下记录。">
+<meta property="og:updated_time" content="2016-08-24T12:17:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="apply&call 小记">
+<meta name="twitter:description" content="定义在阅读代码的过程中，经常会看到call()和apply()两个函数。每次我见到这两个函数都很好奇他们的使用方法到底是怎样。今天抽空具体研究了一下，在此做下记录。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/03/22/new-Post/"/>
+
+  <title> apply&call 小记 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                apply&call 小记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-22T12:13:24+08:00" content="2016-03-22">
+              2016-03-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>在阅读代码的过程中，经常会看到call()和apply()两个函数。每次我见到这两个函数都很好奇他们的使用方法到底是怎样。今天抽空具体研究了一下，在此做下记录。<br><a id="more"></a></p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">call(obj,[arg1],[arg2])</div><div class="line">apply(obj,argArray)</div></pre></td></tr></table></figure>
+<p>call和apply的官方解释：<br>调用一个对象的方法，以另外一个对象替换当前对象。<br>通俗的讲就是调用方法，并改变对象的运行时上下文。根据传入的对象上下文运行方法，让人更灵活的使用方法并传入参数，二者除传入参数的规则不同外基本完全相同。</p>
+<h2 id="几个案例"><a href="#几个案例" class="headerlink" title="几个案例"></a>几个案例</h2><h3 id="1-调用方法"><a href="#1-调用方法" class="headerlink" title="1.调用方法"></a>1.调用方法</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> add (a, b) &#123;</div><div class="line">	console.log(a + b); </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">function</span> sub(a, b) &#123;</div><div class="line">	console.log(a - b);</div><div class="line">&#125;</div><div class="line"></div><div class="line">add.call(sub, 3, 1);	//4</div><div class="line">sub(3,1);	//2</div></pre></td></tr></table></figure>
+<p>将add方法的运行时context改为sub并传入参数并进行调用，sub方法并没有改变。</p>
+<h3 id="2-更改函数运行时上下文"><a href="#2-更改函数运行时上下文" class="headerlink" title="2.更改函数运行时上下文"></a>2.更改函数运行时上下文</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> Animal(name) &#123;</div><div class="line">	this.name = name;</div><div class="line">	this.age = 19;</div><div class="line">	this.showName = <span class="function"><span class="title">function</span></span>  () &#123;</div><div class="line">		 console.log(<span class="string">'name: '</span> + this.name); </div><div class="line">	&#125;</div><div class="line">	this.showAge = <span class="function"><span class="title">function</span></span> () &#123;</div><div class="line">		console.log(<span class="string">'age: '</span> + this.age);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">function</span> Cat(name) &#123;</div><div class="line">	this.name = <span class="string">'cat'</span>;</div><div class="line">	this.showName = <span class="function"><span class="title">function</span></span> () &#123;</div><div class="line">		console.log(<span class="string">'原方法'</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">var animal = new Animal();</div><div class="line">var cat = new Cat();</div><div class="line"></div><div class="line">animal.showName.call(cat);	//name: cat</div><div class="line">cat.showName();		//调用原方法</div><div class="line"></div><div class="line">animal.showAge.call(cat);	//age: 19</div><div class="line">cat.showAge();	//error 没有showAge方法</div></pre></td></tr></table></figure>
+<p>将animal的showName方法运行时改为cat并调用，<br>因此此时的this为cat,则this.name为’cat’。但是cat对象并没有获得此方法。</p>
+<h3 id="3-实现继承"><a href="#3-实现继承" class="headerlink" title="3.实现继承"></a>3.实现继承</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">function</span> Animal(name) &#123;</div><div class="line">	this.name = name;</div><div class="line">	this.showName = <span class="function"><span class="title">function</span></span>  () &#123;</div><div class="line">		 console.log(<span class="string">'name: '</span> + this.name); </div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Animal.prototype.eat = <span class="function"><span class="title">function</span></span>() &#123;</div><div class="line">	console.log(this.name + <span class="string">'startEat'</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">function</span> Dog(name) &#123;</div><div class="line">	Animal.call(this, name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">var dog = new Dog(<span class="string">'dog'</span>);</div><div class="line">dog.showName();		//name: dog</div><div class="line">dog.eat();		//error 无法调用到eat方法</div></pre></td></tr></table></figure>
+<p>将Animal类替换到this对象，使Dog获得Animal类的方法及属性从而实现继承。<br>当一个object没有某个方法，但是其他的有，我们可以借助call或apply用其它对象的方法来操作。<br>但是试验中dog并没有继承到Animal原型上的eat方法，此点需要深入研究下。</p>
+<h3 id="4-常用方法-（引自知乎"><a href="#4-常用方法-（引自知乎" class="headerlink" title="4.常用方法 （引自知乎"></a>4.常用方法 （引自知乎</h3><p>通过document.getElementsByTagName选择的dom节点返回动态的 NodeList,只有length属性和方法item。它不能应用Array下的push,pop等方法。我们可以通过：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var domNodes = Array.prototype.slice.call(document.getElementsByTagName(*));</div></pre></td></tr></table></figure></p>
+<p>这样domNodes就可以应用Array下的所有方法了。</p>
+<p>总之 call和apply能够很好的提高我们的代码效率。如何更好的使用这两个方法，就要靠平时的认真积累拉。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/18/webpack学习笔记/" rel="prev" title="webpack学习笔记">
+                webpack学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几个案例"><span class="nav-number">2.</span> <span class="nav-text">几个案例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-调用方法"><span class="nav-number">2.1.</span> <span class="nav-text">1.调用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-更改函数运行时上下文"><span class="nav-number">2.2.</span> <span class="nav-text">2.更改函数运行时上下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-实现继承"><span class="nav-number">2.3.</span> <span class="nav-text">3.实现继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-常用方法-（引自知乎"><span class="nav-number">2.4.</span> <span class="nav-text">4.常用方法 （引自知乎</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

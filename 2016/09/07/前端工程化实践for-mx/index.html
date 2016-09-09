@@ -1,0 +1,645 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前端工程化是最近总听到一个词，而在业务不断发展的过程中，传统的开发流程早已不适用于前端爆发式发展的今天。在此，针对最近的探索以及mx内部使用的基本前端工程机构进行说明。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端工程化实践for-mx(一)">
+<meta property="og:url" content="http://yoursite.com/2016/09/07/前端工程化实践for-mx/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="前端工程化是最近总听到一个词，而在业务不断发展的过程中，传统的开发流程早已不适用于前端爆发式发展的今天。在此，针对最近的探索以及mx内部使用的基本前端工程机构进行说明。">
+<meta property="og:image" content="http://yoursite.com/images/vue-loader.jpg">
+<meta property="og:image" content="http://yoursite.com/images/asset-default.png">
+<meta property="og:image" content="http://yoursite.com/images/env-js.png">
+<meta property="og:image" content="http://yoursite.com/images/html-webpack.png">
+<meta property="og:updated_time" content="2016-09-09T09:45:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端工程化实践for-mx(一)">
+<meta name="twitter:description" content="前端工程化是最近总听到一个词，而在业务不断发展的过程中，传统的开发流程早已不适用于前端爆发式发展的今天。在此，针对最近的探索以及mx内部使用的基本前端工程机构进行说明。">
+<meta name="twitter:image" content="http://yoursite.com/images/vue-loader.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/07/前端工程化实践for-mx/"/>
+
+  <title> 前端工程化实践for-mx(一) | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                前端工程化实践for-mx(一)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-07T09:43:42+08:00" content="2016-09-07">
+              2016-09-07
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>前端工程化是最近总听到一个词，而在业务不断发展的过程中，传统的开发流程早已不适用于前端爆发式发展的今天。在此，针对最近的探索以及mx内部使用的基本前端工程机构进行说明。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="1-我们需要什么"><a href="#1-我们需要什么" class="headerlink" title="1.我们需要什么"></a>1.我们需要什么</h3><p>刚进入公司的时候，我们使用jquery + html搞定所有的页面开发，使用smarty，ajax进行前后端交互,模板渲染；没有完善的接口文档，往往是前端把UI在本地开发完成后将页面直接抛给后端进行套接，看似前后端分别负责各自的业务，但往往会在交互过程中由于对于双方逻辑的不理解导致很大的障碍。因此，我们想要将<strong><em>前后端进行完全分离</em></strong>，各自维护逻辑。</p>
+<p>而对于庞大的、不断迭代的项目，进行各功能模块、公共模块等逻辑及静态资源的管理时，往往会因为想要避免逻辑冲突而整个模块的复制代码，导致大量的资源冗余及极差的代码可读性、维护性。因此，我们尝试使用AMD，commonJS进行<strong><em>模块化管理</em></strong>。</p>
+<p>对于常用的功能样式、小单元，我们往往会进行插件开发。而这种方式往往引用复杂，不太灵活，使用过程中需要分别引用样式、结构和逻辑单元。而vue、react等组件化思想框架的风靡让我们热衷于使用组件化方式进行开发。因此，我们更推荐使用ES6规范，使用sass进行样式表管理。导致了我们对于<strong><em>静态资源管理、编译、打包</em></strong>的需求。</p>
+<p>同时，还有一系列诸如<strong><em>自动更新版本号、压缩代码、浏览器自动刷新</em></strong>等一系列愿望。梳理一下，大概有以下几点：</p>
+<h5 id="1-开发调试"><a href="#1-开发调试" class="headerlink" title="1.开发调试"></a>1.开发调试</h5><ul>
+<li>前后端分离。不再使用smarty模板进行渲染，全部通过ajax进行交互。</li>
+<li>组件化开发。各组件维护其自身的静态资源，在此选用vue作为组件化开发框架，.vue模板进行组员整合，实现资源内聚，降低耦合度。</li>
+<li>模块化开发。静态资源模块化管理，防止资源冗余。</li>
+<li>调试过程中自动监听变动，浏览器自动刷新，解放双手。</li>
+<li>sass,es6等语言自动编译。</li>
+<li>简易的包管理引用方式</li>
+</ul>
+<h5 id="2-打包部署"><a href="#2-打包部署" class="headerlink" title="2.打包部署"></a>2.打包部署</h5><ul>
+<li>js、css文件压缩，减少资源占用空间</li>
+<li>自动版本号控制，解决缓存问题</li>
+<li>资源自动引用，自动依赖管理</li>
+<li>区分开发、测试、生产环境</li>
+<li>同一项目，多个页面、多个入口自由配置</li>
+</ul>
+<h4 id="自动-自动！"><a href="#自动-自动！" class="headerlink" title="自动 自动！"></a>自动 自动！</h4><p>上面的功能，都自动好吗！</p>
+<h3 id="2-vue-cli-webpack-模板"><a href="#2-vue-cli-webpack-模板" class="headerlink" title="2.vue-cli-webpack 模板"></a>2.vue-cli-webpack 模板</h3><p>webpack对于我们来说应该也很熟悉了，是一个很好的模块资源加载器，将所有的资源当做模块进行处理，支持AMD、CommonJS规范。满足了我们的模块化开发要求。而对于初学者来说，其包括官方文档、使用报错等其实不是太友好，很多时候会因为基本的环境配置而很头疼。</p>
+<p>很荣幸，vue-cli让为我们提供了各种快速开发的模板环境，为我们提供了配置好的模板直接进行使用。让我们看下其实现方式：</p>
+<h4 id="1-vue-loader组件化开发"><a href="#1-vue-loader组件化开发" class="headerlink" title="1.vue-loader组件化开发"></a>1.vue-loader组件化开发</h4><p>通过vue-loader，我们可以很方便的将组件的样式、模板、逻辑等进行整合，实现了资源的高内聚。同时，.vue模板还配合babel、sass等loader整合了sass、es6等书写方式，让我们更加愉快的书写代码。类似这样：</p>
+<p><img src="/images/vue-loader.jpg" alt="vue-loader"></p>
+<p>同时我们会发现，style标签中可以添加<strong><em>scoped</em></strong>属性，实现我们所期待已久的css模块化。让组件样式不会对外部进行干扰，妙哉！</p>
+<h4 id="2-代码热替换"><a href="#2-代码热替换" class="headerlink" title="2.代码热替换"></a>2.代码热替换</h4><p>vue-cli通过使用express启用开发服务进行开发中调试，类似webpack-dev-server，同时，启用了vue-hot-loader等，实现了代码热替换功能，大大的提高了我们的开发效率。不用每次进行修改时，再一次次的刷新浏览器了。</p>
+<h4 id="3-打包"><a href="#3-打包" class="headerlink" title="3.打包"></a>3.打包</h4><p>在打包过程中，模板还提供了以下几种功能：</p>
+<ul>
+<li>UglifyJsPlugin： js,css代码压缩</li>
+<li>CommonsChunkPlugin：    公有模块提取</li>
+<li>HtmlWebpackPlugin： 自动生成页面，引用静态资源。</li>
+<li>chunkhash进行版本控制管理，为每次变更自动添加版本号</li>
+</ul>
+<h4 id="4-不足"><a href="#4-不足" class="headerlink" title="4.不足"></a>4.不足</h4><p>通过vue-cli，基本已经可以满足我们在开发调试和打包部署过程中的需求，让我们快速方便的进行单页面应用开发。而在实际过程中，我们需要对其进行改写，来满足实际使用过程中的不足之处：</p>
+<h5 id="4-1-静态资源引用问题"><a href="#4-1-静态资源引用问题" class="headerlink" title="4.1 静态资源引用问题"></a>4.1 静态资源引用问题</h5><p>我们可以发现，cli在进行图片等资源打包时，通常会将其配置成’/‘,将所有图片等静态资源放在根目录下。而我们的开发方式是在服务器进行开发，根据’/‘区分页面路径，采用相对路径进行图片的引用。因此我们会将publicPath进行相应的修改，像这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//统一资源输出路径，和php共同放在public文件夹下</span></div><div class="line">assetsRoot: path.resolve(__dirname, <span class="string">'../../../public'</span>), </div><div class="line"><span class="comment">//静态资源存放路径</span></div><div class="line">assetsSubDirectory: <span class="string">'assets_default'</span>,</div><div class="line"><span class="comment">//页面路径通过php include进入public文件夹内，因此我们使用''或'./'即可</span></div><div class="line">assetsPublicPath: <span class="string">''</span></div></pre></td></tr></table></figure>
+<p>通过上述配置，打包后的资源会像下面展示：</p>
+<p>html:</p>
+<p>html正常</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">assets_default/css/app.4ca66feb389e3954236b3e2f19470797.css</span> <span class="attr">rel</span>=<span class="string">stylesheet</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">text/javascript</span> <span class="attr">src</span>=<span class="string">assets_default/js/app.2f605124cd9607109c08.js</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>而css文件内部引用的图片，会出现如下错误，其编译后为</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.bg</span>&#123;</div><div class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(assets_default/img/bg.jpg);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而静态文件的目录是这样的：</p>
+<p><img src="/images/asset-default.png" alt="vue-loader"></p>
+<p>因此是无法根据路径：assets_default/img/bg.jpg访问到图片的，需要使用相对路径：’../img/bg.jpg’。而统一修改publicPath为’../../‘让其访问’../../assets_default/img/bg.jpg’又会使html资源引用出错。在踌躇很长时间后，终于找到了解决方法。<strong><em>为ExtractTextPlugin单独设置publicPath</em></strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ExtractTextPlugin.extract(<span class="string">'vue-style-loader'</span>, sourceLoader, &#123; publicPath: <span class="string">'../../'</span> &#125;)</div></pre></td></tr></table></figure>
+<p>最终代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//index.js 将资源引用的publicPath抽离</span></div><div class="line">publicPath: <span class="string">''</span>, </div><div class="line">assetsPublicPath: <span class="string">'../../'</span>,</div><div class="line"></div><div class="line"><span class="comment">//修改util.js,更改ExtractTextPlugin</span></div><div class="line"><span class="keyword">if</span> (options.extract) &#123;</div><div class="line">  <span class="keyword">return</span> ExtractTextPlugin.extract(<span class="string">'vue-style-loader'</span>, sourceLoader, &#123; publicPath: options.publicPath || <span class="string">'../../'</span> &#125;)</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  <span class="keyword">return</span> [<span class="string">'vue-style-loader'</span>, sourceLoader].join(<span class="string">'!'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="4-2-build环境区分"><a href="#4-2-build环境区分" class="headerlink" title="4.2 build环境区分"></a>4.2 build环境区分</h5><p>在公司我们有开发、测试、生产三个环境，我们往往需要根据不同的环境去配置不同的打包细节以及诸如接口等不同的环境变量。在vue-cli中，提供了dev、test、prod三个文件。会导出不同的变量参数。而其只做了区分调试、打包、和单元测试三种开发方式，不是我们想要的区分不同的build环境。因此我们需要在此对其进行修改。</p>
+<p>1.配置运行脚本<br>在package.json中，我们将运行脚本设置为</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">"scripts": &#123;</div><div class="line">  //开发调试</div><div class="line">  "dev": "node build/dev-server.js",</div><div class="line">  //打包编译</div><div class="line">  "build": "node build/build.js "</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>因此我们可以使用npm run dev 进行调试， 使用npm run build + [参数] 进行不同环境的打包</p>
+<p>2.接收打包环境参数<br>我们需要获取命令参数来进行不同的配置文件的引用，具体修改如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获取环境参数</span></div><div class="line"><span class="keyword">var</span> options = process.argv[<span class="number">2</span>];</div><div class="line"></div><div class="line"><span class="comment">//开发端口</span></div><div class="line"><span class="keyword">if</span> (options &amp;&amp; !<span class="built_in">isNaN</span>(options) &amp;&amp; options &gt;= <span class="number">10000</span> &amp;&amp; options &lt; <span class="number">65535</span>) &#123;</div><div class="line">  <span class="keyword">var</span> port = options;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//引用对应的环境配置文件</span></div><div class="line"><span class="keyword">var</span> envopt = path.resolve(__dirname, <span class="string">'./'</span> + options + <span class="string">'.env'</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span> (!fs.existsSync(envopt + <span class="string">'.js'</span>)) &#123;</div><div class="line">  envopt = path.resolve(__dirname, <span class="string">'./dev.env'</span>);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>通过不同的参数，我们可以获得对应的配置文件，如dev.env.js or test.env.js,他们大概包括以下内容，可根据个人口味进行添加：</p>
+<p><img src="/images/env-js.png" alt="vue-loader"></p>
+<p>3.配置相关变量，并暴露全局。</p>
+<ul>
+<li><p>我们通过DefinePlugin定制不同环境代码：</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> env = config.build.env;</div><div class="line"></div><div class="line"><span class="keyword">new</span> webpack.DefinePlugin(&#123;</div><div class="line"> 	  <span class="string">'process.env'</span>: &#123;</div><div class="line">     NODE_ENV: env.NODE_ENV</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>通过ProvidePlugin将环境参数暴露全局，方便直接引用，而不用在变更环境时，手动修改代码：</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//暴露接口变量</span></div><div class="line">plugins.push(<span class="keyword">new</span> webpack.ProvidePlugin(&#123;</div><div class="line">     ENV_OPT: config.build.envopt</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+</li>
+<li><p>根据不同环境判断是否压缩等，方便其他环境调试</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(env.isUglyfy)&#123;</div><div class="line">  plugins.push(<span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</div><div class="line">    compress: &#123;</div><div class="line">      warnings: <span class="literal">false</span>  </div><div class="line">    &#125;</div><div class="line">  &#125;))</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在代码中，我们可以直接通过 ENV_OPT[变量名]获取你想要的，区分环境的参数。</p>
+<h5 id="4-3自由配置多个页面"><a href="#4-3自由配置多个页面" class="headerlink" title="4.3自由配置多个页面"></a>4.3自由配置多个页面</h5><p>我们会发现,vue-cli默认使用/index.html作为模板，自动引用所有入口文件，适合单页面应用使用。而我们在日常工作中，往往会有很多诸如运营活动，管家各种h5内嵌页面。我们不希望其单独的存在一个项目内，而是在一个通用的工程中进行书写，并且使用vue进行组件化开发，将通用功能进行抽离，进行快速迭代。因此我们需要将其改写为支持多个入口页面配置，并灵活的配置其输出路径等。</p>
+<p>首先，我们还是将所有的配置都放在config/index.js里，方便在使用过程中进行修改，我们需要有一个地方来配置我们各页面的各种属性：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//编译入口文件，包括所有入口内容</span></div><div class="line">entry: &#123;</div><div class="line">  index: <span class="string">'./src/views/main.js'</span>,</div><div class="line">  <span class="comment">// test: './src/views/test.js', //第二个页面入口</span></div><div class="line">&#125;,</div><div class="line">html: [</div><div class="line">  &#123;</div><div class="line">    filename: <span class="string">'index.html'</span>, <span class="comment">//模板输出名称</span></div><div class="line">    title: <span class="string">'测试页面'</span>, <span class="comment">//页面title</span></div><div class="line">    path: <span class="string">'../tpl/'</span>, <span class="comment">//模板输出路径，默认在'../tpl/'下</span></div><div class="line">    entrys: [<span class="string">'index'</span>], <span class="comment">//页面需要引用的js入口文件</span></div><div class="line">    <span class="comment">//模板名称，默认：index.html 文件目录：src/tmpl/index.html,</span></div><div class="line">    <span class="comment">//若文件目录为src/tmpl/test/index.html,则写test/index.html</span></div><div class="line">    tmpl: <span class="string">'test.html'</span> </div><div class="line">  &#125;,</div><div class="line">  <span class="comment">/*第二个页面</span></div><div class="line">  &#123;</div><div class="line">    filename: 'test.html',</div><div class="line">    path: '../tpl/test/',</div><div class="line">    entrys: ['test'],</div><div class="line">  &#125;*/</div><div class="line">],</div></pre></td></tr></table></figure>
+<p>我们可以把各个页面的配置在html字段中进行管理，包括输出路径、输出名称，以及各页面需要引用的entry。默认状态下，会使用src/tmpl/index.html做为模板，若我们需要使用自定义模板进行书写时，直接在tmpl/文件夹下进行书写，并修改对应字段即可。</p>
+<p>紧接着，我们使用htmlWebpackPlugin进行梳理，输出对应页面：</p>
+<p><img src="/images/html-webpack.png" alt="vue-loader"></p>
+<p>每次通过npm run build [env] 即可自动打包出各页面，并引用其资源文件。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>通过对vue-cli的webpack模板进行修改，我们已经理出了一个基本满足我们需求的开发调试、打包环境，配合后端目录结构约束，已经可以进行实际的输出。通过工程化管理，我们可以针对不同页面引用很多通用的组件，自动管理依赖、打包等问题。本章节介绍了具体的改动及思路，下一篇文章我们将重点介绍如何进行使用。</p>
+<p>最后，前端工程化还是一个很遥远的路程，我们的实践仅仅只是工程化的一小部分，愿我们在不断实践的道路上越走越远！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/06/localstorage空值问题/" rel="next" title="localstorage空值问题">
+                <i class="fa fa-chevron-left"></i> localstorage空值问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-我们需要什么"><span class="nav-number">1.</span> <span class="nav-text">1.我们需要什么</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-开发调试"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.开发调试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-打包部署"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.打包部署</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动-自动！"><span class="nav-number">1.1.</span> <span class="nav-text">自动 自动！</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-vue-cli-webpack-模板"><span class="nav-number">2.</span> <span class="nav-text">2.vue-cli-webpack 模板</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-vue-loader组件化开发"><span class="nav-number">2.1.</span> <span class="nav-text">1.vue-loader组件化开发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-代码热替换"><span class="nav-number">2.2.</span> <span class="nav-text">2.代码热替换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-打包"><span class="nav-number">2.3.</span> <span class="nav-text">3.打包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-不足"><span class="nav-number">2.4.</span> <span class="nav-text">4.不足</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-静态资源引用问题"><span class="nav-number">2.4.1.</span> <span class="nav-text">4.1 静态资源引用问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-build环境区分"><span class="nav-number">2.4.2.</span> <span class="nav-text">4.2 build环境区分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3自由配置多个页面"><span class="nav-number">2.4.3.</span> <span class="nav-text">4.3自由配置多个页面</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

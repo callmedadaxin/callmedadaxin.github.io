@@ -84,26 +84,17 @@
 
 
 
-<meta name="description" content="针对图片列表，我们往往在进行图片请求时，防止默认的占位图，等图片加载成功再将图片进行替换，防止列表抖动以及图片加载失败等情况，给用户更好的体验。本次我们将介绍如何通过filter对v-for遍历的图片列表进行图片预加载。
-
-举个栗子我们往往会使用以下方式来生成一个图片列表，使用v-for进行遍历
-12345&amp;lt;ul&amp;gt;	&amp;lt;li v-for=&quot;item in list&quot; &amp;gt;">
+<meta name="description" content="针对图片列表，我们往往在进行图片请求时，防止默认的占位图，等图片加载成功再将图片进行替换，防止列表抖动以及图片加载失败等情况，给用户更好的体验。本次我们将介绍如何通过filter对v-for遍历的图片列表进行图片预加载。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="filter实现图片预加载">
 <meta property="og:url" content="http://yoursite.com/2016/09/13/filter实现图片预加载/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="针对图片列表，我们往往在进行图片请求时，防止默认的占位图，等图片加载成功再将图片进行替换，防止列表抖动以及图片加载失败等情况，给用户更好的体验。本次我们将介绍如何通过filter对v-for遍历的图片列表进行图片预加载。
-
-举个栗子我们往往会使用以下方式来生成一个图片列表，使用v-for进行遍历
-12345&amp;lt;ul&amp;gt;	&amp;lt;li v-for=&quot;item in list&quot; &amp;gt;">
+<meta property="og:description" content="针对图片列表，我们往往在进行图片请求时，防止默认的占位图，等图片加载成功再将图片进行替换，防止列表抖动以及图片加载失败等情况，给用户更好的体验。本次我们将介绍如何通过filter对v-for遍历的图片列表进行图片预加载。">
 <meta property="og:image" content="http://yoursite.com/images/filter-list.png">
-<meta property="og:updated_time" content="2016-09-13T11:59:51.000Z">
+<meta property="og:updated_time" content="2016-09-13T12:01:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="filter实现图片预加载">
-<meta name="twitter:description" content="针对图片列表，我们往往在进行图片请求时，防止默认的占位图，等图片加载成功再将图片进行替换，防止列表抖动以及图片加载失败等情况，给用户更好的体验。本次我们将介绍如何通过filter对v-for遍历的图片列表进行图片预加载。
-
-举个栗子我们往往会使用以下方式来生成一个图片列表，使用v-for进行遍历
-12345&amp;lt;ul&amp;gt;	&amp;lt;li v-for=&quot;item in list&quot; &amp;gt;">
+<meta name="twitter:description" content="针对图片列表，我们往往在进行图片请求时，防止默认的占位图，等图片加载成功再将图片进行替换，防止列表抖动以及图片加载失败等情况，给用户更好的体验。本次我们将介绍如何通过filter对v-for遍历的图片列表进行图片预加载。">
 <meta name="twitter:image" content="http://yoursite.com/images/filter-list.png">
 
 
@@ -300,6 +291,7 @@
         <blockquote>
 <p>针对图片列表，我们往往在进行图片请求时，防止默认的占位图，等图片加载成功再将图片进行替换，防止列表抖动以及图片加载失败等情况，给用户更好的体验。本次我们将介绍如何通过filter对v-for遍历的图片列表进行图片预加载。</p>
 </blockquote>
+<a id="more"></a>
 <h3 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h3><p>我们往往会使用以下方式来生成一个图片列表，使用v-for进行遍历</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in list"</span> &gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">img</span> <span class="attr">:src</span>=<span class="string">"item.imgURl"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>使用preLoad方式进行图片预加载并进行错误处理,手动创建一个img,当加载成功时，将img标签进行返回，失败时返回错误回调。</p>

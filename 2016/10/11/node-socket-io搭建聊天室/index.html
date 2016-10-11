@@ -1,0 +1,736 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="今天看了《nodejs实战》第二章，构建聊天程序，对node练了练手，趁热打铁，将看过的东西记录下来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node/socket.io搭建聊天室">
+<meta property="og:url" content="http://yoursite.com/2016/10/11/node-socket-io搭建聊天室/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="今天看了《nodejs实战》第二章，构建聊天程序，对node练了练手，趁热打铁，将看过的东西记录下来。">
+<meta property="og:updated_time" content="2016-10-11T14:17:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="node/socket.io搭建聊天室">
+<meta name="twitter:description" content="今天看了《nodejs实战》第二章，构建聊天程序，对node练了练手，趁热打铁，将看过的东西记录下来。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/10/11/node-socket-io搭建聊天室/"/>
+
+  <title> node/socket.io搭建聊天室 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                node/socket.io搭建聊天室
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-11T17:30:19+08:00" content="2016-10-11">
+              2016-10-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/10/11/node-socket-io搭建聊天室/" class="leancloud_visitors" data-flag-title="node/socket.io搭建聊天室">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>今天看了《nodejs实战》第二章，构建聊天程序，对node练了练手，趁热打铁，将看过的东西记录下来。</p>
+</blockquote>
+<a id="more"></a>
+<h4 id="涉及模块"><a href="#涉及模块" class="headerlink" title="涉及模块"></a>涉及模块</h4><ul>
+<li>http 模块用来创建http服务</li>
+<li>fs 用来处理静态文件</li>
+<li>path 文件系统路径相关</li>
+<li>mime 根据文件的扩展名，得到文件类型， 如：text/html</li>
+<li>socket.io socket模块</li>
+</ul>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><h5 id="1-创建文件服务器"><a href="#1-创建文件服务器" class="headerlink" title="1.创建文件服务器"></a>1.创建文件服务器</h5><ol>
+<li>http创建服务器，处理请求，获取请求路径</li>
+<li>首先在缓存中读取，若无缓存，通过fs读取对应的html文件并转发</li>
+<li>http监听端口</li>
+</ol>
+<h5 id="2-创建socket通信"><a href="#2-创建socket通信" class="headerlink" title="2.创建socket通信"></a>2.创建socket通信</h5><ol>
+<li>通过socket.io进行连接，包括客户端和服务端两部分</li>
+<li>连接成功为用户分配id,名称，并绑定消息事件</li>
+<li>客户端与服务端通过emit,on进行事件的监听与触发，进行交互</li>
+</ol>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>整体思路清晰简单，因为有socket.io 客户端及服务端的封装，整体通过事件进行交互很简单明了。下面对这几个模块的常用API进行总结</p>
+<h5 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h5><p>直接使用</p>
+<ul>
+<li>http.STATUS_CODES 状态码</li>
+<li>http.createServer</li>
+<li>http.request(http.ClientRequest)</li>
+<li>http.get</li>
+<li>http.globalAgent</li>
+<li>http.IcomingMessage</li>
+</ul>
+<p>回调参数</p>
+<ol>
+<li>http.serverRequest</li>
+<li>http.serverResponse</li>
+<li>http.Agent</li>
+</ol>
+<p>点击看<a href="https://my.oschina.net/antianlu/blog/228511" target="_blank" rel="external">这篇</a>文章，里面讲解的很详细</p>
+<h4 id="fs文件系统"><a href="#fs文件系统" class="headerlink" title="fs文件系统"></a>fs文件系统</h4><p>常规操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">fs.open(文件路径,读写标识,[文件mode值,666],回调函数(err,文件句柄fd));          </div><div class="line">fs.read(文件句柄fd,被写入的buffer,offset,length,position,回调函数(err, bytesRead, buffer));          </div><div class="line">fs.write(文件句柄fd,被读取的buffer,offset,length,position,回调函数(err,bytesWritten,buffer));          </div><div class="line">fs.close(文件句柄,回调函数)          </div><div class="line">fs.truncate(文件句柄,截断长度,回调函数);          </div><div class="line">fs.fsync(文件句柄,回调函数);</div></pre></td></tr></table></figure>
+<p>文件读写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">fs.readFile(文件名,编码,回调函数(err,data));       </div><div class="line">fs.writeFile(文件名,数据,编码,回调函数(err));       </div><div class="line">fs.appendFile(文件名,数据,编码,回调函数(err));</div></pre></td></tr></table></figure>
+<p>目录操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">fs.mkdir(路径,权限mode/777,回调函数);   </div><div class="line">fs.rmdir(路径,回调函数);   </div><div class="line">fs.readdir(路径,回调函数(err,fileNameArray));</div></pre></td></tr></table></figure></p>
+<p>其他常用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//判断文件是否存在      </div><div class="line">fs.exists(文件路径,callback(是否存在));      </div><div class="line">//重命名      </div><div class="line">fs.rename(旧文件名,新文件名,回调函数);      </div><div class="line">//文件所有者变更      </div><div class="line">fs.chown(文件名,uid,gid,回调函数);/fs.fchown(文件句柄fd,uid,gid,回调函数);/fs.lchown(链接路径,uid,gid,回调函数);      </div><div class="line">//文件权限变更      </div><div class="line">fs.chmod(文件名,mode,回调函数);/fs.fchmod(文件句柄,mode,回调函数);/fs.lchmod(链接路径,mode,回调函数);      </div><div class="line">//文件信息      </div><div class="line">fs.stat(文件路径,回调函数(err.fs.Stats对象));/fs.fstat(文件句柄fd,回调函数(err.fs.Stats对象));/fs.lstat(链接路径,回调函数(err.fs.Stats对象));      </div><div class="line">//文件时间      </div><div class="line">fs.utimes(文件路径,访问时间,新建时间,回调函数);/fs.futimes(文件句柄,访问时间,新建时间,回调函数);      </div><div class="line">//监视文件      </div><div class="line">fs.watchFile(文件名,[options],listener_callback(当前文件的stats,改变前的stats));      </div><div class="line">fs.unwatchFile(文件名);</div></pre></td></tr></table></figure>
+<h4 id="path"><a href="#path" class="headerlink" title="path"></a>path</h4><p>路径操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">//格式化路径. 将不符合规范的路径经过格式化转换为标准路径,解析路径中的.与…外，还能去掉多余的斜杠</div><div class="line">//=&gt; /path/normalize/</div><div class="line">path.normalize(’/path///normalize/hi/…’)</div><div class="line"></div><div class="line">//组合路径</div><div class="line">//=&gt;‘/you/are/beautiful’</div><div class="line">path.join(’///you’, ‘/are’, ‘//beautiful’);</div><div class="line"></div><div class="line">//返回路径中的目录名</div><div class="line">path.dirname(’/foo/strong/cool/nice’);</div><div class="line">//=&gt; ‘/foo/strong/cool’</div><div class="line"></div><div class="line">//返回路径最后一部分,还可以排除指定字符串</div><div class="line">path.basename(’/foo/strong/basename/index.html’);</div><div class="line">path.basename(’/foo/strong/basename/index.html’,’.html’);</div><div class="line">//=&gt; index.html 和 index</div><div class="line"></div><div class="line">//返回路径后缀</div><div class="line">path.extname(‘index.html’);</div><div class="line">=&gt;.html</div><div class="line"></div><div class="line">//返回绝对路径</div><div class="line">path.resolve([from …], to)</div><div class="line">path.resolve(&apos;wwwroot&apos;, &apos;static_files/png/&apos;, &apos;../gif/image.gif&apos;)</div><div class="line">// 如果当前工作目录为 /home/myself/node，它返回：</div><div class="line">&apos;/home/myself/node/wwwroot/static_files/gif/image.gif&apos;</div><div class="line"></div><div class="line">//返回从from到to的相对路径</div><div class="line">path.relative(from, to)</div></pre></td></tr></table></figure>
+<h4 id="socket-io"><a href="#socket-io" class="headerlink" title="socket.io"></a>socket.io</h4><p>配合socket.io模块，可以很简单的进行websocket通信，具体使用方法如下：<br>二者通过事件进行消息传递，简单好用。</p>
+<p>1.服务端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">//1.获取socketio</div><div class="line">var io = require(&apos;socket.io&apos;)(server);</div><div class="line"></div><div class="line">//2.用户连接时注册事件</div><div class="line">io.sockets.on(&apos;connection&apos;, function(socket) &#123;</div><div class="line"></div><div class="line">  //广播</div><div class="line">  socket.broadcast.to(room).emit(&apos;message&apos;,&#123;</div><div class="line">    text: &apos;广播信息&apos;</div><div class="line">  &#125;)</div><div class="line">  </div><div class="line">  //接收信息</div><div class="line">  socket.on(&apos;message&apos;, function(message) &#123;</div><div class="line">  	console.log(message.message);</div><div class="line">  &#125;）</div><div class="line">  </div><div class="line">  //向客户端传递消息</div><div class="line">  socket.emit(&apos;message&apos;, &#123;msg: &apos;aaa&apos;&#125;) </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>2.客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//1.建立连接</div><div class="line">var socket = io.connect(&apos;http://localhost:3000&apos;);</div><div class="line"></div><div class="line">//2.监听事件</div><div class="line">socket.on(&apos;event&apos;, function(result) &#123;...&#125;);</div><div class="line"></div><div class="line">//3.触发事件</div><div class="line">socket.emit(&apos;message&apos;, message);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/09/阿里云搭建Nginx-nodejs运行环境/" rel="next" title="阿里云搭建Nginx+nodejs运行环境">
+                <i class="fa fa-chevron-left"></i> 阿里云搭建Nginx+nodejs运行环境
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#涉及模块"><span class="nav-number">1.</span> <span class="nav-text">涉及模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-创建文件服务器"><span class="nav-number">2.1.</span> <span class="nav-text">1.创建文件服务器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-创建socket通信"><span class="nav-number">2.2.</span> <span class="nav-text">2.创建socket通信</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTP"><span class="nav-number">3.1.</span> <span class="nav-text">HTTP</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fs文件系统"><span class="nav-number">4.</span> <span class="nav-text">fs文件系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#path"><span class="nav-number">5.</span> <span class="nav-text">path</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#socket-io"><span class="nav-number">6.</span> <span class="nav-text">socket.io</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

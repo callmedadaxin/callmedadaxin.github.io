@@ -255,6 +255,328 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/09/阿里云搭建Nginx-nodejs运行环境/" itemprop="url">
+                  阿里云搭建Nginx+nodejs运行环境
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-09T16:56:44+08:00" content="2016-10-09">
+              2016-10-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/10/09/阿里云搭建Nginx-nodejs运行环境/" class="leancloud_visitors" data-flag-title="阿里云搭建Nginx+nodejs运行环境">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>今天闲来无事买了个阿里云，想要将自己平时写的小玩意放上去，打算从此告别java,搭建node环境,镜像使用centos7.0</p>
+</blockquote>
+<h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><p>Nginx 是一个很强大的高性能Web和反向代理服务器，其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。我们在此只进行简单的安装配置，后续再进行深入研究。</p>
+<ol>
+<li><p>下载对应当前系统版本的nginx包(package)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ wget  http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</div></pre></td></tr></table></figure>
+</li>
+<li><p>建立nginx的yum仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rpm -ivh nginx-release-centos-7-0.el7.ngx.noarch.rpm</div></pre></td></tr></table></figure>
+</li>
+<li><p>下载并安装nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ yum install nginx</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动nginx服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start nginx</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置 （再说</p>
+</li>
+<li>测试<br>输入服务器IP，进行测试，显示welcome to nginx!</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/23/flexbox/" itemprop="url">
+                  flexbox
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-23T16:27:00+08:00" content="2016-09-23">
+              2016-09-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/09/23/flexbox/" class="leancloud_visitors" data-flag-title="flexbox">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。</p>
+</blockquote>
+<h3 id="Flex布局是什么"><a href="#Flex布局是什么" class="headerlink" title="Flex布局是什么"></a>Flex布局是什么</h3><p>由其名称我们可以看出来，“弹性盒子模型”，恩，听名字就很灵活好用。看看如何使用：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">.box&#123; display: flex; &#125;</div><div class="line"></div><div class="line">//内联元素</div><div class="line">.inline-box&#123; display: inline-flex; &#125;</div></pre></td></tr></table></figure>
+<p><strong><em>注意</em></strong><br>设置flex后，子元素的float、clear和vertical-align属性将失效。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>flex的语法比较复杂，我们总结下：<br>其主要包括两部分，<strong><em>容器</em></strong> 和 <strong><em>元素</em></strong>，容器负责整个容器，包括排列方式，等的设置。元素主要为容器内部的内容，主要包括元素的顺序，缩放等元素自身的属性。</p>
+<h4 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th style="text-align:right">功能</th>
+<th style="text-align:right">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>flex-direction</td>
+<td style="text-align:right">元素排列方向</td>
+<td style="text-align:right">row 水平顺序， row-reverse 水平倒序， column 垂直顺序， column-reverse 垂直倒叙</td>
+</tr>
+<tr>
+<td>flex-wrap</td>
+<td style="text-align:right">类似文字white-space 控制元素超出换行</td>
+<td style="text-align:right">nowrap 不换行，文字会压缩；wrap 换行，顺序 wrap-reverse 换行 行序倒序</td>
+</tr>
+<tr>
+<td>flex-flow</td>
+<td style="text-align:right">flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>justify-content</td>
+<td style="text-align:right">元素的水平对齐方式</td>
+<td style="text-align:right">flex-start，flex-end，center，space-between两端对齐，间隔相等，space-around：每个项目两侧的间隔相等</td>
+</tr>
+<tr>
+<td>align-items</td>
+<td style="text-align:right">单行垂直对齐方式</td>
+<td style="text-align:right">flex-start,flex-end, center, baseline, stretch:拉伸</td>
+</tr>
+<tr>
+<td>align-content</td>
+<td style="text-align:right">多行垂直对齐方式</td>
+<td style="text-align:right">flex-start， flex-end， center ，space-between ，space-around ， stretch</td>
+</tr>
+</tbody>
+</table>
+<h4 id="元素"><a href="#元素" class="headerlink" title="元素"></a>元素</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th style="text-align:right">功能</th>
+<th style="text-align:right">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>order</td>
+<td style="text-align:right">规定顺序，数值越小越靠前</td>
+<td style="text-align:right">0，1，2…</td>
+</tr>
+<tr>
+<td>flex-grow</td>
+<td style="text-align:right">元素容器过大，元素放大比</td>
+<td style="text-align:right">0，1，2</td>
+</tr>
+<tr>
+<td>flex-shrink</td>
+<td style="text-align:right">缩小比例</td>
+<td style="text-align:right">0，1，2</td>
+</tr>
+<tr>
+<td>flex-basis</td>
+<td style="text-align:right">元素分配空间前，占用的宽度或高度</td>
+<td style="text-align:right">length , auto</td>
+</tr>
+<tr>
+<td>flex</td>
+<td style="text-align:right">前三个的缩写</td>
+<td style="text-align:right">默认值为0 1 auto</td>
+</tr>
+<tr>
+<td>align-self</td>
+<td style="text-align:right">元素单独设置对齐方式</td>
+<td style="text-align:right">flex-start， flex-end， center ，space-between ，space-around ， stretch</td>
+</tr>
+</tbody>
+</table>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>看起来很复杂，但实在是好用！哪里好用？试几个例子吧：</p>
+<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><p>单元素：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">	<span class="attribute">display</span>: flex;</div><div class="line">	<span class="attribute">justify-content</span>: center;</div><div class="line">	<span class="attribute">align-items</span>: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一个两个都可以！！！ 很轻易！！<br>效果：</p>
+<p><img src="/images/center.png" alt="center"><br><img src="/images/center2.png" alt="center"></p>
+<p>垂直排列：添加flex-flow: column即可。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">	<span class="attribute">display</span>: flex;</div><div class="line">	<span class="attribute">flex-flow</span>: column;</div><div class="line">	<span class="attribute">justify-content</span>: center;</div><div class="line">	<span class="attribute">align-items</span>: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="/images/center3.png" alt="center"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/19/js基础复习-基础类型和引用类型/" itemprop="url">
                   js基础复习--引用类型
                 </a>
@@ -1091,221 +1413,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/23/ES6特性笔记/" itemprop="url">
-                  ES6特性笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-23T17:30:44+08:00" content="2016-08-23">
-              2016-08-23
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/08/23/ES6特性笔记/" class="leancloud_visitors" data-flag-title="ES6特性笔记">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>ECMAScript 6.0（以下简称ES6）是JavaScript语言的下一代标准，已经在2015年6月正式发布。 以下将着重介绍几个常用的新特性，希望大家多多翻阅阮老师的 <a href="http://es6.ruanyifeng.com/#docs/intro">es6入门</a>，多看、多练、多用。</p>
-</blockquote>
-<h3 id="1-箭头函数"><a href="#1-箭头函数" class="headerlink" title="1.箭头函数"></a>1.箭头函数</h3><p>使用箭头函数，简化了函数的书写，你可以用更优雅的方式书写代码。</p>
-<p>比如这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">// 使用箭头函数</div><div class="line">var sum = x =&gt; x * x ;</div><div class="line"></div><div class="line">// 等价于</div><div class="line">var sum = function( x ) &#123;</div><div class="line">	return x * x;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/23/ES6特性笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/18/webpack学习笔记/" itemprop="url">
-                  webpack学习笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-18T11:37:36+08:00" content="2016-04-18">
-              2016-04-18
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/04/18/webpack学习笔记/" class="leancloud_visitors" data-flag-title="webpack学习笔记">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近在尝试使用webpack+React进行工程打包。看了很多教程都没有特别详细，在此将学习过程记录，方便自己查看。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/18/webpack学习笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1351,7 +1458,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

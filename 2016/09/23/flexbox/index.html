@@ -84,16 +84,29 @@
 
 
 
-<meta name="description" content="今天在使用localstorage处理继续制作的时候，偶然遇到一个问题，在此进行记录。">
+<meta name="description" content="一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。
+
+Flex布局是什么由其名称我们可以看出来，“弹性盒子模型”，恩，听名字就很灵活好用。看看如何使用：
+1234.box&amp;#123; display: flex; &amp;#125;//内联元素.inline-box&amp;#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="localstorage空值问题">
-<meta property="og:url" content="http://yoursite.com/2016/09/06/localstorage空值问题/index.html">
+<meta property="og:title" content="flexbox">
+<meta property="og:url" content="http://yoursite.com/2016/09/23/flexbox/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="今天在使用localstorage处理继续制作的时候，偶然遇到一个问题，在此进行记录。">
-<meta property="og:updated_time" content="2016-09-06T12:05:49.000Z">
+<meta property="og:description" content="一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。
+
+Flex布局是什么由其名称我们可以看出来，“弹性盒子模型”，恩，听名字就很灵活好用。看看如何使用：
+1234.box&amp;#123; display: flex; &amp;#125;//内联元素.inline-box&amp;#">
+<meta property="og:image" content="http://yoursite.com/images/center.png">
+<meta property="og:image" content="http://yoursite.com/images/center2.png">
+<meta property="og:image" content="http://yoursite.com/images/center3.png">
+<meta property="og:updated_time" content="2016-09-23T10:00:12.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="localstorage空值问题">
-<meta name="twitter:description" content="今天在使用localstorage处理继续制作的时候，偶然遇到一个问题，在此进行记录。">
+<meta name="twitter:title" content="flexbox">
+<meta name="twitter:description" content="一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。
+
+Flex布局是什么由其名称我们可以看出来，“弹性盒子模型”，恩，听名字就很灵活好用。看看如何使用：
+1234.box&amp;#123; display: flex; &amp;#125;//内联元素.inline-box&amp;#">
+<meta name="twitter:image" content="http://yoursite.com/images/center.png">
 
 
 
@@ -114,9 +127,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/09/06/localstorage空值问题/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/09/23/flexbox/"/>
 
-  <title> localstorage空值问题 | 王卫新的博客 </title>
+  <title> flexbox | 王卫新的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -256,7 +269,7 @@
             
             
               
-                localstorage空值问题
+                flexbox
               
             
           </h1>
@@ -268,8 +281,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-06T19:34:43+08:00" content="2016-09-06">
-              2016-09-06
+            <time itemprop="dateCreated" datetime="2016-09-23T16:27:00+08:00" content="2016-09-23">
+              2016-09-23
             </time>
           </span>
 
@@ -283,7 +296,7 @@
 
           
           
-             <span id="/2016/09/06/localstorage空值问题/" class="leancloud_visitors" data-flag-title="localstorage空值问题">
+             <span id="/2016/09/23/flexbox/" class="leancloud_visitors" data-flag-title="flexbox">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -306,19 +319,102 @@
 
       
         <blockquote>
-<p>今天在使用localstorage处理继续制作的时候，偶然遇到一个问题，在此进行记录。<br><a id="more"></a></p>
+<p>一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。</p>
 </blockquote>
-<h3 id="localstorage-简单介绍"><a href="#localstorage-简单介绍" class="headerlink" title="localstorage 简单介绍"></a>localstorage 简单介绍</h3><p>在接触localstorage前，大部分人在需要进行本地存储一些数据时，常常会使用cookie进行存储，简单易用，兼容各种浏览器。而cookie也有它的局限存在：上限4K大小。而localstorage支持5M大小上限，很大的提升了存储的空间。IE8以上也都支持了，基本满足我们对浏览器的需求。</p>
-<h3 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a>使用方法：</h3><p>一言不合，上代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//存值</span></div><div class="line">localStorage.lastname=<span class="string">"Smith"</span>;</div><div class="line">localStorage.setItem(<span class="string">"lastname"</span>,<span class="string">"Smith"</span>);</div><div class="line"></div><div class="line"><span class="comment">//取值</span></div><div class="line"><span class="keyword">var</span> lastname = localStorage.lastname;</div><div class="line"><span class="keyword">var</span> lastname = localStorage.getItem(<span class="string">"lastname"</span>);</div><div class="line"></div><div class="line"><span class="comment">//删除值</span></div><div class="line">localStorage.removeItem(<span class="string">"lastname"</span>);</div><div class="line"></div><div class="line"><span class="comment">//清空</span></div><div class="line">localStorage.clear();</div></pre></td></tr></table></figure>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>在存储过程中，localStorage会自动将存储的内容转为字符串形式，比如：</p>
-<h4 id="1-数组"><a href="#1-数组" class="headerlink" title="1.数组"></a>1.数组</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">localStorage.setItem(<span class="string">"arr"</span>, [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]);</div><div class="line"></div><div class="line"><span class="keyword">var</span> arr = localStorage.getItem(<span class="string">"arr"</span>);</div><div class="line"></div><div class="line"><span class="comment">//arr自动转为字符串形式</span></div><div class="line"><span class="built_in">console</span>.log(arr) <span class="comment">// =&gt; "1,2,3"</span></div><div class="line"><span class="built_in">console</span>.log( <span class="keyword">typeof</span>(arr) ) <span class="comment">// =&gt; "string"</span></div></pre></td></tr></table></figure>
-<h4 id="2-对象"><a href="#2-对象" class="headerlink" title="2.对象"></a>2.对象</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">localStorage.setItem(<span class="string">"obj"</span>, &#123; a: <span class="number">1</span> &#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj = localStorage.getItem(<span class="string">"obj"</span>);</div><div class="line"></div><div class="line"><span class="comment">//obj自动转为字符串形式,而不是对象</span></div><div class="line"><span class="built_in">console</span>.log(obj) <span class="comment">// =&gt; "[object Object]"</span></div></pre></td></tr></table></figure>
-<h4 id="3-null-undefined"><a href="#3-null-undefined" class="headerlink" title="3.null,undefined"></a>3.null,undefined</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">localStorage.setItem(<span class="string">"null"</span>, <span class="literal">null</span>);</div><div class="line">localStorage.setItem(<span class="string">"undefined"</span>, <span class="literal">undefined</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = localStorage.getItem(<span class="string">"null"</span>);</div><div class="line"><span class="keyword">var</span> b = localStorage.getItem(<span class="string">"undefined"</span>);</div><div class="line"></div><div class="line"><span class="comment">//自动转为字符串形式</span></div><div class="line"><span class="built_in">console</span>.log(a) <span class="comment">// =&gt; "null"</span></div><div class="line"><span class="built_in">console</span>.log(b) <span class="comment">// =&gt; "undefined"</span></div></pre></td></tr></table></figure>
-<p>因此，我们在对对象等进行存储时，首先需要将期进行<strong><em>JSON.stringify()</em></strong>,取出后再转成json对象。方便操作。</p>
-<p>而对于null等值，经常会遇到这种问题，我们进行非空判断等，常常会进行bool运算，typeof等类型判断来验证是否非空，但是从localStorage取出的值都为字符串类型，bool和typeof都会与正常的null,undefined结果不一样，因此我们对此中值建议做以下处理：</p>
-<p><strong><em>null,undefined =&gt; ‘’</em></strong></p>
-<p>没错，将null,undefined等按照’’进行存储， 而’’的bool运算结果为false,刚好达到我们的需求。</p>
+<h3 id="Flex布局是什么"><a href="#Flex布局是什么" class="headerlink" title="Flex布局是什么"></a>Flex布局是什么</h3><p>由其名称我们可以看出来，“弹性盒子模型”，恩，听名字就很灵活好用。看看如何使用：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">.box&#123; display: flex; &#125;</div><div class="line"></div><div class="line">//内联元素</div><div class="line">.inline-box&#123; display: inline-flex; &#125;</div></pre></td></tr></table></figure>
+<p><strong><em>注意</em></strong><br>设置flex后，子元素的float、clear和vertical-align属性将失效。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>flex的语法比较复杂，我们总结下：<br>其主要包括两部分，<strong><em>容器</em></strong> 和 <strong><em>元素</em></strong>，容器负责整个容器，包括排列方式，等的设置。元素主要为容器内部的内容，主要包括元素的顺序，缩放等元素自身的属性。</p>
+<h4 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th style="text-align:right">功能</th>
+<th style="text-align:right">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>flex-direction</td>
+<td style="text-align:right">元素排列方向</td>
+<td style="text-align:right">row 水平顺序， row-reverse 水平倒序， column 垂直顺序， column-reverse 垂直倒叙</td>
+</tr>
+<tr>
+<td>flex-wrap</td>
+<td style="text-align:right">类似文字white-space 控制元素超出换行</td>
+<td style="text-align:right">nowrap 不换行，文字会压缩；wrap 换行，顺序 wrap-reverse 换行 行序倒序</td>
+</tr>
+<tr>
+<td>flex-flow</td>
+<td style="text-align:right">flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。</td>
+<td style="text-align:right">-</td>
+</tr>
+<tr>
+<td>justify-content</td>
+<td style="text-align:right">元素的水平对齐方式</td>
+<td style="text-align:right">flex-start，flex-end，center，space-between两端对齐，间隔相等，space-around：每个项目两侧的间隔相等</td>
+</tr>
+<tr>
+<td>align-items</td>
+<td style="text-align:right">单行垂直对齐方式</td>
+<td style="text-align:right">flex-start,flex-end, center, baseline, stretch:拉伸</td>
+</tr>
+<tr>
+<td>align-content</td>
+<td style="text-align:right">多行垂直对齐方式</td>
+<td style="text-align:right">flex-start， flex-end， center ，space-between ，space-around ， stretch</td>
+</tr>
+</tbody>
+</table>
+<h4 id="元素"><a href="#元素" class="headerlink" title="元素"></a>元素</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th style="text-align:right">功能</th>
+<th style="text-align:right">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>order</td>
+<td style="text-align:right">规定顺序，数值越小越靠前</td>
+<td style="text-align:right">0，1，2…</td>
+</tr>
+<tr>
+<td>flex-grow</td>
+<td style="text-align:right">元素容器过大，元素放大比</td>
+<td style="text-align:right">0，1，2</td>
+</tr>
+<tr>
+<td>flex-shrink</td>
+<td style="text-align:right">缩小比例</td>
+<td style="text-align:right">0，1，2</td>
+</tr>
+<tr>
+<td>flex-basis</td>
+<td style="text-align:right">元素分配空间前，占用的宽度或高度</td>
+<td style="text-align:right">length , auto</td>
+</tr>
+<tr>
+<td>flex</td>
+<td style="text-align:right">前三个的缩写</td>
+<td style="text-align:right">默认值为0 1 auto</td>
+</tr>
+<tr>
+<td>align-self</td>
+<td style="text-align:right">元素单独设置对齐方式</td>
+<td style="text-align:right">flex-start， flex-end， center ，space-between ，space-around ， stretch</td>
+</tr>
+</tbody>
+</table>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>看起来很复杂，但实在是好用！哪里好用？试几个例子吧：</p>
+<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><p>单元素：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">	<span class="attribute">display</span>: flex;</div><div class="line">	<span class="attribute">justify-content</span>: center;</div><div class="line">	<span class="attribute">align-items</span>: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一个两个都可以！！！ 很轻易！！<br>效果：</p>
+<p><img src="/images/center.png" alt="center"><br><img src="/images/center2.png" alt="center"></p>
+<p>垂直排列：添加flex-flow: column即可。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">	<span class="attribute">display</span>: flex;</div><div class="line">	<span class="attribute">flex-flow</span>: column;</div><div class="line">	<span class="attribute">justify-content</span>: center;</div><div class="line">	<span class="attribute">align-items</span>: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="/images/center3.png" alt="center"></p>
 
       
     </div>
@@ -344,16 +440,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/30/xhr文件上传小记/" rel="next" title="xhr文件上传小记">
-                <i class="fa fa-chevron-left"></i> xhr文件上传小记
+              <a href="/2016/09/19/js基础复习-基础类型和引用类型/" rel="next" title="js基础复习--引用类型">
+                <i class="fa fa-chevron-left"></i> js基础复习--引用类型
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/09/07/前端工程化实践for-mx/" rel="prev" title="前端工程化实践for-mx(一)">
-                前端工程化实践for-mx(一) <i class="fa fa-chevron-right"></i>
+              <a href="/2016/10/09/阿里云搭建Nginx-nodejs运行环境/" rel="prev" title="阿里云搭建Nginx+nodejs运行环境">
+                阿里云搭建Nginx+nodejs运行环境 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -454,7 +550,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#localstorage-简单介绍"><span class="nav-number">1.</span> <span class="nav-text">localstorage 简单介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法："><span class="nav-number">2.</span> <span class="nav-text">使用方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">3.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-数组"><span class="nav-number">3.1.</span> <span class="nav-text">1.数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-对象"><span class="nav-number">3.2.</span> <span class="nav-text">2.对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-null-undefined"><span class="nav-number">3.3.</span> <span class="nav-text">3.null,undefined</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Flex布局是什么"><span class="nav-number">1.</span> <span class="nav-text">Flex布局是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">2.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#容器"><span class="nav-number">2.1.</span> <span class="nav-text">容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#元素"><span class="nav-number">2.2.</span> <span class="nav-text">元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">3.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#垂直居中"><span class="nav-number">3.1.</span> <span class="nav-text">垂直居中</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

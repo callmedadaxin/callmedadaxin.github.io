@@ -84,16 +84,28 @@
 
 
 
-<meta name="description" content="今天在使用localstorage处理继续制作的时候，偶然遇到一个问题，在此进行记录。">
+<meta name="description" content="今天闲来无事买了个阿里云，想要将自己平时写的小玩意放上去，打算从此告别java,搭建node环境,镜像使用centos7.0
+
+安装NginxNginx 是一个很强大的高性能Web和反向代理服务器，其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。我们在此只进行简单的安装配置，后续再进行深入研究。
+
+下载对应当前系统版本的nginx包(package)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="localstorage空值问题">
-<meta property="og:url" content="http://yoursite.com/2016/09/06/localstorage空值问题/index.html">
+<meta property="og:title" content="阿里云搭建Nginx+nodejs运行环境">
+<meta property="og:url" content="http://yoursite.com/2016/10/09/阿里云搭建Nginx-nodejs运行环境/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="今天在使用localstorage处理继续制作的时候，偶然遇到一个问题，在此进行记录。">
-<meta property="og:updated_time" content="2016-09-06T12:05:49.000Z">
+<meta property="og:description" content="今天闲来无事买了个阿里云，想要将自己平时写的小玩意放上去，打算从此告别java,搭建node环境,镜像使用centos7.0
+
+安装NginxNginx 是一个很强大的高性能Web和反向代理服务器，其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。我们在此只进行简单的安装配置，后续再进行深入研究。
+
+下载对应当前系统版本的nginx包(package)">
+<meta property="og:updated_time" content="2016-10-09T12:47:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="localstorage空值问题">
-<meta name="twitter:description" content="今天在使用localstorage处理继续制作的时候，偶然遇到一个问题，在此进行记录。">
+<meta name="twitter:title" content="阿里云搭建Nginx+nodejs运行环境">
+<meta name="twitter:description" content="今天闲来无事买了个阿里云，想要将自己平时写的小玩意放上去，打算从此告别java,搭建node环境,镜像使用centos7.0
+
+安装NginxNginx 是一个很强大的高性能Web和反向代理服务器，其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。我们在此只进行简单的安装配置，后续再进行深入研究。
+
+下载对应当前系统版本的nginx包(package)">
 
 
 
@@ -114,9 +126,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/09/06/localstorage空值问题/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/10/09/阿里云搭建Nginx-nodejs运行环境/"/>
 
-  <title> localstorage空值问题 | 王卫新的博客 </title>
+  <title> 阿里云搭建Nginx+nodejs运行环境 | 王卫新的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -256,7 +268,7 @@
             
             
               
-                localstorage空值问题
+                阿里云搭建Nginx+nodejs运行环境
               
             
           </h1>
@@ -268,8 +280,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-06T19:34:43+08:00" content="2016-09-06">
-              2016-09-06
+            <time itemprop="dateCreated" datetime="2016-10-09T16:56:44+08:00" content="2016-10-09">
+              2016-10-09
             </time>
           </span>
 
@@ -283,7 +295,7 @@
 
           
           
-             <span id="/2016/09/06/localstorage空值问题/" class="leancloud_visitors" data-flag-title="localstorage空值问题">
+             <span id="/2016/10/09/阿里云搭建Nginx-nodejs运行环境/" class="leancloud_visitors" data-flag-title="阿里云搭建Nginx+nodejs运行环境">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -306,19 +318,26 @@
 
       
         <blockquote>
-<p>今天在使用localstorage处理继续制作的时候，偶然遇到一个问题，在此进行记录。<br><a id="more"></a></p>
+<p>今天闲来无事买了个阿里云，想要将自己平时写的小玩意放上去，打算从此告别java,搭建node环境,镜像使用centos7.0</p>
 </blockquote>
-<h3 id="localstorage-简单介绍"><a href="#localstorage-简单介绍" class="headerlink" title="localstorage 简单介绍"></a>localstorage 简单介绍</h3><p>在接触localstorage前，大部分人在需要进行本地存储一些数据时，常常会使用cookie进行存储，简单易用，兼容各种浏览器。而cookie也有它的局限存在：上限4K大小。而localstorage支持5M大小上限，很大的提升了存储的空间。IE8以上也都支持了，基本满足我们对浏览器的需求。</p>
-<h3 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a>使用方法：</h3><p>一言不合，上代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//存值</span></div><div class="line">localStorage.lastname=<span class="string">"Smith"</span>;</div><div class="line">localStorage.setItem(<span class="string">"lastname"</span>,<span class="string">"Smith"</span>);</div><div class="line"></div><div class="line"><span class="comment">//取值</span></div><div class="line"><span class="keyword">var</span> lastname = localStorage.lastname;</div><div class="line"><span class="keyword">var</span> lastname = localStorage.getItem(<span class="string">"lastname"</span>);</div><div class="line"></div><div class="line"><span class="comment">//删除值</span></div><div class="line">localStorage.removeItem(<span class="string">"lastname"</span>);</div><div class="line"></div><div class="line"><span class="comment">//清空</span></div><div class="line">localStorage.clear();</div></pre></td></tr></table></figure>
-<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>在存储过程中，localStorage会自动将存储的内容转为字符串形式，比如：</p>
-<h4 id="1-数组"><a href="#1-数组" class="headerlink" title="1.数组"></a>1.数组</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">localStorage.setItem(<span class="string">"arr"</span>, [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]);</div><div class="line"></div><div class="line"><span class="keyword">var</span> arr = localStorage.getItem(<span class="string">"arr"</span>);</div><div class="line"></div><div class="line"><span class="comment">//arr自动转为字符串形式</span></div><div class="line"><span class="built_in">console</span>.log(arr) <span class="comment">// =&gt; "1,2,3"</span></div><div class="line"><span class="built_in">console</span>.log( <span class="keyword">typeof</span>(arr) ) <span class="comment">// =&gt; "string"</span></div></pre></td></tr></table></figure>
-<h4 id="2-对象"><a href="#2-对象" class="headerlink" title="2.对象"></a>2.对象</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">localStorage.setItem(<span class="string">"obj"</span>, &#123; a: <span class="number">1</span> &#125;);</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj = localStorage.getItem(<span class="string">"obj"</span>);</div><div class="line"></div><div class="line"><span class="comment">//obj自动转为字符串形式,而不是对象</span></div><div class="line"><span class="built_in">console</span>.log(obj) <span class="comment">// =&gt; "[object Object]"</span></div></pre></td></tr></table></figure>
-<h4 id="3-null-undefined"><a href="#3-null-undefined" class="headerlink" title="3.null,undefined"></a>3.null,undefined</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">localStorage.setItem(<span class="string">"null"</span>, <span class="literal">null</span>);</div><div class="line">localStorage.setItem(<span class="string">"undefined"</span>, <span class="literal">undefined</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = localStorage.getItem(<span class="string">"null"</span>);</div><div class="line"><span class="keyword">var</span> b = localStorage.getItem(<span class="string">"undefined"</span>);</div><div class="line"></div><div class="line"><span class="comment">//自动转为字符串形式</span></div><div class="line"><span class="built_in">console</span>.log(a) <span class="comment">// =&gt; "null"</span></div><div class="line"><span class="built_in">console</span>.log(b) <span class="comment">// =&gt; "undefined"</span></div></pre></td></tr></table></figure>
-<p>因此，我们在对对象等进行存储时，首先需要将期进行<strong><em>JSON.stringify()</em></strong>,取出后再转成json对象。方便操作。</p>
-<p>而对于null等值，经常会遇到这种问题，我们进行非空判断等，常常会进行bool运算，typeof等类型判断来验证是否非空，但是从localStorage取出的值都为字符串类型，bool和typeof都会与正常的null,undefined结果不一样，因此我们对此中值建议做以下处理：</p>
-<p><strong><em>null,undefined =&gt; ‘’</em></strong></p>
-<p>没错，将null,undefined等按照’’进行存储， 而’’的bool运算结果为false,刚好达到我们的需求。</p>
+<h3 id="安装Nginx"><a href="#安装Nginx" class="headerlink" title="安装Nginx"></a>安装Nginx</h3><p>Nginx 是一个很强大的高性能Web和反向代理服务器，其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好。我们在此只进行简单的安装配置，后续再进行深入研究。</p>
+<ol>
+<li><p>下载对应当前系统版本的nginx包(package)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ wget  http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm</div></pre></td></tr></table></figure>
+</li>
+<li><p>建立nginx的yum仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rpm -ivh nginx-release-centos-7-0.el7.ngx.noarch.rpm</div></pre></td></tr></table></figure>
+</li>
+<li><p>下载并安装nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ yum install nginx</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动nginx服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start nginx</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置 （再说</p>
+</li>
+<li>测试<br>输入服务器IP，进行测试，显示welcome to nginx!</li>
+</ol>
 
       
     </div>
@@ -344,17 +363,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/30/xhr文件上传小记/" rel="next" title="xhr文件上传小记">
-                <i class="fa fa-chevron-left"></i> xhr文件上传小记
+              <a href="/2016/09/23/flexbox/" rel="next" title="flexbox">
+                <i class="fa fa-chevron-left"></i> flexbox
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/07/前端工程化实践for-mx/" rel="prev" title="前端工程化实践for-mx(一)">
-                前端工程化实践for-mx(一) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -454,7 +469,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#localstorage-简单介绍"><span class="nav-number">1.</span> <span class="nav-text">localstorage 简单介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法："><span class="nav-number">2.</span> <span class="nav-text">使用方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">3.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-数组"><span class="nav-number">3.1.</span> <span class="nav-text">1.数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-对象"><span class="nav-number">3.2.</span> <span class="nav-text">2.对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-null-undefined"><span class="nav-number">3.3.</span> <span class="nav-text">3.null,undefined</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Nginx"><span class="nav-number">1.</span> <span class="nav-text">安装Nginx</span></a></li></ol></div>
             
           </div>
         </section>

@@ -85,25 +85,22 @@
 
 
 <meta name="description" content="#Vue2.0服务端渲染
-为什么要SSR？1.为了更快我们看下两种方式的区别客户端渲染： 请求html-&amp;gt;请求js-&amp;gt;请求数据-&amp;gt;渲染数据-&amp;gt;html服务端渲染： 请求html-&amp;gt;服务端请求数据（内网)-&amp;gt;服务端渲染-&amp;gt;html
-对于客户端来说，经常会存在带宽差、网络慢的情况，因此我们可以尽量减少外网请求，通过更快的路程将首页呈现给用户。
-2.老版本引擎对">
+
+快速的过一遍Node搭建服务之后，今天我们终于可以看下如何进行vue服务端渲染啦。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Express-vue2.0-server-render">
 <meta property="og:url" content="http://yoursite.com/2016/10/24/Express-vue2-0-server-render/index.html">
 <meta property="og:site_name" content="王卫新的博客">
 <meta property="og:description" content="#Vue2.0服务端渲染
-为什么要SSR？1.为了更快我们看下两种方式的区别客户端渲染： 请求html-&amp;gt;请求js-&amp;gt;请求数据-&amp;gt;渲染数据-&amp;gt;html服务端渲染： 请求html-&amp;gt;服务端请求数据（内网)-&amp;gt;服务端渲染-&amp;gt;html
-对于客户端来说，经常会存在带宽差、网络慢的情况，因此我们可以尽量减少外网请求，通过更快的路程将首页呈现给用户。
-2.老版本引擎对">
+
+快速的过一遍Node搭建服务之后，今天我们终于可以看下如何进行vue服务端渲染啦。">
 <meta property="og:image" content="https://cloud.githubusercontent.com/assets/499550/17607895/786a415a-5fee-11e6-9c11-45a2cfdf085c.png">
-<meta property="og:updated_time" content="2016-10-24T07:13:18.000Z">
+<meta property="og:updated_time" content="2016-10-24T07:14:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Express-vue2.0-server-render">
 <meta name="twitter:description" content="#Vue2.0服务端渲染
-为什么要SSR？1.为了更快我们看下两种方式的区别客户端渲染： 请求html-&amp;gt;请求js-&amp;gt;请求数据-&amp;gt;渲染数据-&amp;gt;html服务端渲染： 请求html-&amp;gt;服务端请求数据（内网)-&amp;gt;服务端渲染-&amp;gt;html
-对于客户端来说，经常会存在带宽差、网络慢的情况，因此我们可以尽量减少外网请求，通过更快的路程将首页呈现给用户。
-2.老版本引擎对">
+
+快速的过一遍Node搭建服务之后，今天我们终于可以看下如何进行vue服务端渲染啦。">
 <meta name="twitter:image" content="https://cloud.githubusercontent.com/assets/499550/17607895/786a415a-5fee-11e6-9c11-45a2cfdf085c.png">
 
 
@@ -317,6 +314,9 @@
 
       
         <p>#Vue2.0服务端渲染</p>
+<blockquote>
+<p>快速的过一遍Node搭建服务之后，今天我们终于可以看下如何进行vue服务端渲染啦。<br><a id="more"></a></p>
+</blockquote>
 <h3 id="为什么要SSR？"><a href="#为什么要SSR？" class="headerlink" title="为什么要SSR？"></a>为什么要SSR？</h3><h4 id="1-为了更快"><a href="#1-为了更快" class="headerlink" title="1.为了更快"></a>1.为了更快</h4><p>我们看下两种方式的区别<br>客户端渲染： 请求html-&gt;请求js-&gt;请求数据-&gt;渲染数据-&gt;html<br>服务端渲染： 请求html-&gt;服务端请求数据（内网)-&gt;服务端渲染-&gt;html</p>
 <p>对于客户端来说，经常会存在带宽差、网络慢的情况，因此我们可以尽量减少外网请求，通过更快的路程将首页呈现给用户。</p>
 <h4 id="2-老版本引擎"><a href="#2-老版本引擎" class="headerlink" title="2.老版本引擎"></a>2.老版本引擎</h4><p>对于一些不支持vue的老机子上，我们想将内容简单呈现时，可以在服务端进行渲染来提供基本内容。</p>

@@ -255,6 +255,266 @@
             
               
                 
+                <a class="post-title-link" href="/2016/10/24/Express-vue2-0-server-render/" itemprop="url">
+                  Express-vue2.0-server-render
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-24T15:13:04+08:00" content="2016-10-24">
+              2016-10-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/10/24/Express-vue2-0-server-render/" class="leancloud_visitors" data-flag-title="Express-vue2.0-server-render">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#Vue2.0服务端渲染</p>
+<h3 id="为什么要SSR？"><a href="#为什么要SSR？" class="headerlink" title="为什么要SSR？"></a>为什么要SSR？</h3><h4 id="1-为了更快"><a href="#1-为了更快" class="headerlink" title="1.为了更快"></a>1.为了更快</h4><p>我们看下两种方式的区别<br>客户端渲染： 请求html-&gt;请求js-&gt;请求数据-&gt;渲染数据-&gt;html<br>服务端渲染： 请求html-&gt;服务端请求数据（内网)-&gt;服务端渲染-&gt;html</p>
+<p>对于客户端来说，经常会存在带宽差、网络慢的情况，因此我们可以尽量减少外网请求，通过更快的路程将首页呈现给用户。</p>
+<h4 id="2-老版本引擎"><a href="#2-老版本引擎" class="headerlink" title="2.老版本引擎"></a>2.老版本引擎</h4><p>对于一些不支持vue的老机子上，我们想将内容简单呈现时，可以在服务端进行渲染来提供基本内容。</p>
+<h4 id="3-SEO搜索引擎优化"><a href="#3-SEO搜索引擎优化" class="headerlink" title="3.SEO搜索引擎优化"></a>3.SEO搜索引擎优化</h4><p>客户端往往进入页面只有loading动画，通过ajax获取数据，爬虫不会等待加载完成，不利于SEO，而服务端则将整个页面进行输出，可以进行SEO。</p>
+<h4 id="4-其他？"><a href="#4-其他？" class="headerlink" title="4.其他？"></a>4.其他？</h4><p>缓存，通过设置缓存可以设置组件渲染时若可以找到缓存，直接返回缓存内容，进行更快的渲染。</p>
+<h3 id="如何进行SSR？"><a href="#如何进行SSR？" class="headerlink" title="如何进行SSR？"></a>如何进行SSR？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">//1.创建实例</div><div class="line">var app = new Vue(&#123;...&#125;);</div><div class="line"></div><div class="line">//2.创建渲染器</div><div class="line">var renderer = require(&apos;vue-server-renderer&apos;).createRenderer();</div><div class="line"></div><div class="line">//3.渲染html</div><div class="line">renderer.renderToString(app, function(err, html)&#123;&#125;)</div><div class="line">renderer.renderToStream(app)</div><div class="line"></div><div class="line">//html拼接</div><div class="line">function(err,html)&#123;</div><div class="line">  html+=html;</div><div class="line">  res.senm(html);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//配合express</div><div class="line">var layout = fs.readFileSync(&apos;./index.html&apos;, &apos;utf8&apos;)</div><div class="line">response.send(layout.replace(&apos;&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;&apos;, html))</div></pre></td></tr></table></figure>
+<h3 id="流式响应"><a href="#流式响应" class="headerlink" title="流式响应"></a>流式响应</h3><p>支持流式渲染，允许HTML一边生成一遍写入响应流，请求服务速度更快~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">//写入html头部</div><div class="line">res.write(HTML.head)</div><div class="line"></div><div class="line">//响应内容</div><div class="line">var stream = renderer.renderToStream(require(&apos;./assets/app&apos;)());</div><div class="line"></div><div class="line">// 每当新的块被渲染</div><div class="line">stream.on(&apos;data&apos;, function (chunk) &#123;</div><div class="line">  //首屏的动态数据通过window.__INITIAL_STATE__发送</div><div class="line">  res.write(`&lt;script&gt;window.__INITIAL_STATE__ = state;&lt;/script&gt;`)</div><div class="line">  // 将块写入响应</div><div class="line">  res.write(chunk)</div><div class="line">&#125;) </div><div class="line"></div><div class="line">srream.on(&apos;end&apos;, function()&#123;</div><div class="line">  //写入html尾部</div><div class="line">  res.write(HTML.tail);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="设置组件缓存"><a href="#设置组件缓存" class="headerlink" title="设置组件缓存"></a>设置组件缓存</h3><ul>
+<li>通过组件缓存进一步提高性能</li>
+<li>通过<a href="https://github.com/isaacs/node-lru-cache#options" target="_blank" rel="external">lru-cache</a>进行缓存</li>
+</ul>
+<p>例如这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var render = createRender(&#123;</div><div class="line">  cache: require(&apos;lru-cache&apos;)(&#123;</div><div class="line">    max: 1000,</div><div class="line">    maxAge: 1000 * 60 * 15</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>对于想要进行缓存的组件，需要多提供两个参数</p>
+<ul>
+<li>name, 组件名字</li>
+<li>serverCacheKey函数，返回唯一组件作用域</li>
+</ul>
+<h4 id="缓存适用于以下场景"><a href="#缓存适用于以下场景" class="headerlink" title="缓存适用于以下场景"></a>缓存适用于以下场景</h4><ul>
+<li>静态的组件 (例如 总是尝试一样的HTML,所以 serverCacheKey 函数可以被返回 true)</li>
+<li>列表组件 （通过缓存改善性能）</li>
+<li>通用UI组件，通过Props进行数据传递</li>
+</ul>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p><strong><em>不应该缓存组件包含子组件依赖全局状态（例如来自vuex的状态）。如果这么做，子组件（事实上是整个子树）也会被缓存。所以要特别注意带有slots片段或者子组件的情况。</em></strong></p>
+<h3 id="数据渲染"><a href="#数据渲染" class="headerlink" title="数据渲染"></a>数据渲染</h3><p>我们最关心的是，如何去加载依赖数据呢？ </p>
+<h4 id="BundleRenderer"><a href="#BundleRenderer" class="headerlink" title="BundleRenderer"></a>BundleRenderer</h4><p><img src="https://cloud.githubusercontent.com/assets/499550/17607895/786a415a-5fee-11e6-9c11-45a2cfdf085c.png" alt="server Bundle"></p>
+<p>1.使用webpack + vue-loader进行打包，生成server bundle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">module.exports = &#123;</div><div class="line">  //添加Node target</div><div class="line">  target: &apos;node&apos;,</div><div class="line">  //output添加LibraryTarget参数</div><div class="line">  output: &#123;</div><div class="line">    filename: &apos;server-bundle.js&apos;,</div><div class="line">    libraryTarget: &apos;commonjs2&apos;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.bundle暴露函数，返回包含app根实例的Promise。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const app = new Vue(App)</div><div class="line"></div><div class="line">export default context =&gt; &#123;</div><div class="line">  // data pre-fetching </div><div class="line">  return app.fetchServerData(context.url).then(() =&gt; &#123;</div><div class="line">    return app</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="整合router-vuex"><a href="#整合router-vuex" class="headerlink" title="整合router,vuex"></a>整合router,vuex</h4><p>在组件上提供preFetch函数，服务端渲染时会主动差早挂载的部分，调用时进行数据抓取。(需要router进行整合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">export default context =&gt; &#123;</div><div class="line">  router.push(context.url)</div><div class="line"></div><div class="line">  //进行请求合并</div><div class="line">  return Promise.all(router.getMatchedComponents().map(component =&gt; &#123;</div><div class="line">    if (component.preFetch) &#123;</div><div class="line">      return component.preFetch(store)</div><div class="line">    &#125;</div><div class="line">  &#125;)).then(() =&gt; &#123;</div><div class="line">    // After all preFetch hooks are resolved, our store is now</div><div class="line">    // filled with the state needed to render the app.</div><div class="line">    // Expose the state on the render context, and let the request handler</div><div class="line">    // inline the state in the HTML response. This allows the client-side</div><div class="line">    // store to pick-up the server-side state without having to duplicate</div><div class="line">    // the initial data fetching on the client.</div><div class="line">    context.initialState = store.state</div><div class="line">    return app</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后，可以参考express-server-side库来搭建express服务端渲染<a href="https://github.com/hilongjw/vue-ssr-hmr-template" target="_blank" rel="external">vue-ssr</a>，参考<a href="https://github.com/hilongjw/vue-ssr-hmr-template" target="_blank" rel="external">vue-ssr-hmr-template</a>来对vuex,router等进行整合。包括</p>
+<ul>
+<li>Vue 2.0</li>
+<li>Webpack 2.1.0</li>
+<li>HotModuleReplacement</li>
+<li>Server Side Render</li>
+<li>Express</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/10/18/node-express/" itemprop="url">
+                  express学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-18T17:53:27+08:00" content="2016-10-18">
+              2016-10-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/10/18/node-express/" class="leancloud_visitors" data-flag-title="express学习">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>终于，我们可以学习使用express搭建web应用程序啦。我们将按照书上所说创建个照片功能的网站，包括以下任务：</p>
+</blockquote>
+<ul>
+<li>生成初始结构</li>
+<li>配置express和程序</li>
+<li>集成模板引擎渲染视图</li>
+<li>处理表单和文件上传</li>
+<li>处理资源下载</li>
+</ul>
+<h2 id="1-生成程序骨架"><a href="#1-生成程序骨架" class="headerlink" title="1.生成程序骨架"></a>1.生成程序骨架</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//安装express</div><div class="line">$ npm install -g express</div><div class="line">//安装生成器</div><div class="line">$ npm install -g express-generator</div><div class="line">//生成项目, -e表示使用ejs模板</div><div class="line">$ express -e photo</div></pre></td></tr></table></figure>
+<h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><p>在启用node程序的时候，我们可以通过以下配置进行环境变量的设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ NODE_ENV=production node app.js</div></pre></td></tr></table></figure>
+<p>通过以下方式进行环境参数的获取和不同环境的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var env = process.env.NODE_ENV || &apos;development&apos;;</div><div class="line">//or</div><div class="line">var env = app.get(&apos;env&apos;);</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/18/node数据存储/" itemprop="url">
                   node数据存储
                 </a>
@@ -1207,217 +1467,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/06/localstorage空值问题/" itemprop="url">
-                  localstorage空值问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-06T19:34:43+08:00" content="2016-09-06">
-              2016-09-06
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/09/06/localstorage空值问题/" class="leancloud_visitors" data-flag-title="localstorage空值问题">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>今天在使用localstorage处理继续制作的时候，偶然遇到一个问题，在此进行记录。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/06/localstorage空值问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/30/xhr文件上传小记/" itemprop="url">
-                  xhr文件上传小记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-30T20:41:39+08:00" content="2016-08-30">
-              2016-08-30
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/08/30/xhr文件上传小记/" class="leancloud_visitors" data-flag-title="xhr文件上传小记">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>带着文笔差工科男的特质，已经要求自己写了几篇东西了。也希望自己能够经常习惯性的把遇到的问题记录下来，养成积累的习惯。今天在测试文件上传逻辑时经常会发现重复上传文件时总会出现进度错乱的问题，在此进行记录并将代码好好梳理下。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/30/xhr文件上传小记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1463,7 +1512,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

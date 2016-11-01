@@ -1204,106 +1204,13 @@
 
       
         
-          
-            <blockquote>
-<p>一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。</p>
-</blockquote>
-<h3 id="Flex布局是什么"><a href="#Flex布局是什么" class="headerlink" title="Flex布局是什么"></a>Flex布局是什么</h3><p>由其名称我们可以看出来，“弹性盒子模型”，恩，听名字就很灵活好用。看看如何使用：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">.box&#123; display: flex; &#125;</div><div class="line"></div><div class="line">//内联元素</div><div class="line">.inline-box&#123; display: inline-flex; &#125;</div></pre></td></tr></table></figure>
-<p><strong><em>注意</em></strong><br>设置flex后，子元素的float、clear和vertical-align属性将失效。</p>
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>flex的语法比较复杂，我们总结下：<br>其主要包括两部分，<strong><em>容器</em></strong> 和 <strong><em>元素</em></strong>，容器负责整个容器，包括排列方式，等的设置。元素主要为容器内部的内容，主要包括元素的顺序，缩放等元素自身的属性。</p>
-<h4 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h4><table>
-<thead>
-<tr>
-<th>属性</th>
-<th style="text-align:right">功能</th>
-<th style="text-align:right">值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>flex-direction</td>
-<td style="text-align:right">元素排列方向</td>
-<td style="text-align:right">row 水平顺序， row-reverse 水平倒序， column 垂直顺序， column-reverse 垂直倒叙</td>
-</tr>
-<tr>
-<td>flex-wrap</td>
-<td style="text-align:right">类似文字white-space 控制元素超出换行</td>
-<td style="text-align:right">nowrap 不换行，文字会压缩；wrap 换行，顺序 wrap-reverse 换行 行序倒序</td>
-</tr>
-<tr>
-<td>flex-flow</td>
-<td style="text-align:right">flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。</td>
-<td style="text-align:right">-</td>
-</tr>
-<tr>
-<td>justify-content</td>
-<td style="text-align:right">元素的水平对齐方式</td>
-<td style="text-align:right">flex-start，flex-end，center，space-between两端对齐，间隔相等，space-around：每个项目两侧的间隔相等</td>
-</tr>
-<tr>
-<td>align-items</td>
-<td style="text-align:right">单行垂直对齐方式</td>
-<td style="text-align:right">flex-start,flex-end, center, baseline, stretch:拉伸</td>
-</tr>
-<tr>
-<td>align-content</td>
-<td style="text-align:right">多行垂直对齐方式</td>
-<td style="text-align:right">flex-start， flex-end， center ，space-between ，space-around ， stretch</td>
-</tr>
-</tbody>
-</table>
-<h4 id="元素"><a href="#元素" class="headerlink" title="元素"></a>元素</h4><table>
-<thead>
-<tr>
-<th>属性</th>
-<th style="text-align:right">功能</th>
-<th style="text-align:right">值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>order</td>
-<td style="text-align:right">规定顺序，数值越小越靠前</td>
-<td style="text-align:right">0，1，2…</td>
-</tr>
-<tr>
-<td>flex-grow</td>
-<td style="text-align:right">元素容器过大，元素放大比</td>
-<td style="text-align:right">0，1，2</td>
-</tr>
-<tr>
-<td>flex-shrink</td>
-<td style="text-align:right">缩小比例</td>
-<td style="text-align:right">0，1，2</td>
-</tr>
-<tr>
-<td>flex-basis</td>
-<td style="text-align:right">元素分配空间前，占用的宽度或高度</td>
-<td style="text-align:right">length , auto</td>
-</tr>
-<tr>
-<td>flex</td>
-<td style="text-align:right">前三个的缩写</td>
-<td style="text-align:right">默认值为0 1 auto</td>
-</tr>
-<tr>
-<td>align-self</td>
-<td style="text-align:right">元素单独设置对齐方式</td>
-<td style="text-align:right">flex-start， flex-end， center ，space-between ，space-around ， stretch</td>
-</tr>
-</tbody>
-</table>
-<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>看起来很复杂，但实在是好用！哪里好用？试几个例子吧：</p>
-<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><p>单元素：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">	<span class="attribute">display</span>: flex;</div><div class="line">	<span class="attribute">justify-content</span>: center;</div><div class="line">	<span class="attribute">align-items</span>: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>一个两个都可以！！！ 很轻易！！<br>效果：</p>
-<p><img src="/images/center.png" alt="center"><br><img src="/images/center2.png" alt="center"></p>
-<p>垂直排列：添加flex-flow: column即可。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">	<span class="attribute">display</span>: flex;</div><div class="line">	<span class="attribute">flex-flow</span>: column;</div><div class="line">	<span class="attribute">justify-content</span>: center;</div><div class="line">	<span class="attribute">align-items</span>: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="/images/center3.png" alt="center"></p>
-
-          
+          <blockquote>
+<p>一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/09/23/flexbox/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>

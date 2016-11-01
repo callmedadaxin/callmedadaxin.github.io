@@ -1,0 +1,764 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近一直在搞ssr的东西，也没来的及看看router2.0和vuex2.0到底带来了什么变化，今天来具体尝试一下，边学边练，我们会实现具有以下功能的例子
+
+
+还有两级以上的嵌套路由
+控制路由跳转规则
+实现懒加载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue学习笔记之vue2.0">
+<meta property="og:url" content="http://yoursite.com/2016/11/01/vue学习笔记之vue2-0/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="最近一直在搞ssr的东西，也没来的及看看router2.0和vuex2.0到底带来了什么变化，今天来具体尝试一下，边学边练，我们会实现具有以下功能的例子
+
+
+还有两级以上的嵌套路由
+控制路由跳转规则
+实现懒加载">
+<meta property="og:image" content="http://yoursite.com/images/router1.png">
+<meta property="og:image" content="http://yoursite.com/images/router2.png">
+<meta property="og:image" content="http://yoursite.com/images/router3.png">
+<meta property="og:image" content="http://yoursite.com/images/router4.png">
+<meta property="og:updated_time" content="2016-11-01T08:58:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue学习笔记之vue2.0">
+<meta name="twitter:description" content="最近一直在搞ssr的东西，也没来的及看看router2.0和vuex2.0到底带来了什么变化，今天来具体尝试一下，边学边练，我们会实现具有以下功能的例子
+
+
+还有两级以上的嵌套路由
+控制路由跳转规则
+实现懒加载">
+<meta name="twitter:image" content="http://yoursite.com/images/router1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/01/vue学习笔记之vue2-0/"/>
+
+  <title> vue学习笔记之vue2.0 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                vue学习笔记之vue2.0
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-01T16:57:55+08:00" content="2016-11-01">
+              2016-11-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/01/vue学习笔记之vue2-0/" class="leancloud_visitors" data-flag-title="vue学习笔记之vue2.0">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>最近一直在搞ssr的东西，也没来的及看看router2.0和vuex2.0到底带来了什么变化，今天来具体尝试一下，边学边练，我们会实现具有以下功能的例子</p>
+</blockquote>
+<ul>
+<li>还有两级以上的嵌套路由</li>
+<li>控制路由跳转规则</li>
+<li>实现懒加载</li>
+</ul>
+<a id="more"></a>
+<h3 id="1-用router整合组件"><a href="#1-用router整合组件" class="headerlink" title="1.用router整合组件"></a>1.用router整合组件</h3><p>首先，我们使用router配置最基本的组件和路由的映射，告诉vue-router在哪里渲染他们，来实现我们单页面应用的第一步。</p>
+<p>实现基本的映射很简单，只需要进行以下几步即可：</p>
+<h4 id="1-1-定义导航及路由渲染区域"><a href="#1-1-定义导航及路由渲染区域" class="headerlink" title="1.1 定义导航及路由渲染区域"></a>1.1 定义导航及路由渲染区域</h4><ul>
+<li>通过router-link组件来进行导航，类似我们平常使用的超链接</li>
+<li>通过router-view来配置路由的渲染区域</li>
+</ul>
+<p>首先我们使用vue-cli建立基本的项目工程，并安装vue-router</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ vue-init webpack test</div><div class="line">$ cd test</div><div class="line">$ npm install</div><div class="line">$ npm install vue-router --save</div><div class="line">$ npm run dev</div></pre></td></tr></table></figure>
+<p>a.配置导航组件：</p>
+<p>在这里我们定义一个Header组件，来进行页面整体内容的导航，通过router-link设置跳转到Foo,Bar两个组件的内容，并做一些基本的UI设定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;header id=&quot;main-header&quot;&gt;</div><div class="line">    &lt;!-- 通过&apos;to&apos;传入跳转路由 --&gt;</div><div class="line">    &lt;!-- 默认被渲染为&lt;a&gt;标签 --&gt;</div><div class="line">    &lt;router-link to=&quot;/foo&quot; class=&quot;header-item&quot;&gt;Foo&lt;/router-link&gt;</div><div class="line">    &lt;router-link to=&quot;/bar&quot; class=&quot;header-item&quot;&gt;Bar&lt;/router-link&gt;</div><div class="line">  &lt;/header&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<p>b.整合匹配视图：<br>通过router-view组件进行匹配组件的渲染，并与Header组件进行整合，来形成我们app的主题页面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">//App.vue</div><div class="line">&lt;template&gt;</div><div class="line">  &lt;div id=&quot;app&quot;&gt;</div><div class="line">    &lt;navigation&gt;&lt;/navigation&gt;</div><div class="line">    //视图将显示在router-view的位置</div><div class="line">    &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line">import Navigation from &apos;./components/Header&apos;</div><div class="line"></div><div class="line">export default &#123;</div><div class="line">  name: &apos;app&apos;,</div><div class="line">  components: &#123;</div><div class="line">    Navigation</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>c.配置路由<br>创建router.js，进行路由规则的设置，来定义各路径跳转到的组件。同时引用vue-router插件，将router实例对象暴露出去。当然，我们需要提前写好Foo,Bar组件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">import Vue from &apos;vue&apos;</div><div class="line">import VueRouter from &apos;vue-router&apos;</div><div class="line"></div><div class="line">Vue.use(VueRouter)</div><div class="line"></div><div class="line">//引用组件</div><div class="line">import Foo from &apos;./components/Foo&apos;</div><div class="line">import Bar from &apos;./components/Bar&apos;</div><div class="line"></div><div class="line">// 定义路由</div><div class="line">const routes = [</div><div class="line">  &#123; path: &apos;/foo&apos;, component: Foo &#125;,</div><div class="line">  &#123; path: &apos;/bar&apos;, component: Bar &#125;</div><div class="line">]</div><div class="line"></div><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes</div><div class="line">&#125;)</div><div class="line"></div><div class="line">export default router;</div></pre></td></tr></table></figure>
+<p>d.整合app<br>最后，我们将配置好的路由对象与我们的app进行整合，在入口文件中通过router参数进行配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">import Vue from &apos;vue&apos;</div><div class="line">import App from &apos;./App&apos;</div><div class="line">import router from &apos;./router&apos;</div><div class="line"></div><div class="line">new Vue(&#123;</div><div class="line">  el: &apos;#app&apos;,</div><div class="line">  template: &apos;&lt;App/&gt;&apos;,</div><div class="line">  router: router,</div><div class="line">  components: &#123; App &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>到此，我们基本的带有路由导航的内容已经基本实现，很简单。通过点击foo,bar两个不同导航，我们可以进行跳转。</p>
+<p><img src="/images/router1.png" alt="路由效果"></p>
+<h4 id="1-2-嵌套路由实现二级导航"><a href="#1-2-嵌套路由实现二级导航" class="headerlink" title="1.2 嵌套路由实现二级导航"></a>1.2 嵌套路由实现二级导航</h4><p>实现二级导航和一级导航的思路一样，只不过在路由配置中稍有不同，首先，我们定义一个导航组件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"nav-left"</span>&gt;</span></span></div><div class="line">    //通过遍历生成router-link</div><div class="line">    <span class="tag">&lt;<span class="name">router-link</span> <span class="attr">v-for</span>=<span class="string">"item in items"</span> <span class="attr">:to</span>=<span class="string">"item.to"</span> <span class="attr">class</span>=<span class="string">"nav-link"</span>&gt;</span>&#123;&#123;item.title&#125;&#125;<span class="tag">&lt;/<span class="name">router-link</span> &gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  name: <span class="string">'nav-left'</span>,</div><div class="line">  props: [<span class="string">'items'</span>],</div><div class="line">&#125;;</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<p>接着，我们改写之前的foo组件，让其包含一个左侧菜单，来跳转不同的右侧内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div id=&quot;main-content&quot;&gt;</div><div class="line">    &lt;nav-left :items=&quot;items&quot;&gt;&lt;/nav-left&gt;</div><div class="line">    &lt;router-view&gt;&lt;/router-view&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line">import NavLeft from &apos;./NavLeft&apos;</div><div class="line"></div><div class="line">export default &#123;</div><div class="line">  name: &apos;bar&apos;,</div><div class="line">  data () &#123;</div><div class="line">    return &#123;</div><div class="line">      items: [</div><div class="line">        &#123; to: &apos;/foo/111/111&apos;, title: &apos;111&apos; &#125;,</div><div class="line">        &#123; to: &apos;/foo/222/222&apos;, title: &apos;222&apos; &#125;,</div><div class="line">      ]</div><div class="line">    &#125;;</div><div class="line">  &#125;,</div><div class="line">  components: &#123;</div><div class="line">    NavLeft</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>最后配置路由，使用children字段配置子路由即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123; </div><div class="line">  path: &apos;/foo&apos;, </div><div class="line">  component: Foo,</div><div class="line">  children: [</div><div class="line">    &#123;</div><div class="line">      path: &apos;111/:id&apos;,</div><div class="line">      component: A</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      path: &apos;222/:id&apos;,</div><div class="line">      component: B</div><div class="line">    &#125;,</div><div class="line">  ] </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>至此，我们可以通过点击header导航，来进行一级路由的切换，通过左侧导航，来实现二级路由的切换了。</p>
+<h4 id="1-3-实现路由重定向"><a href="#1-3-实现路由重定向" class="headerlink" title="1.3 实现路由重定向"></a>1.3 实现路由重定向</h4><p>我们会发现，第一次进入页面的时候，未点击导航，下侧内容并不会现实出来，显然这不是我们想要的效果，我们想让第一个一级导航和第一个二级导航作为我们默认选中的内容。因此我们使用重定向来完成它：</p>
+<p>使用重定向的方法非常简单，直接通过routes配置来完成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">routes: [</div><div class="line">  &#123; path: &apos;/a&apos;, redirect: &apos;/b&apos; &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<p>因此我们在原有配置基础上进行以下修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">//首页重定向到第一导航</div><div class="line">&#123; path: &apos;/&apos;, redirect: &apos;/foo&apos;&#125;,</div><div class="line">&#123; </div><div class="line">  path: &apos;/foo&apos;, </div><div class="line">  component: Foo,</div><div class="line">  children: [</div><div class="line">    &#123;</div><div class="line">      path: &apos;111/:id&apos;,</div><div class="line">      component: A</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      path: &apos;222/:id&apos;,</div><div class="line">      component: B</div><div class="line">    &#125;,</div><div class="line">  ],</div><div class="line">  //重定向到第一个子组件</div><div class="line">  redirect: &apos;/foo/111/111&apos;</div><div class="line">&#125;,</div></pre></td></tr></table></figure>
+<p>进入首页，即可自动展示内容。</p>
+<h3 id="2-控制路由跳转规则"><a href="#2-控制路由跳转规则" class="headerlink" title="2.控制路由跳转规则"></a>2.控制路由跳转规则</h3><p>我们往往会有这样的需求，因为用户未进行某种操作而禁止用户进行跳转，因此我们会需要拦截导航，在跳转是进行判断，完成或取消跳转。因此我们使用钩子函数来进行。</p>
+<p>钩子分为以下几种：</p>
+<p>1.<strong><em>全局钩子</em></strong></p>
+<p>当一个导航触发时，全局的 before 钩子按照创建顺序调用。钩子是异步解析执行，此时导航在所有钩子 resolve 完之前一直处于 等待中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">router.beforeEach((to, from, next) =&gt; &#123;</div><div class="line">  // to： 目标路由对象</div><div class="line">  // from: 当前路由对象</div><div class="line">  // next: resolve function</div><div class="line">  // 三种参数： 1. 空，表示正常跳转， 2. false:中断跳转 3.&apos;/&apos;: 跳转新导航 </div><div class="line">&#125;)</div><div class="line"></div><div class="line">router.afterEach(route =&gt; &#123;</div><div class="line">  // 没有next方法 不能改变导航</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>2.<strong><em>特定路由钩子</em></strong><br>直接在routes进行配置，和全局钩子是一样的，此钩子只针对本路由有效。</p>
+<p>3.组件内钩子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">const Foo = &#123;</div><div class="line">  template: `...`,</div><div class="line">  beforeRouteEnter (to, from, next) =&gt; &#123;</div><div class="line">    // 在渲染该组件的对应路由被 confirm 前调用</div><div class="line">    // 不！能！获取组件实例 `this`</div><div class="line">    // 因为当钩子执行前，组件实例还没被创建</div><div class="line">  &#125;,</div><div class="line">  beforeRouteLeave (to, from, next) =&gt; &#123;</div><div class="line">    // 导航离开该组件的对应路由时调用</div><div class="line">    // 可以访问组件实例 `this`</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-实现懒加载"><a href="#3-实现懒加载" class="headerlink" title="3.实现懒加载"></a>3.实现懒加载</h3><p>显然，当系统越来越大时，在进入页面的时候将所有资源都一起进行加载显然是不合理的，我们更希望在需要访问某组件时再去请求它的相关资源。可以配合webpack进行配置：</p>
+<p>将组件定义成异步组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const Foo = resolve =&gt; require([&apos;./Foo.vue&apos;],resolve);</div></pre></td></tr></table></figure>
+<p>我们会发现，在进行打包时，webpack会自动将文件进行拆分：</p>
+<p><img src="/images/router2.png" alt="路由效果"></p>
+<p>当请求新的路由时，才会对相应资源进行请求：</p>
+<p><img src="/images/router3.png" alt="路由效果"></p>
+<p>同时，我们可以将组件进行分组打包到同一个异步的chunk中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const Foo = r =&gt; require.ensure([], () =&gt; r(require(&apos;./Foo.vue&apos;)), &apos;group-foo&apos;)</div><div class="line">const Bar = r =&gt; require.ensure([], () =&gt; r(require(&apos;./Bar.vue&apos;)), &apos;group-foo&apos;)</div><div class="line">const Baz = r =&gt; require.ensure([], () =&gt; r(require(&apos;./Baz.vue&apos;)), &apos;group-foo&apos;)</div></pre></td></tr></table></figure>
+<p>通过分组方式，会发现A，B两个组件被打包成一个文件，很好很强大<br><img src="/images/router4.png" alt="路由效果"></p>
+<p><a href="https://github.com/callmedadaxin/practice/tree/master/router2.0" target="_blank" rel="external">项目源码</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/24/Express-vue2-0-server-render/" rel="next" title="Express-vue2.0-server-render">
+                <i class="fa fa-chevron-left"></i> Express-vue2.0-server-render
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-用router整合组件"><span class="nav-number">1.</span> <span class="nav-text">1.用router整合组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-定义导航及路由渲染区域"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 定义导航及路由渲染区域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-嵌套路由实现二级导航"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 嵌套路由实现二级导航</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-实现路由重定向"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 实现路由重定向</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-控制路由跳转规则"><span class="nav-number">2.</span> <span class="nav-text">2.控制路由跳转规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-实现懒加载"><span class="nav-number">3.</span> <span class="nav-text">3.实现懒加载</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

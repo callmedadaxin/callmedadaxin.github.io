@@ -84,12 +84,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="王卫新的博客">
-<meta property="og:url" content="http://yoursite.com/archives/2016/04/index.html">
+<meta name="description" content="问题总结积累，便于快速查找">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue常见问题积累">
+<meta property="og:url" content="http://yoursite.com/2016/12/22/vue常见问题积累/index.html">
 <meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="问题总结积累，便于快速查找">
+<meta property="og:updated_time" content="2016-12-22T04:07:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="王卫新的博客">
+<meta name="twitter:title" content="vue常见问题积累">
+<meta name="twitter:description" content="问题总结积累，便于快速查找">
 
 
 
@@ -110,9 +114,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2016/04/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/12/22/vue常见问题积累/"/>
 
-  <title> 归档 | 王卫新的博客 </title>
+  <title> vue常见问题积累 | 王卫新的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -143,7 +147,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right  page-archive  ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -231,66 +235,147 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 22 篇日志。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
 
-      
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                vue常见问题积累
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-22T12:06:09+08:00" content="2016-12-22">
+              2016-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/22/vue常见问题积累/" class="leancloud_visitors" data-flag-title="vue常见问题积累">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
       
       
 
       
+        <blockquote>
+<p>问题总结积累，便于快速查找</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="vue-router-1-0-钩子函数问题"><a href="#vue-router-1-0-钩子函数问题" class="headerlink" title="vue-router-1.0  钩子函数问题"></a>vue-router-1.0  钩子函数问题</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>针对某一子路由，若在进行路由跳转判断时，调用transition.abort()放弃跳转，当前路由会重新进行刷新，相当于进入了当前页。</p>
+<p>例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">route:&#123;</div><div class="line">  data()&#123;</div><div class="line">    //进行路由切换时，虽然transition放弃了，仍会进行Log</div><div class="line">    console.log(1);</div><div class="line">  &#125;,</div><div class="line">  </div><div class="line">  canDeactivate(transition) &#123;</div><div class="line">    transition.abort();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>针对此类问题，往往会导致以下的效果，</p>
+<p>例如我们在进入页面时，请求数据进行初始化，当我们进行表单等数据填写后，由于验证为通过，路由放弃跳转，但会进行二次初始化，导致之前修改的内容都失效。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>针对以上问题，目前只能对于具体问题具体解决，有两种解决方案</p>
+<h4 id="1-修改钩子函数"><a href="#1-修改钩子函数" class="headerlink" title="1.修改钩子函数"></a>1.修改钩子函数</h4><p>例如，针对二次初始化问题，我们不想在放弃跳转之后重新进行请求，我们可以将请求方在<strong><em>activate</em></strong>钩子里，<br>再路由切换前，进行初始化。</p>
+<h4 id="2-判断路由来源"><a href="#2-判断路由来源" class="headerlink" title="2.判断路由来源"></a>2.判断路由来源</h4><p>在data钩子函数中，对transtion进行判断，若transion.from.name 等于当前路由的name,相当于从当前路由进行刷新，我们不进行二次请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">route: &#123;</div><div class="line">  data(tran) &#123;</div><div class="line">    if(tran.from.name != tran.to.name) &#123;</div><div class="line">      //进行请求</div><div class="line">      ...</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="vue1-0-v-for-元素重复问题，2-0尚未验证"><a href="#vue1-0-v-for-元素重复问题，2-0尚未验证" class="headerlink" title="vue1.0  v-for 元素重复问题，2.0尚未验证"></a>vue1.0  v-for 元素重复问题，2.0尚未验证</h2><h3 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h3><p>使用v-for进行数组列表渲染时，当数组内部含有重复元素时，如[‘a’,’b’,’a’],<br>会报出如下警告：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Duplicate value found in v-for=&quot;(index,item) of numPoint.text&quot;: &quot;s&quot;. Use track-by=&quot;$index&quot; if you are expecting duplicate values.</div></pre></td></tr></table></figure>
+<p>也就是说，渲染出的列表是经过去重的。</p>
+<h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h3><h4 id="track-by-”-index”"><a href="#track-by-”-index”" class="headerlink" title="track-by=”$index”"></a>track-by=”$index”</h4><p>强制让 v-for 进入原位更新模式：片断不会被移动，而是简单地以对应索引的新值刷新。这种模式也能处理数据数组中重复的值。</p>
+<p>同时，可以了解下<a href="http://vuejs.org.cn/guide/list.html#track-by" target="_blank" rel="external">track-by</a>,尽可能的复用已有实例，减少全局刷新</p>
+
+      
+    </div>
+
+    <div>
+      
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/01/dependencies/" rel="next" title="dependencies和devDependencies">
+                <i class="fa fa-chevron-left"></i> dependencies和devDependencies
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/22/常见兼容问题积累/" rel="prev" title="常见兼容问题积累">
+                常见兼容问题积累 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
         </div>
       
-      
 
       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/04/18/webpack学习笔记/" itemprop="url">
-              
-                <span itemprop="name">webpack学习笔记</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-04-18T11:37:36+08:00"
-              content="2016-04-18" >
-          04-18
-        </time>
-      </div>
-
-    </header>
+      
+    </footer>
   </article>
 
 
 
-    
-
-  </section>
-
-  
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -298,6 +383,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -317,8 +406,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -354,6 +452,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-router-1-0-钩子函数问题"><span class="nav-number">1.</span> <span class="nav-text">vue-router-1.0  钩子函数问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题描述"><span class="nav-number">1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案"><span class="nav-number">1.2.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-修改钩子函数"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.修改钩子函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-判断路由来源"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.判断路由来源</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue1-0-v-for-元素重复问题，2-0尚未验证"><span class="nav-number">2.</span> <span class="nav-text">vue1.0  v-for 元素重复问题，2.0尚未验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题描述-1"><span class="nav-number">2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案-1"><span class="nav-number">2.2.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#track-by-”-index”"><span class="nav-number">2.2.1.</span> <span class="nav-text">track-by=”$index”</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -457,11 +566,9 @@
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
 
 
   

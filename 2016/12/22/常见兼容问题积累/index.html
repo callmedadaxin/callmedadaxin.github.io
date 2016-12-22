@@ -84,12 +84,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="王卫新的博客">
-<meta property="og:url" content="http://yoursite.com/archives/2016/04/index.html">
+<meta name="description" content="常见兼容性问题积累">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见兼容问题积累">
+<meta property="og:url" content="http://yoursite.com/2016/12/22/常见兼容问题积累/index.html">
 <meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="常见兼容性问题积累">
+<meta property="og:updated_time" content="2016-12-22T04:12:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="王卫新的博客">
+<meta name="twitter:title" content="常见兼容问题积累">
+<meta name="twitter:description" content="常见兼容性问题积累">
 
 
 
@@ -110,9 +114,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2016/04/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/12/22/常见兼容问题积累/"/>
 
-  <title> 归档 | 王卫新的博客 </title>
+  <title> 常见兼容问题积累 | 王卫新的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -143,7 +147,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right  page-archive  ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -231,66 +235,150 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
-
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 22 篇日志。 继续努力。
-    </span>
-
+  <div id="posts" class="posts-expand">
     
 
-      
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                常见兼容问题积累
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-22T12:08:49+08:00" content="2016-12-22">
+              2016-12-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/22/常见兼容问题积累/" class="leancloud_visitors" data-flag-title="常见兼容问题积累">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
       
       
 
       
+        <blockquote>
+<p>常见兼容性问题积累</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="1-使用Babel，部分ES6语法不进行编译问题"><a href="#1-使用Babel，部分ES6语法不进行编译问题" class="headerlink" title="1.使用Babel，部分ES6语法不进行编译问题"></a>1.使用Babel，部分ES6语法不进行编译问题</h2><blockquote>
+<p>Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 API ，比如 Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise 等全局对象，以及一些定义在全局对象上的方法（比如 Object.assign）都不会转码。Babel 默认不转码的 API 非常多，详细清单可以查看<br><a href="https://github.com/babel/babel/blob/master/packages/babel-plugin-transform-runtime/src/definitions.js" target="_blank" rel="external">definitions.js</a>查看</p>
+</blockquote>
+<h4 id="后台类为方便使用可以引入polyfill进行兼容"><a href="#后台类为方便使用可以引入polyfill进行兼容" class="headerlink" title="后台类为方便使用可以引入polyfill进行兼容"></a>后台类为方便使用可以引入polyfill进行兼容</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -save-dev babel-polyfill</div></pre></td></tr></table></figure>
+<p>在Js中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">'babel-polyfill'</span>;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="2-css-margin外边距合并问题"><a href="#2-css-margin外边距合并问题" class="headerlink" title="2.css-margin外边距合并问题"></a>2.css-margin外边距合并问题</h2><p>经典的外边距问题</p>
+<h3 id="问题及分析"><a href="#问题及分析" class="headerlink" title="问题及分析"></a>问题及分析</h3><p><a href="http://www.w3school.com.cn/css/css_margin_collapsing.asp" target="_blank" rel="external">w3c简单讲解</a><br><a href="http://www.w3cplus.com/css/understanding-bfc-and-margin-collapse.html" target="_blank" rel="external">深入理解BFC和外边距合并</a></p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>1.浮动元素、inline-block 元素、绝对定位元素的 margin 不会和垂直方向上其他元素的 margin 折叠（注意这里指的是上下相邻的元素）</p>
+<p>2.创建了块级格式化上下文的元素，不和它的子元素发生 margin 折叠（注意这里指的是创建了BFC的元素和它的子元素不会发生折叠）</p>
+<p>我们都知道触发BFC的因素是float（除了none）、overflow（除了visible）、display（table-cell/table-caption/inline-block）、position（除了static/relative） </p>
+<p>来源：<a href="https://www.zhihu.com/question/19823139/answer/13610574" target="_blank" rel="external">知乎</a></p>
+<p>最后看下贺大师的回答</p>
+<p>我想说，这其实并不（只）是一个技术问题，而是一个设计问题。你应该去问一下，为什么这里上下是margin？设计师在这里表达的是什么？是否真的应该用margin而不是padding或者border？</p>
+<hr>
+<h2 id="3-圆角矩形背景会被渲染的问题："><a href="#3-圆角矩形背景会被渲染的问题：" class="headerlink" title="3.圆角矩形背景会被渲染的问题："></a>3.圆角矩形背景会被渲染的问题：</h2><h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><p>有些低版本安卓手机出现在圆角之外仍然渲染了背景颜色的情况，而且这种情况的出现和box-sizing的设置无关</p>
+<h3 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h3><p>给添加border-radius的元素添加 background-clip:padding-box 只渲染padding以内的区域</p>
+<hr>
+<h4 id="4-top值为百分数设置位置失效的问题："><a href="#4-top值为百分数设置位置失效的问题：" class="headerlink" title="4.top值为百分数设置位置失效的问题："></a>4.top值为百分数设置位置失效的问题：</h4><p>问题：当top采用百分数为单位去设置位置的时候，某些手机top值会失效</p>
+<p>解决办法：因为top值是相对于父级高度去计算的，如果父级高度是自动由内容撑开的话，有的手机是计算不出来的，因此需要给定位元素父级设置高度</p>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/22/vue常见问题积累/" rel="next" title="vue常见问题积累">
+                <i class="fa fa-chevron-left"></i> vue常见问题积累
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
         </div>
       
-      
 
       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/04/18/webpack学习笔记/" itemprop="url">
-              
-                <span itemprop="name">webpack学习笔记</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-04-18T11:37:36+08:00"
-              content="2016-04-18" >
-          04-18
-        </time>
-      </div>
-
-    </header>
+      
+    </footer>
   </article>
 
 
 
-    
-
-  </section>
-
-  
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -298,6 +386,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -317,8 +409,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -354,6 +455,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-使用Babel，部分ES6语法不进行编译问题"><span class="nav-number">1.</span> <span class="nav-text">1.使用Babel，部分ES6语法不进行编译问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#后台类为方便使用可以引入polyfill进行兼容"><span class="nav-number">1.0.1.</span> <span class="nav-text">后台类为方便使用可以引入polyfill进行兼容</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-css-margin外边距合并问题"><span class="nav-number">2.</span> <span class="nav-text">2.css-margin外边距合并问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题及分析"><span class="nav-number">2.1.</span> <span class="nav-text">问题及分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案"><span class="nav-number">2.2.</span> <span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-圆角矩形背景会被渲染的问题："><span class="nav-number">3.</span> <span class="nav-text">3.圆角矩形背景会被渲染的问题：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题："><span class="nav-number">3.1.</span> <span class="nav-text">问题：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法："><span class="nav-number">3.2.</span> <span class="nav-text">解决办法：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-top值为百分数设置位置失效的问题："><span class="nav-number">3.2.1.</span> <span class="nav-text">4.top值为百分数设置位置失效的问题：</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -457,11 +569,9 @@
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
 
 
   

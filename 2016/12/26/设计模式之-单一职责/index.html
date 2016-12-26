@@ -1,0 +1,732 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="听了公司架构师的软件设计分享，以及最近对整体的代码结构设计与优化的一系列事件，赶紧动动笔头，记下来。本文章主要记录的分享内容以及我后面查阅的资料以及一些自己的理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之-单一职责">
+<meta property="og:url" content="http://yoursite.com/2016/12/26/设计模式之-单一职责/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="听了公司架构师的软件设计分享，以及最近对整体的代码结构设计与优化的一系列事件，赶紧动动笔头，记下来。本文章主要记录的分享内容以及我后面查阅的资料以及一些自己的理解。">
+<meta property="og:image" content="http://yoursite.com/images/SRP1.png">
+<meta property="og:image" content="http://yoursite.com/images/SRP2.png">
+<meta property="og:image" content="http://www.alloyteam.com/wp-content/uploads/2015/11/mulu_left.png">
+<meta property="og:image" content="http://www.alloyteam.com/wp-content/uploads/2015/11/mulu_right.png">
+<meta property="og:image" content="http://yoursite.com/images/SPR3.png">
+<meta property="og:updated_time" content="2016-12-26T07:21:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式之-单一职责">
+<meta name="twitter:description" content="听了公司架构师的软件设计分享，以及最近对整体的代码结构设计与优化的一系列事件，赶紧动动笔头，记下来。本文章主要记录的分享内容以及我后面查阅的资料以及一些自己的理解。">
+<meta name="twitter:image" content="http://yoursite.com/images/SRP1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/26/设计模式之-单一职责/"/>
+
+  <title> 设计模式之-单一职责 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                设计模式之-单一职责
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-26T15:19:44+08:00" content="2016-12-26">
+              2016-12-26
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/26/设计模式之-单一职责/" class="leancloud_visitors" data-flag-title="设计模式之-单一职责">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>听了公司架构师的软件设计分享，以及最近对整体的代码结构设计与优化的一系列事件，赶紧动动笔头，记下来。本文章主要记录的分享内容以及我后面查阅的资料以及一些自己的理解。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="Bad-Smell-Rigidity-僵化性）-amp-Fragility（脆弱性）"><a href="#Bad-Smell-Rigidity-僵化性）-amp-Fragility（脆弱性）" class="headerlink" title="Bad Smell - Rigidity(僵化性）&amp; Fragility（脆弱性）"></a>Bad Smell - Rigidity(僵化性）&amp; Fragility（脆弱性）</h2><p>软件设计中，往往会存在着各种各样的bad smell,本次主要以其中亮点进行讨论（摘自《敏捷软件开发》</p>
+<h3 id="1-Rigidity-僵化性）"><a href="#1-Rigidity-僵化性）" class="headerlink" title="1.Rigidity(僵化性）"></a>1.Rigidity(僵化性）</h3><p>僵化性是指难以对软件进行改动，即使是简单的改动。如果单一的改动会导致有依赖关系的模块中的连锁改动，那么设计就是僵化的。必须要改动的模块越多，设计就越僵化。<br>大部分开发人员都会以这样或那样的方式遇到过这种情况。他们会被要求做一个看起来简单的改动。他们仔细检查这个改动并对所需的工作做出了一个估算。但是过了一会儿，当他们实际进行改动时，会发现许多改动带来的影响自己并没有预测到。他们发现自己要在庞大的代码中搜寻这个变动，要改的模块数要远远超出最初估算，并且不断发现其他一些必须要记得做的更改。最后，改动所花费的时间比初始估算要长。当问他们为何估算得如此不准确时，他们会重复开发人员惯用的悲叹，“它比我想象的要复杂得多！”</p>
+<h3 id="2-Fragility（脆弱性）"><a href="#2-Fragility（脆弱性）" class="headerlink" title="2.Fragility（脆弱性）"></a>2.Fragility（脆弱性）</h3><p>脆弱性是指，在进行一个改动时，可能会导致程序的许多地方出现问题。常常是，出现新问题的地方与改动的地方并没有概念上的关联。要修正这些问题又会引出更多的问题，从而开发团队就像一只不停追逐自己尾巴的狗一样忙得团团转。</p>
+<p>随着模块脆弱性增加，改动会引出意想不到的问题的可能性就越来越大。这看起来很荒谬，但是这样的模块非常常见。这些模块需要不断地修补——它们从来不会从错误列表中去掉。开发人员知道需要对它进行重新设计，但是谁都不愿意去面对重新设计中的难以琢磨性，你越是修改它们，它们举变得越糟。</p>
+<p>以上两种特性，在我们日常开发的过程中，尤其困扰我。习惯于书写“面条式”代码的我们往往会被不断变化的需求与功能逻辑所困扰住，每一次变动都会使我们的代码变得越来越复杂与难看，臭味性越强烈。虽然伴随着模块化与组件化的引入，我们已经渐渐的开始进行模块拆分与功能复用。但是如何对其进行更加良好的组织，掌握好拆分的度，是我们本次讨论的重点。</p>
+<h2 id="单一职责原则（Single-Responsibility-Principle）"><a href="#单一职责原则（Single-Responsibility-Principle）" class="headerlink" title="单一职责原则（Single Responsibility Principle）"></a>单一职责原则（Single Responsibility Principle）</h2><h3 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h3><p>There should never be more than one reason for a class to change，应该有且仅有一个原因引起类的变更。</p>
+<p>当我们去对一个方法进行修改拥有两个动机的时候，也就意味着这个方法具有两个职责。而一个方法承担了过多的原则，在需求的变迁中，需要对其进行改写的可能性就更大。</p>
+<p>这种方法对于修改代码来说，无疑是一件危险的事情，尤其是两个职责耦合在一起的时候，一个变化往往会引起一系列的修改，造成无法预测的破坏。</p>
+<p>因此，SRP原则体现为： <strong><em>一个对象（方法）只做一件事情</em></strong></p>
+<h3 id="2-案例"><a href="#2-案例" class="headerlink" title="2.案例"></a>2.案例</h3><p><img src="/images/SRP1.png" alt="automobile"></p>
+<p>对于一个复杂的Automobile类进行分析我们可以发现，很多方法并不是其应该具备的职责。</p>
+<ul>
+<li>drive方法应是司机的职责，而不是automobile本身</li>
+<li>wash则对应的为洗车店的职责</li>
+<li>修车行理应对与换轮胎和机油的职责</li>
+</ul>
+<p>经过分析和拆分。 Automobile只剩下了其单一职责，整体智能更加清晰。当我们对其进行维护和修改的时候，只需针对功能职责，选择不容的类进行维护即可，大大的降低了维护成本。</p>
+<p><img src="/images/SRP2.png" alt="automibile"></p>
+<p>如图所示的employee实例则能更好的表示出针对模糊对象方法的分析，对于Employee来说，计税、绩效虽然与其相关，但是真实来说不属于其自身职责，而是HR和财务部的事情。将不同的职责进行划分，更有利于其书写及扩展。</p>
+<h3 id="3-原则"><a href="#3-原则" class="headerlink" title="3.原则"></a>3.原则</h3><h4 id="并不是所有职责都应该同时分离"><a href="#并不是所有职责都应该同时分离" class="headerlink" title="并不是所有职责都应该同时分离"></a>并不是所有职责都应该同时分离</h4><ul>
+<li>倘若随着需求变化，两个职责总是同时变化的，那就不必对其进行分离。</li>
+<li>倘若两个耦合的方法没有发生改变的征兆和可能，不必主动对其分离。</li>
+</ul>
+<h4 id="方便性和稳定性方面需要做适当的取舍"><a href="#方便性和稳定性方面需要做适当的取舍" class="headerlink" title="方便性和稳定性方面需要做适当的取舍"></a>方便性和稳定性方面需要做适当的取舍</h4><p>例如jQuery的attr方法，既负责赋值，也负责取值。 理论上说是违反SPR原则的，但是这种方式能够更好的让开发者进行使用。所有说，我们未必要一味的遵守这个原则。</p>
+<h2 id="组织目录结构"><a href="#组织目录结构" class="headerlink" title="组织目录结构"></a>组织目录结构</h2><p>伴随着类与功能的划分，新的问题也会产生。类与功能的拆分，我们将文件划分的越来越多。而前端所需维护的静态资源本身就比较多，包含html、js、css、图片等等等等，如何维护资源与资源间的关系变得更加复杂。为了解决这些问题，诞生了gulp、webpack、fis等一些列打包与构建工具，让我们不用手动的对其进行管理。然而，在对其进行手动修改或者任务交接的时候，往往还会由于文件众多而无从下手，搞不清文件与文件间的复杂关系。</p>
+<h3 id="功能划分还是资源类型划分"><a href="#功能划分还是资源类型划分" class="headerlink" title="功能划分还是资源类型划分"></a>功能划分还是资源类型划分</h3><p><img src="http://www.alloyteam.com/wp-content/uploads/2015/11/mulu_left.png" alt="功能划分"> VS<br><img src="http://www.alloyteam.com/wp-content/uploads/2015/11/mulu_right.png" alt="类型划分"></p>
+<p>先看图2，由于前段静态资源类型多的特点，人们从一开始就养成的“结构、样式和行为分离”的理念，更多人习惯性的将各类静态资源习惯性的分为如图所示。然而当模块不断增加的时候，这种划分方式的弊端也逐渐暴露出来。同一类型下的资源文件不断的增多，而同一类型，不同层级模块的划分，文件与文件的关系很难通过目录结构找寻出来。甚至阅读代码都不知该从那个文件开始入手。 及其依赖于文件命名于文档。</p>
+<p>归根结地，其有以下弊端：</p>
+<ul>
+<li>静态资源间关系难以维护</li>
+<li>难以进行扩展分离</li>
+</ul>
+<p>针对上述所讲的单一职责原则，我们在针对某一项目进行上手或者分析的时候，往往是通过<strong><em>“功能”</em></strong>来开始入手的。假设我们像图1一样，将个模块供能的静态资源都维护在一起，将模块与模块间的关系通过文件结构进行表示。 在对项目进行维护及接受的时候，我们只要搞清项目的功能结构即可对单个模块进行修改，岂不是很方便？</p>
+<h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><p>针对此类划分方式，本人也相应的对其进行了实践，如图所示，针对某一功能模块，将其个功能进行单一功能划分，每个组件只保持其自身的功能，通过目录结构来表示组件与组件间的层级关系，各组件相应的静态资源由组件进行统一维护。 这样我们在开发的时候，关注点只统一在模块内部即可。</p>
+<p><img src="/images/SPR3.png" alt="practice"></p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>在实践过程中，往往会存在如何对于组件间通用资源维护的问题，因此，对于统一资源的维护与规划，是我们应注意的</p>
+<h4 id="Vue-js"><a href="#Vue-js" class="headerlink" title="Vue.js"></a>Vue.js</h4><p>针对vue.js 目前已形成了一套实践方案，在此可进行参考</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">+ common  //共用文件</div><div class="line">|   + js</div><div class="line">|   |   api.js //请求相关</div><div class="line">|   |   base.js //常用公有函数</div><div class="line">|   |   filter.js //常用filter</div><div class="line">|   + scss</div><div class="line">|   |   + core //核心sass库，包括mixin等等</div><div class="line">|   |   |   index.scss</div><div class="line">|   |   |   reset.scss</div><div class="line">|   |   |   utils.scss</div><div class="line">|   |   - theme //主题样式，包含变量等</div><div class="line">|   |   index.scss //共用样式</div><div class="line">|   + img</div><div class="line">+ components //通用组件，对 通用的组件才放这儿</div><div class="line">|   + foo //各个组件</div><div class="line">|   |   -img</div><div class="line">|   |   index.vue</div><div class="line">|   - bar</div><div class="line">+ store //vuex对应的model,actions等</div><div class="line">+ router.js //路由</div><div class="line">+ views //根据功能划分的模块或页面</div><div class="line">|   + page1</div><div class="line">|   |   + model1</div><div class="line">|   |   |   + child</div><div class="line">|   |   |   |   index.vue</div><div class="line">|   |   |   |   - img</div><div class="line">|   |   |   index.vue</div><div class="line">|   |    - model2</div><div class="line">|   | index.vue </div><div class="line">|	- page2</div><div class="line">main.js //主入口文件</div><div class="line">App.vue //app文件</div><div class="line">index.ejs //模板文件</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/22/常见兼容问题积累/" rel="next" title="常见兼容问题积累">
+                <i class="fa fa-chevron-left"></i> 常见兼容问题积累
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Bad-Smell-Rigidity-僵化性）-amp-Fragility（脆弱性）"><span class="nav-number">1.</span> <span class="nav-text">Bad Smell - Rigidity(僵化性）& Fragility（脆弱性）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Rigidity-僵化性）"><span class="nav-number">1.1.</span> <span class="nav-text">1.Rigidity(僵化性）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Fragility（脆弱性）"><span class="nav-number">1.2.</span> <span class="nav-text">2.Fragility（脆弱性）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单一职责原则（Single-Responsibility-Principle）"><span class="nav-number">2.</span> <span class="nav-text">单一职责原则（Single Responsibility Principle）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-定义"><span class="nav-number">2.1.</span> <span class="nav-text">1.定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-案例"><span class="nav-number">2.2.</span> <span class="nav-text">2.案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-原则"><span class="nav-number">2.3.</span> <span class="nav-text">3.原则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#并不是所有职责都应该同时分离"><span class="nav-number">2.3.1.</span> <span class="nav-text">并不是所有职责都应该同时分离</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方便性和稳定性方面需要做适当的取舍"><span class="nav-number">2.3.2.</span> <span class="nav-text">方便性和稳定性方面需要做适当的取舍</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组织目录结构"><span class="nav-number">3.</span> <span class="nav-text">组织目录结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#功能划分还是资源类型划分"><span class="nav-number">3.1.</span> <span class="nav-text">功能划分还是资源类型划分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实践"><span class="nav-number">3.1.1.</span> <span class="nav-text">实践</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意"><span class="nav-number">3.1.2.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Vue-js"><span class="nav-number">3.1.3.</span> <span class="nav-text">Vue.js</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

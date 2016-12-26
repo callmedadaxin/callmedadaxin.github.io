@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://www.alloyteam.com/wp-content/uploads/2015/11/mulu_left.png">
 <meta property="og:image" content="http://www.alloyteam.com/wp-content/uploads/2015/11/mulu_right.png">
 <meta property="og:image" content="http://yoursite.com/images/SPR3.png">
-<meta property="og:updated_time" content="2016-12-26T07:26:09.000Z">
+<meta property="og:updated_time" content="2016-12-26T07:28:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式之-单一职责">
 <meta name="twitter:description" content="听了公司架构师的软件设计分享，以及最近对整体的代码结构设计与优化的一系列事件，赶紧动动笔头，记下来。本文章主要记录的分享内容以及我后面查阅的资料以及一些自己的理解。">
@@ -315,7 +315,7 @@
 <p>听了公司架构师的软件设计分享，以及最近对整体的代码结构设计与优化的一系列事件，赶紧动动笔头，记下来。本文章主要记录的分享内容以及我后面查阅的资料以及一些自己的理解。</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="Bad-Smell-Rigidity-僵化性）-amp-Fragility（脆弱性）"><a href="#Bad-Smell-Rigidity-僵化性）-amp-Fragility（脆弱性）" class="headerlink" title="Bad Smell - Rigidity(僵化性）&amp; Fragility（脆弱性）"></a>Bad Smell - Rigidity(僵化性）&amp; Fragility（脆弱性）</h2><p>软件设计中，往往会存在着各种各样的bad smell,本次主要以其中亮点进行讨论（摘自《敏捷软件开发》</p>
+<h2 id="Bad-Smell-Rigidity-僵化性）-amp-Fragility（脆弱性）"><a href="#Bad-Smell-Rigidity-僵化性）-amp-Fragility（脆弱性）" class="headerlink" title="Bad Smell - Rigidity(僵化性）&amp; Fragility（脆弱性）"></a>Bad Smell - Rigidity(僵化性）&amp; Fragility（脆弱性）</h2><p>软件设计中，往往会存在着各种各样的bad smell,本次主要以其中亮点进行讨论</p>
 <h3 id="1-Rigidity-僵化性）"><a href="#1-Rigidity-僵化性）" class="headerlink" title="1.Rigidity(僵化性）"></a>1.Rigidity(僵化性）</h3><p>僵化性是指难以对软件进行改动，即使是简单的改动。如果单一的改动会导致有依赖关系的模块中的连锁改动，那么设计就是僵化的。必须要改动的模块越多，设计就越僵化。<br>大部分开发人员都会以这样或那样的方式遇到过这种情况。他们会被要求做一个看起来简单的改动。他们仔细检查这个改动并对所需的工作做出了一个估算。但是过了一会儿，当他们实际进行改动时，会发现许多改动带来的影响自己并没有预测到。他们发现自己要在庞大的代码中搜寻这个变动，要改的模块数要远远超出最初估算，并且不断发现其他一些必须要记得做的更改。最后，改动所花费的时间比初始估算要长。当问他们为何估算得如此不准确时，他们会重复开发人员惯用的悲叹，“它比我想象的要复杂得多！”</p>
 <h3 id="2-Fragility（脆弱性）"><a href="#2-Fragility（脆弱性）" class="headerlink" title="2.Fragility（脆弱性）"></a>2.Fragility（脆弱性）</h3><p>脆弱性是指，在进行一个改动时，可能会导致程序的许多地方出现问题。常常是，出现新问题的地方与改动的地方并没有概念上的关联。要修正这些问题又会引出更多的问题，从而开发团队就像一只不停追逐自己尾巴的狗一样忙得团团转。</p>
 <p>随着模块脆弱性增加，改动会引出意想不到的问题的可能性就越来越大。这看起来很荒谬，但是这样的模块非常常见。这些模块需要不断地修补——它们从来不会从错误列表中去掉。开发人员知道需要对它进行重新设计，但是谁都不愿意去面对重新设计中的难以琢磨性，你越是修改它们，它们举变得越糟。</p>

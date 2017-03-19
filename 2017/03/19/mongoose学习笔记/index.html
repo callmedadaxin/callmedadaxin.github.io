@@ -1,0 +1,765 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="上手学习Mongoose,用来记录和梳理内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongoose学习笔记">
+<meta property="og:url" content="http://yoursite.com/2017/03/19/mongoose学习笔记/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="上手学习Mongoose,用来记录和梳理内容。">
+<meta property="og:updated_time" content="2017-03-19T15:22:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mongoose学习笔记">
+<meta name="twitter:description" content="上手学习Mongoose,用来记录和梳理内容。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/19/mongoose学习笔记/"/>
+
+  <title> mongoose学习笔记 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                mongoose学习笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-19T23:21:48+08:00" content="2017-03-19">
+              2017-03-19
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/03/19/mongoose学习笔记/" class="leancloud_visitors" data-flag-title="mongoose学习笔记">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>上手学习Mongoose,用来记录和梳理内容。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h2><h3 id="名词"><a href="#名词" class="headerlink" title="名词"></a>名词</h3><ul>
+<li>Schema: 一种以文件形式存储的数据库模型骨架，相当于表</li>
+<li>Model: 由Schema生成的模型，具有抽象属性和行为的数据库操作对</li>
+<li>Entity: 由Model创建的实体</li>
+</ul>
+<h3 id="开工"><a href="#开工" class="headerlink" title="开工"></a>开工</h3><h3 id="1-连接数据库"><a href="#1-连接数据库" class="headerlink" title="1.连接数据库"></a>1.连接数据库</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>);</div><div class="line"><span class="keyword">var</span> db = mongoose.createConnection(<span class="string">'localhost'</span>, <span class="string">'test'</span>);</div></pre></td></tr></table></figure>
+<h3 id="2-回调"><a href="#2-回调" class="headerlink" title="2.回调"></a>2.回调</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">db.on(<span class="string">'error'</span>, <span class="built_in">console</span>.error.bind(<span class="built_in">console</span>, <span class="string">'连接错误:'</span>));</div><div class="line"><span class="comment">//一次打开</span></div><div class="line">db.once(<span class="string">'open'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; ... &#125;)</div></pre></td></tr></table></figure>
+<h3 id="3-HelloWorld"><a href="#3-HelloWorld" class="headerlink" title="3.HelloWorld"></a>3.HelloWorld</h3><p>1.定义Schema</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建Schema并定义其属性及类型</span></div><div class="line"><span class="keyword">var</span> messageSchema = <span class="keyword">new</span> mongoose.Schema(&#123;</div><div class="line">  content: <span class="built_in">String</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>2.将Schema创建为Model</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//定义Schema索引为‘Message’</span></div><div class="line"><span class="keyword">var</span> messageModel = db.model(<span class="string">'Message'</span>, messageSchema);</div></pre></td></tr></table></figure>
+<p>3.创建Entity</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> messageEntity = <span class="keyword">new</span> messageModel(&#123;</div><div class="line">  content: <span class="string">'Hello World!'</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>4.CRUD操作</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">messageEntity.save(); <span class="comment">//插入数据库</span></div></pre></td></tr></table></figure>
+<p>5.使用Model进行查询</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">messageModel.find(<span class="function"><span class="keyword">function</span>(<span class="params">err, persons</span>)</span>&#123;</div><div class="line">  <span class="comment">//err承接错误</span></div><div class="line">  <span class="keyword">if</span>(err)&#123; <span class="built_in">console</span>.error(err);  <span class="keyword">return</span>; &#125;;  </div><div class="line">  ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h2><blockquote>
+<p>纯洁的数据库原型，我理解为相当于定义一张表</p>
+</blockquote>
+<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><h4 id="1-定义Schema"><a href="#1-定义Schema" class="headerlink" title="1.定义Schema"></a>1.定义Schema</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> personSchema = <span class="keyword">new</span> mongoose.Schema(&#123;</div><div class="line">  name: <span class="built_in">String</span>,</div><div class="line">  age: <span class="built_in">Number</span>,</div><div class="line">  ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h4 id="2-Type基本数据类型"><a href="#2-Type基本数据类型" class="headerlink" title="2.Type基本数据类型"></a>2.Type基本数据类型</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ExampleSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">  name:<span class="built_in">String</span>,</div><div class="line">  binary:Buffer,</div><div class="line">  living:<span class="built_in">Boolean</span>,</div><div class="line">  updated:<span class="built_in">Date</span>,</div><div class="line">  age:<span class="built_in">Number</span>,</div><div class="line">  mixed:Schema.Types.Mixed, <span class="comment">//该混合类型等同于nested</span></div><div class="line">  _id:Schema.Types.ObjectId,  <span class="comment">//主键</span></div><div class="line">  _fk:Schema.Types.ObjectId,  <span class="comment">//外键</span></div><div class="line">  array:[],</div><div class="line">  arrOfString:[<span class="built_in">String</span>],</div><div class="line">  arrOfNumber:[<span class="built_in">Number</span>],</div><div class="line">  arrOfDate:[<span class="built_in">Date</span>],</div><div class="line">  arrOfBuffer:[Buffer],</div><div class="line">  arrOfBoolean:[<span class="built_in">Boolean</span>],</div><div class="line">  arrOfMixed:[Schema.Types.Mixed],</div><div class="line">  arrOfObjectId:[Schema.Types.ObjectId]</div><div class="line">  nested:&#123;</div><div class="line">    stuff:<span class="built_in">String</span>,</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="3-Mixed"><a href="#3-Mixed" class="headerlink" title="3.Mixed"></a>3.Mixed</h4><p>没有特定约束的混合类型，可以任意修改</p>
+<p>一旦修改了原型，必须调用markModified()</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> personSchema = <span class="keyword">new</span> Schema(&#123; any: &#123;&#125; &#125;) <span class="comment">//or Schema.Types.Mixed</span></div><div class="line"></div><div class="line">person.any = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line">person.markModified(<span class="string">'any'</span>);</div><div class="line">person.save();</div></pre></td></tr></table></figure>
+<h4 id="4-Array"><a href="#4-Array" class="headerlink" title="4.Array"></a>4.Array</h4><p>Array在JavaScript编程语言中并不是数组，而是集合，因此里面可以存入不同的值，以下代码等价：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var ExampleSchema1 = new Schema(&#123;array:[]&#125;);</div><div class="line">var ExampleSchema2 = new Schema(&#123;array:Array&#125;);</div><div class="line">var ExampleSchema3 = new Schema(&#123;array:[Schema.Types.Mixed]&#125;);</div><div class="line">var ExampleSchema4 = new Schema(&#123;array:[&#123;&#125;]&#125;);</div></pre></td></tr></table></figure>
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><h4 id="1-实例方法"><a href="#1-实例方法" class="headerlink" title="1.实例方法"></a>1.实例方法</h4><p>提供共用方法，方便Entity使用。例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> PersonSchema = <span class="keyword">new</span> Schema(&#123;name:<span class="built_in">String</span>,type:<span class="built_in">String</span>&#125;);</div><div class="line"><span class="comment">//查询类似数据</span></div><div class="line">PersonSchema.methods.findSimilarTypes = <span class="function"><span class="keyword">function</span>(<span class="params">cb</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.model(<span class="string">'Person'</span>).find(&#123;type:<span class="keyword">this</span>.type&#125;,cb);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var PersonModel = db.model(&apos;Person&apos;, PersonSchema);</div><div class="line">var perter = new PersonModel(&#123;</div><div class="line">  name: &apos;Peter&apos;,</div><div class="line">  type: &apos;前端工程师&apos;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">perter.findSimilarTypes(function(err, persons)&#123;</div><div class="line">  //可查询到其他前端工程师</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h4 id="2-静态方法"><a href="#2-静态方法" class="headerlink" title="2.静态方法"></a>2.静态方法</h4><p>提供Model层使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">PersonSchema.statics.findByName = function(name, cb)&#123;</div><div class="line">  this.find(&#123; name: name &#125;, cb);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//找到所有name为&apos;Peter&apos;的人</div><div class="line">PersonModel.findByName(&apos;Peter&apos;, function(err, persons)&#123;...&#125;);</div></pre></td></tr></table></figure>
+<h4 id="3-索引"><a href="#3-索引" class="headerlink" title="3.索引"></a>3.索引</h4><p>更加高效，专门讲解</p>
+<h4 id="4-虚拟属性"><a href="#4-虚拟属性" class="headerlink" title="4.虚拟属性"></a>4.虚拟属性</h4><p>设置虚拟属性，方便操作，该属性不会被写入数据库<br>如：</p>
+<p>Schema中如果定义了虚拟属性，那么该属性将不写入数据库，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var PersonSchema = new Schema(&#123;</div><div class="line">  name:&#123;</div><div class="line">    first:String,</div><div class="line">    last:String</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">var PersonModel = mongoose.model(&apos;Person&apos;,PersonSchema);</div><div class="line">var krouky = new PersonModel(&#123;</div><div class="line">  name:&#123;first:&apos;krouky&apos;,last:&apos;han&apos;&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>如果每次想使用全名就得这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log(krouky.name.first + &apos; &apos; + krouky.name.last);</div></pre></td></tr></table></figure>
+<p>显然这是很麻烦的，我们可以定义虚拟属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">PersonSchema.virtual(&apos;name.full&apos;).get(function()&#123;</div><div class="line">  return this.name.first + &apos; &apos; + this.name.last;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">PersonSchema.virtual(&apos;name.full&apos;).set(function(name)&#123;</div><div class="line">  var split = name.split(&apos; &apos;);</div><div class="line">  this.name.first = split[0];</div><div class="line">  this.name.last = split[1];</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>那么就能用krouky.name.full来调用全名了，反之如果知道full，也可以反解first和last属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var PersonModel = mongoose.model(&apos;Person&apos;,PersonSchema);</div><div class="line">var krouky = new PersonModel(&#123;&#125;);</div><div class="line">krouky.name.full = &apos;krouky han&apos;;//会被自动分解</div><div class="line">console.log(krouky.name.first);//krouky</div></pre></td></tr></table></figure>
+<h2 id="CRUD"><a href="#CRUD" class="headerlink" title="CRUD"></a>CRUD</h2><h3 id="1-增"><a href="#1-增" class="headerlink" title="1.增"></a>1.增</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//使用Model新增</div><div class="line">PersonModel.create(&#123;name: &apos;Peter&apos;&#125;, cb);</div><div class="line"></div><div class="line">//使用Entity新增</div><div class="line">var perter = new PersonModel(&#123;name: &apos;Peter&apos;&#125;)；</div><div class="line">perter.save(cb);</div></pre></td></tr></table></figure>
+<h3 id="2-删"><a href="#2-删" class="headerlink" title="2.删"></a>2.删</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">perter.remove();</div></pre></td></tr></table></figure>
+<h3 id="3-改"><a href="#3-改" class="headerlink" title="3.改"></a>3.改</h3><p>1.使用entity修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">PersonModel.findById(id, function(err, person) &#123;</div><div class="line">  person.name = &apos;Marry&apos;;</div><div class="line">  person.save(cb);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>2.使用Model操作，需要将主键_id进行删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">PersonModel.findById(id, function(err, person)&#123;</div><div class="line">  person.name = &apos;Marry&apos;;</div><div class="line">  </div><div class="line">  var _id = person._id;</div><div class="line">  delete person._id;</div><div class="line">  </div><div class="line">  PersonModel.update(&#123;_id: _id&#125;, person, cb);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>3.$set</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PersonModel.update(&#123;_id:_id&#125;,&#123;$set:&#123;name:<span class="string">'MDragon'</span>&#125;&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">err</span>)</span>&#123;&#125;);</div></pre></td></tr></table></figure>
+<p>4.findByIdAndUpdate<br>5.findByIdAndRemove</p>
+<h3 id="4-查"><a href="#4-查" class="headerlink" title="4.查"></a>4.查</h3><p>1.普通查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PersonModel.findOne(&#123;&apos;name.last&apos;:&apos;dragon&apos;&#125;,&apos;some select&apos;,function(err,person)&#123;</div><div class="line">   </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>2.链式查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Person</div><div class="line">  .find(&#123; occupation: /host/ &#125;)</div><div class="line">  .where(&apos;name.last&apos;).equals(&apos;Ghost&apos;)</div><div class="line">  .where(&apos;age&apos;).gt(17).lt(66)</div><div class="line">  .where(&apos;likes&apos;).in([&apos;vaporizing&apos;, &apos;talking&apos;])</div><div class="line">  .limit(10)</div><div class="line">  .sort(&apos;-occupation&apos;)</div><div class="line">  .select(&apos;name occupation&apos;)</div><div class="line">  .exec(callback);</div></pre></td></tr></table></figure>
+<h2 id="验证器"><a href="#验证器" class="headerlink" title="验证器"></a>验证器</h2><ul>
+<li>required 非空验证</li>
+<li>min/max 范围验证（边值验证）</li>
+<li>enum/match 枚举验证/匹配验证</li>
+<li>validate 自定义验证规则</li>
+</ul>
+<p>以下是综合案例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">var PersonSchema = new Schema(&#123;</div><div class="line">  name:&#123;</div><div class="line">    type:&apos;String&apos;,</div><div class="line">    required:true //姓名非空</div><div class="line">  &#125;,</div><div class="line">  age:&#123;</div><div class="line">    type:&apos;Nunmer&apos;,</div><div class="line">    min:18,       //年龄最小18</div><div class="line">    max:120     //年龄最大120</div><div class="line">  &#125;,</div><div class="line">  city:&#123;</div><div class="line">    type:&apos;String&apos;,</div><div class="line">    enum:[&apos;北京&apos;,&apos;上海&apos;]  //只能是北京、上海人</div><div class="line">  &#125;,</div><div class="line">  other:&#123;</div><div class="line">    type:&apos;String&apos;,</div><div class="line">    validate:[validator,err]  //validator是一个验证函数，err是验证失败的错误信息</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>####7.2 验证失败</p>
+<p>如果验证失败，则会返回err信息，err是一个对象该对象属性如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">err.errors                //错误集合（对象）</div><div class="line">err.errors.color          //错误属性(Schema的color属性)</div><div class="line">err.errors.color.message  //错误属性信息</div><div class="line">err.errors.path             //错误属性路径</div><div class="line">err.errors.type             //错误类型</div><div class="line">err.name                //错误名称</div><div class="line">err.message                 //错误消息</div></pre></td></tr></table></figure>
+<p>一旦验证失败，Model和Entity都将具有和err一样的errors属性</p>
+<h2 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h2><p>一种控制函数，类似插件，能控制流程中的init、validate、save、remove方法</p>
+<h3 id="1-Serial串行中间件"><a href="#1-Serial串行中间件" class="headerlink" title="1.Serial串行中间件"></a>1.Serial串行中间件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var schema = new Schema(...);</div><div class="line">schema.pre(&apos;save&apos;,function(next)&#123;</div><div class="line">  //做点什么</div><div class="line">  next();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="2-Parallel并行中间件"><a href="#2-Parallel并行中间件" class="headerlink" title="2.Parallel并行中间件"></a>2.Parallel并行中间件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var schema = new Schema(...);</div><div class="line">schema.pre(&apos;save&apos;,function(next,done)&#123;</div><div class="line">  //下一个要执行的中间件并行执行</div><div class="line">  next();</div><div class="line">  doAsync(done);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="3-使用范畴"><a href="#3-使用范畴" class="headerlink" title="3.使用范畴"></a>3.使用范畴</h3><ul>
+<li>复杂的验证</li>
+<li>删除有主外关联的doc</li>
+<li>异步默认</li>
+<li>某个特定动作触发异步任务，例如触发自定义事件和通知</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/26/设计模式之-单一职责/" rel="next" title="设计模式之-单一职责&文件结构">
+                <i class="fa fa-chevron-left"></i> 设计模式之-单一职责&文件结构
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#起步"><span class="nav-number">1.</span> <span class="nav-text">起步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#名词"><span class="nav-number">1.1.</span> <span class="nav-text">名词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开工"><span class="nav-number">1.2.</span> <span class="nav-text">开工</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-连接数据库"><span class="nav-number">1.3.</span> <span class="nav-text">1.连接数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-回调"><span class="nav-number">1.4.</span> <span class="nav-text">2.回调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-HelloWorld"><span class="nav-number">1.5.</span> <span class="nav-text">3.HelloWorld</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Schema"><span class="nav-number">2.</span> <span class="nav-text">Schema</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础"><span class="nav-number">2.1.</span> <span class="nav-text">基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-定义Schema"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.定义Schema</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Type基本数据类型"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.Type基本数据类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Mixed"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.Mixed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Array"><span class="nav-number">2.1.4.</span> <span class="nav-text">4.Array</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">2.2.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-实例方法"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.实例方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-静态方法"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.静态方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-索引"><span class="nav-number">2.2.3.</span> <span class="nav-text">3.索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-虚拟属性"><span class="nav-number">2.2.4.</span> <span class="nav-text">4.虚拟属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CRUD"><span class="nav-number">3.</span> <span class="nav-text">CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-增"><span class="nav-number">3.1.</span> <span class="nav-text">1.增</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-删"><span class="nav-number">3.2.</span> <span class="nav-text">2.删</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-改"><span class="nav-number">3.3.</span> <span class="nav-text">3.改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-查"><span class="nav-number">3.4.</span> <span class="nav-text">4.查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证器"><span class="nav-number">4.</span> <span class="nav-text">验证器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件"><span class="nav-number">5.</span> <span class="nav-text">中间件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Serial串行中间件"><span class="nav-number">5.1.</span> <span class="nav-text">1.Serial串行中间件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Parallel并行中间件"><span class="nav-number">5.2.</span> <span class="nav-text">2.Parallel并行中间件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-使用范畴"><span class="nav-number">5.3.</span> <span class="nav-text">3.使用范畴</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

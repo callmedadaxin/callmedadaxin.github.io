@@ -1,0 +1,755 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="快到年终的时候做了一个以游戏形式展示的h5活动页，第一次尝试使用js写小游戏，很有趣的过程，很宝贵的经验。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次h5游戏">
+<meta property="og:url" content="http://yoursite.com/2017/03/27/记一次h5游戏/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="快到年终的时候做了一个以游戏形式展示的h5活动页，第一次尝试使用js写小游戏，很有趣的过程，很宝贵的经验。">
+<meta property="og:image" content="http://yoursite.com/images/game.gif">
+<meta property="og:image" content="http://yoursite.com/images/game_end.png">
+<meta property="og:image" content="http://yoursite.com/images/game_design.png">
+<meta property="og:image" content="http://yoursite.com/images/game_line.jpg">
+<meta property="og:image" content="http://yoursite.com/images/game_example.jpg">
+<meta property="og:updated_time" content="2017-03-27T15:20:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一次h5游戏">
+<meta name="twitter:description" content="快到年终的时候做了一个以游戏形式展示的h5活动页，第一次尝试使用js写小游戏，很有趣的过程，很宝贵的经验。">
+<meta name="twitter:image" content="http://yoursite.com/images/game.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/27/记一次h5游戏/"/>
+
+  <title> 记一次h5游戏 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                记一次h5游戏
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-27T23:01:08+08:00" content="2017-03-27">
+              2017-03-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/03/27/记一次h5游戏/" class="leancloud_visitors" data-flag-title="记一次h5游戏">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>快到年终的时候做了一个以游戏形式展示的h5活动页，第一次尝试使用js写小游戏，很有趣的过程，很宝贵的经验。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p>直接上个效果的gif图，游戏的一小部分效果，录出来有点卡<br><img src="/images/game.gif" alt="预览图"><br>结果页：<br><img src="/images/game_end.png" alt="结果页"></p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>产品妹子突然给我拉进来一个群，跟我们讲做了这么久的制作平台（用户制作手机主题的平台），我们是不是应该反馈给用户点什么东西，就像之前特别火的微信年终总结那样。总之就是要打动用户，要特别酷。说特别酷的时候她回头朝我微微一笑，微笑中带着一点点，嗯，杀意。<br>活动形式，展现方式，什么数据反正就是统统都没想好，整个过程中大家讨论的热火朝天。当时不知道我为啥脑子一热，跟她说了一句：“没事儿，搞吧，你能想出来我就给你做出来。”而我也因为这句话把自己置身于水深火热之中。。<br>讨论的结果就是大家的idea感觉都不是特别酷，又不好玩儿，干脆就做个游戏形式的吧！所有人都转头看向我，我想了想之前说的话，只吐出来一个字，“搞”。而内心中五味杂陈，“游戏？有意思啊？搞！没搞过啊？能搞定吗？搞！”。最终敲定，两周时间，游戏方式，展现用户在魔秀的点点滴滴。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>游戏的形式大概类似一个滑雪大冒险和赛车的结合，以赛车的形式进行伪3d效果的展现，滑雪大冒险的样式作为我们的主题，同时大家还给我们的游戏起了个酷炫的名字—-魔秀时光道。</p>
+<h3 id="游戏引擎"><a href="#游戏引擎" class="headerlink" title="游戏引擎"></a>游戏引擎</h3><p>游戏的展现形式确定后，直觉告诉我，想要将游戏快速稳定的呈现，免去图片加载控制，动画控制之类的复杂处理，我需要一个JS游戏引擎。最终在Egret\Phaser\PixiJS中选定了PixiJS,虽然不像Egret一样有完善的中文文档，但是它提供了清晰易懂的examples可快速上手，没有复杂的生态，简单的几行代码就可以用js实现我想要以下几点功能：</p>
+<h4 id="容器渲染及背景描绘"><a href="#容器渲染及背景描绘" class="headerlink" title="容器渲染及背景描绘"></a>容器渲染及背景描绘</h4><p>我需要定制整个画布的大小和背景，我需要使用不同的容器来承接不同的内容，并且灵活控制每个容器的属性：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//画布</span></div><div class="line"><span class="keyword">var</span> app = <span class="keyword">new</span> PIXI.Application(<span class="number">800</span>, <span class="number">600</span>, &#123;backgroundColor : <span class="number">0x1099bb</span>&#125;);</div><div class="line"><span class="built_in">document</span>.body.appendChild(app.view);</div><div class="line"></div><div class="line"><span class="comment">//定制container</span></div><div class="line"><span class="keyword">var</span> container = <span class="keyword">new</span> PIXI.Container();</div><div class="line"></div><div class="line">container.x = (app.renderer.width - container.width) / <span class="number">2</span>;</div><div class="line">container.y = (app.renderer.height - container.height) / <span class="number">2</span>;</div><div class="line"></div><div class="line">app.stage.addChild(container);</div></pre></td></tr></table></figure>
+<h4 id="图片加载及动画处理"><a href="#图片加载及动画处理" class="headerlink" title="图片加载及动画处理"></a>图片加载及动画处理</h4><p>大家都知道，使用canvas进行图片绘制的时候，需要确定图片已经成功加载，而游戏中有着大量的图片资源需要去维护，PixiJS已经为我们提供此项服务：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var bunny = PIXI.Sprite.fromImage('required/assets/basics/bunny.png’)；</div><div class="line"></div><div class="line">bunny.x = app.renderer.width / 2;</div><div class="line">bunny.y = app.renderer.height / 2;</div><div class="line"></div><div class="line">app.stage.addChild(bunny);</div></pre></td></tr></table></figure>
+<p>同时，我们需要一个动画控制器，来控制各Sprite的运动和重绘，而不是生硬的对各项属性进行重新修改：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">app.ticker.add(<span class="function"><span class="keyword">function</span>(<span class="params">delta</span>) </span>&#123;</div><div class="line">  bunny.rotation += <span class="number">0.1</span> * delta;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>需要注意的是，我们会发现，此处的Sprite动画控制，相当于添加了运动的动画队列，并且实现了类似transformjs的效果，可直接对实例的属性进行操作。而我在写项目的时候官方的例子是通过统一animate函数进行操作，通过requestAnimationFrame进行帧动画控制,更推荐新的方式而不是如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">animate</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  requestAnimationFrame(animate);</div><div class="line">  </div><div class="line">  bunny.rotation += <span class="number">1</span>;</div><div class="line">  renderer.render(stage);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h4><p>游戏最重要的部分相当于用户的交互了，也就是所谓的事件处理，为Sprite添加事件监听，很简单，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">//元素可点击</div><div class="line">sprite.interactive = true;</div><div class="line"></div><div class="line">//鼠标移入cursor</div><div class="line">sprite.buttonMode = true;</div><div class="line"></div><div class="line">sprite.on(&apos;click&apos;, onClick); // mouse-only</div><div class="line">prite.on(&apos;tap&apos;, onClick); // touch-only</div><div class="line"></div><div class="line">function onClick () &#123;</div><div class="line">  sprite.scale.x *= 1.25;</div><div class="line">  sprite.scale.y *= 1.25;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="设计图"><a href="#设计图" class="headerlink" title="设计图"></a>设计图</h3><p>设计图当然也是很重要的，决定了我们如何去实现这个游戏，当我拿到设计图的时候，他是长成这样的，我的内心是崩溃的。我能怎么样，我也很无奈呀~ 开搞吧！<br><img src="/images/game_design.png" alt="设计图"></p>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>根据以上，PixiJS已经基本满足我们的需求，也就是说，工具准备和素材准备已经都完成了。在动手书写之前，我们需要把实现思路想好，才能保证书写过程的清晰，避免不必要的麻烦。</p>
+<h3 id="背景滑动效果实现"><a href="#背景滑动效果实现" class="headerlink" title="背景滑动效果实现"></a>背景滑动效果实现</h3><p>就像我们平时玩儿赛车游戏一样，我们感觉赛车在跑道上进行比赛，实际上赛车只进行左右移动而已，而运动的则是背景，如何规划好路线，让背景按照既定的场景去运动，并展现不同的视角，特意向央美的同胞咨询了下，他们是用一个叫“摄像机”的东西实现的。对于我们来说，不需要那么复杂的场景，只需让背景像前规律的“平移”，造成“树动我不动”的视觉效果，同时我们利用“透视”的原理，让背景以“近大远小”的方式进行变化，就会产生一种low low的立体效果。</p>
+<p>关键词：透视 近大远小（偏移，大小，速度）</p>
+<h4 id="偏移路线"><a href="#偏移路线" class="headerlink" title="偏移路线"></a>偏移路线</h4><p>对于背景及物体的运动，大概路线规划如下：<br><img src="/images/game_line.jpg" alt="路线"></p>
+<p>确定视觉焦点后，我们只需随机生成物体出现的位置，计算出a,b相对固定，使其y进行相应速度的增加，x根据运动轨迹进行对应偏移，则可实现往近跑的效果。针对运动轨迹， 假设物体向下偏移距离为N，则对应水平针对中轴线的偏移为：<br><img src="/images/game_example.jpg" alt="路线"></p>
+<h4 id="大小"><a href="#大小" class="headerlink" title="大小"></a>大小</h4><p>同时，我们还需对物体进行近大远小的显示，这个比较简单，以焦点为0，页面最底端为1，进行对应比例放大即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">scale = (curY - startY) / ( endY - startY);</div><div class="line">```  </div><div class="line"></div><div class="line">#### 运动速度</div><div class="line">针对物体的运动速度，也应在远近有不同的体现。</div><div class="line"></div><div class="line">#### 背景树与碰撞物体的区别</div><div class="line">针对背景树，我们需在最初对所有的树进行展现，铺满两边背景。每列树对应的运动路线一致，可直接让其进行循环展示，当树运动到最底时，让其出现在最顶点。因此只需确定一共有几行几列树，并设定其边界，根据行列确定初始唯一并对其进行运动。同时，可以让树进行小范围的随机偏移，使树错落有致。如下所示：</div><div class="line"></div><div class="line">``` js</div><div class="line">export default function Tree (row, col, direction) &#123;</div><div class="line">  this.cfg = &#123;</div><div class="line">    direction: direction, //方向</div><div class="line">    col: col, //第几列</div><div class="line">    row: row, //第几行</div><div class="line">    MaxX: 440,</div><div class="line">    minY: 210,</div><div class="line">    maxY: 500,</div><div class="line">    range: 10 //坐标浮动范围</div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>而针对物体，则需要随机生成它的初始x坐标，并计算出其对于的路线进行运动，在运动过程中，进行碰撞检测，检测是否与人物进行相撞。</p>
+<h3 id="人物滑动实现"><a href="#人物滑动实现" class="headerlink" title="人物滑动实现"></a>人物滑动实现</h3><p>人物滑动的操作，用了最简单的实现方式：按钮。当用户点击不同方向时，让人物向对应方向进行偏移。同时，为了让人物滑动不僵硬，在左右滑动过程中，人也应该随着运动有对应角度的倾斜，就像我们平时玩儿滑雪拐弯时，会改变中心一样。思路如下：</p>
+<ol>
+<li>点击按钮时，改变方向</li>
+<li>运动时检测方向，若向左，则x减小，向右，则增加</li>
+<li>向右（左）运动时，人物对应rotation也进行增加（减小）</li>
+<li>松开手时，人物对应rotation慢慢恢复成0；</li>
+</ol>
+<h3 id="碰撞检测"><a href="#碰撞检测" class="headerlink" title="碰撞检测"></a>碰撞检测</h3><p>由于人物有吃东西的环节（不然这还叫什么游戏呢），因此碰撞检测肯定是必须的啦。我们可以通过两种方式进行碰撞检测</p>
+<ol>
+<li>人物检测碰撞物体，需实时遍历物体坐标列表，进行检测</li>
+<li>每个物体自身进行碰撞检测，检测自身与人物位置的对应差</li>
+</ol>
+<p>我很机智的选择了第二个，毕竟每个物体的位置都是实时变动的，而每次碰撞检测都进行一次循环的方法，太笨重啦。在这里我们设置碰撞检测的区域（宽高），在物体运动时，针对人物的x,y坐标，与自身的x,y坐标加减形成的四条边界进行比较即可，若进行碰撞，则进行对应的操作即可，如播放音频，得分+1等。</p>
+<h2 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h2><p>思路理清楚之后，后面的路就很明朗啦。接下来我们就可以着手设计下如何实现这个东西了，很显然，游戏中我们拥有许许多多的“角色”，使用“面向对象”的方式再好不过了。大概的划分如下</p>
+<ul>
+<li>stage   //舞台，进行基本场景渲染，游戏整体控制（开始，停止）等</li>
+<li>player //玩儿家，也就是对应的人物</li>
+<li>sprite //出现的物体，如蛋糕等，提供玩儿家吃。 包含碰撞检测等，会自己运动</li>
+<li>tree //因为tree自身会运动，所以每个tree为一个类</li>
+<li>score //进行分数控制及显示</li>
+<li>cfg.js //包含整体游戏配置</li>
+</ul>
+<h3 id="对象内部划分"><a href="#对象内部划分" class="headerlink" title="对象内部划分"></a>对象内部划分</h3><p>每个对象包含以下几点属性及功能：</p>
+<h4 id="1-对象配置"><a href="#1-对象配置" class="headerlink" title="1. 对象配置"></a>1. 对象配置</h4><p>每个对象包含其内部自身基本配置，包括位置，边界，图片等。直观，便于调试</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">People</span> (<span class="params">stage</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.cfg = &#123;</div><div class="line">    img: <span class="built_in">require</span>(<span class="string">'./img/people.png'</span>),</div><div class="line">    anchor: &#123;</div><div class="line">      x: <span class="number">0.5</span>,</div><div class="line">      y: <span class="number">0.5</span>,</div><div class="line">    &#125;,</div><div class="line">    position: &#123;</div><div class="line">      x: cfg.width / <span class="number">2</span>,</div><div class="line">      y: <span class="number">500</span></div><div class="line">    &#125;,</div><div class="line">    speed: <span class="number">5</span>,</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="2-其他方法"><a href="#2-其他方法" class="headerlink" title="2. 其他方法"></a>2. 其他方法</h4><p>每个对象都包含其自身方法，如下所示：</p>
+<ul>
+<li>render //进行图片等渲染</li>
+<li>animate //动画function</li>
+<li>init //一些初始化配置</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>通过以上思路的设计和结构的设计，我很快的将这个游戏实现了。。。没错，理清思路和结构的重要性就是这样。当然，在实现过程中，也有一些小的点可以记录下：</p>
+<h3 id="资源加载器（图片）"><a href="#资源加载器（图片）" class="headerlink" title="资源加载器（图片）"></a>资源加载器（图片）</h3><p>为了游戏的进行效果，还是决定在加载完所有资源（尤其是图片资源）后，才停止loading页面。如何判断所有内容都加载完毕了呢？写了个小loader</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pics = [</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./img/bg-start.png'</span>),</div><div class="line">  <span class="built_in">require</span>(<span class="string">'./img/btn-start.png'</span>),</div><div class="line">  ...</div><div class="line">];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImages</span> (<span class="params">pics, callback</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span>(pics.length) &#123;</div><div class="line">    <span class="keyword">var</span> img = <span class="keyword">new</span> Image(),</div><div class="line">      pic = pics.shift();</div><div class="line"></div><div class="line">    img.onload = callback;</div><div class="line">    img.src = pic;</div><div class="line">    loadImages(pics, callback);</div><div class="line">  &#125; <span class="keyword">else</span>&#123;</div><div class="line">    <span class="keyword">return</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  loadImages(pics, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!pics.length) &#123;</div><div class="line">      $(<span class="string">'.loading'</span>).hide();</div><div class="line">    &#125;;</div><div class="line">  &#125;)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="强制横屏"><a href="#强制横屏" class="headerlink" title="强制横屏"></a>强制横屏</h3><p>游戏是横屏展示的，那就强制横屏好啦。这个当时还纠结挺久，还是自己功底不扎实脑子走私了，还在想是监听resize事件还是旋转屏幕事件，都没有这些事儿啊好吗！直接让它旋转就好。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">if(window.orientation==180||window.orientation==0) &#123;</div><div class="line">  $(&apos;#main&apos;).height(winW);</div><div class="line">  $(&apos;#main&apos;).width(winH);</div><div class="line"></div><div class="line">  $(‘#main’).css(&#123;</div><div class="line">    &apos;transform&apos;: &apos;rotate(90deg)&apos;,</div><div class="line">  &#125;);</div><div class="line">&#125; else&#123;</div><div class="line">  $(‘#main’).css(&apos;transform&apos;, &apos;rotate(0)&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="timer控制"><a href="#timer控制" class="headerlink" title="timer控制"></a>timer控制</h3><p>理清思路后，最乱的还是各种定时器啦。 为了实现物体随机出现的效果，让每个物体随机多少秒后开始出现；最后一个物体出现完，多少秒后出现结束画面等等，需要理清楚各个定时器的关系，并对其添加<strong><em>语义化良好的标记</em></strong>，及时对未完结的定时器进行<strong><em>清除</em></strong>，防止定时器带来的意想不到的问题。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>最终游戏的效果基本让大家满意啦，也是第一次尝试这方面的开发，周围也完全没有做过这东西的人。从开始的忐忑和一无所措，到过程中理清思路和结构，到书写中的各种未知的坑，自己在这两周感觉经历了很充实的一件</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/19/mongoose学习笔记/" rel="next" title="mongoose学习笔记">
+                <i class="fa fa-chevron-left"></i> mongoose学习笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#效果图"><span class="nav-number">1.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">2.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">3.</span> <span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#游戏引擎"><span class="nav-number">3.1.</span> <span class="nav-text">游戏引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#容器渲染及背景描绘"><span class="nav-number">3.1.1.</span> <span class="nav-text">容器渲染及背景描绘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图片加载及动画处理"><span class="nav-number">3.1.2.</span> <span class="nav-text">图片加载及动画处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件处理"><span class="nav-number">3.1.3.</span> <span class="nav-text">事件处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计图"><span class="nav-number">3.2.</span> <span class="nav-text">设计图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现思路"><span class="nav-number">4.</span> <span class="nav-text">实现思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景滑动效果实现"><span class="nav-number">4.1.</span> <span class="nav-text">背景滑动效果实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#偏移路线"><span class="nav-number">4.1.1.</span> <span class="nav-text">偏移路线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大小"><span class="nav-number">4.1.2.</span> <span class="nav-text">大小</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#人物滑动实现"><span class="nav-number">4.2.</span> <span class="nav-text">人物滑动实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#碰撞检测"><span class="nav-number">4.3.</span> <span class="nav-text">碰撞检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构设计"><span class="nav-number">5.</span> <span class="nav-text">架构设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象内部划分"><span class="nav-number">5.1.</span> <span class="nav-text">对象内部划分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-对象配置"><span class="nav-number">5.1.1.</span> <span class="nav-text">1. 对象配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-其他方法"><span class="nav-number">5.1.2.</span> <span class="nav-text">2. 其他方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">6.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#资源加载器（图片）"><span class="nav-number">6.1.</span> <span class="nav-text">资源加载器（图片）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强制横屏"><span class="nav-number">6.2.</span> <span class="nav-text">强制横屏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#timer控制"><span class="nav-number">6.3.</span> <span class="nav-text">timer控制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">7.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

@@ -95,7 +95,7 @@
 <meta property="og:image" content="http://yoursite.com/images/game_design.png">
 <meta property="og:image" content="http://yoursite.com/images/game_line.jpg">
 <meta property="og:image" content="http://yoursite.com/images/game_example.jpg">
-<meta property="og:updated_time" content="2017-03-27T15:20:49.000Z">
+<meta property="og:updated_time" content="2017-03-27T15:31:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次h5游戏">
 <meta name="twitter:description" content="快到年终的时候做了一个以游戏形式展示的h5活动页，第一次尝试使用js写小游戏，很有趣的过程，很宝贵的经验。">
@@ -375,7 +375,7 @@
 <h3 id="强制横屏"><a href="#强制横屏" class="headerlink" title="强制横屏"></a>强制横屏</h3><p>游戏是横屏展示的，那就强制横屏好啦。这个当时还纠结挺久，还是自己功底不扎实脑子走私了，还在想是监听resize事件还是旋转屏幕事件，都没有这些事儿啊好吗！直接让它旋转就好。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">if(window.orientation==180||window.orientation==0) &#123;</div><div class="line">  $(&apos;#main&apos;).height(winW);</div><div class="line">  $(&apos;#main&apos;).width(winH);</div><div class="line"></div><div class="line">  $(‘#main’).css(&#123;</div><div class="line">    &apos;transform&apos;: &apos;rotate(90deg)&apos;,</div><div class="line">  &#125;);</div><div class="line">&#125; else&#123;</div><div class="line">  $(‘#main’).css(&apos;transform&apos;, &apos;rotate(0)&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="timer控制"><a href="#timer控制" class="headerlink" title="timer控制"></a>timer控制</h3><p>理清思路后，最乱的还是各种定时器啦。 为了实现物体随机出现的效果，让每个物体随机多少秒后开始出现；最后一个物体出现完，多少秒后出现结束画面等等，需要理清楚各个定时器的关系，并对其添加<strong><em>语义化良好的标记</em></strong>，及时对未完结的定时器进行<strong><em>清除</em></strong>，防止定时器带来的意想不到的问题。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>最终游戏的效果基本让大家满意啦，也是第一次尝试这方面的开发，周围也完全没有做过这东西的人。从开始的忐忑和一无所措，到过程中理清思路和结构，到书写中的各种未知的坑，自己在这两周感觉经历了很充实的一件</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>最终游戏的效果基本让大家满意啦，也是第一次尝试这方面的开发，周围也完全没有做过这东西的人。从开始的忐忑和一无所措，到过程中理清思路和结构，到书写中的各种未知的坑，自己在这两周感觉经历了很充实的一件事情。同时也对后续进行一些未知事物的探索和学习有了更丰富的经验，找对路子才是王道呀！</p>
 
       
     </div>

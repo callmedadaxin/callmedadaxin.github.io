@@ -84,12 +84,27 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="王卫新的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。相关代码放在github，会持续更新，欢迎赏个star。本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。
+
+最简单的watcher从开始接触Vue开始，我们便对它的“数据响应”赞叹不绝，那么我们首先，来实现一个最简单的watcher，来监听数据，以进行对应的操作，类似后续会涉及的dom操作等。
+Proxy我们都">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用ES6新特性实现简单的MVVM（1）--数据驱动">
+<meta property="og:url" content="http://yoursite.com/2017/07/25/使用ES6新特性实现简单的MVVM（1）-数据驱动/index.html">
 <meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。相关代码放在github，会持续更新，欢迎赏个star。本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。
+
+最简单的watcher从开始接触Vue开始，我们便对它的“数据响应”赞叹不绝，那么我们首先，来实现一个最简单的watcher，来监听数据，以进行对应的操作，类似后续会涉及的dom操作等。
+Proxy我们都">
+<meta property="og:image" content="http://oowxefv5q.bkt.clouddn.com/blog/mvvm/W.gif">
+<meta property="og:updated_time" content="2017-07-25T11:19:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="王卫新的博客">
+<meta name="twitter:title" content="使用ES6新特性实现简单的MVVM（1）--数据驱动">
+<meta name="twitter:description" content="尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。相关代码放在github，会持续更新，欢迎赏个star。本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。
+
+最简单的watcher从开始接触Vue开始，我们便对它的“数据响应”赞叹不绝，那么我们首先，来实现一个最简单的watcher，来监听数据，以进行对应的操作，类似后续会涉及的dom操作等。
+Proxy我们都">
+<meta name="twitter:image" content="http://oowxefv5q.bkt.clouddn.com/blog/mvvm/W.gif">
 
 
 
@@ -110,9 +125,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/25/使用ES6新特性实现简单的MVVM（1）-数据驱动/"/>
 
-  <title> 王卫新的博客 </title>
+  <title> 使用ES6新特性实现简单的MVVM（1）--数据驱动 | 王卫新的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -143,9 +158,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -232,9 +245,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -254,10 +267,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/07/25/使用ES6新特性实现简单的MVVM（1）-数据驱动/" itemprop="url">
-                  使用ES6新特性实现简单的MVVM（1）--数据驱动
-                </a>
+                使用ES6新特性实现简单的MVVM（1）--数据驱动
               
             
           </h1>
@@ -306,9 +316,7 @@
       
 
       
-        
-          
-            <blockquote>
+        <blockquote>
 <p>尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。<br>相关代码放在<a href="https://github.com/callmedadaxin/proxy-vue" target="_blank" rel="external">github</a>，会持续更新，欢迎赏个star。<br>本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。</p>
 </blockquote>
 <h2 id="最简单的watcher"><a href="#最简单的watcher" class="headerlink" title="最简单的watcher"></a>最简单的watcher</h2><p>从开始接触Vue开始，我们便对它的“数据响应”赞叹不绝，那么我们首先，来实现一个最简单的watcher，来监听数据，以进行对应的操作，类似后续会涉及的dom操作等。</p>
@@ -360,16 +368,20 @@
 </ul>
 <p>敬请期待！</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
@@ -377,1000 +389,32 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/04/16/qss-summary/" rel="next" title="使用Vue渲染可配置表单--记一次问卷平台项目">
+                <i class="fa fa-chevron-left"></i> 使用Vue渲染可配置表单--记一次问卷平台项目
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2017/04/16/qss-summary/" itemprop="url">
-                  使用Vue渲染可配置表单--记一次问卷平台项目
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-04-16T11:17:26+08:00" content="2017-04-16">
-              2017-04-16
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/04/16/qss-summary/" class="leancloud_visitors" data-flag-title="使用Vue渲染可配置表单--记一次问卷平台项目">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>近几天来了个紧急项目，想要做一个内部版本的问卷星。相当于可以编辑问卷并提供问卷展示，数据统计的这么一个平台。整个项目耗时不长，本着积淀和积累的原则，将过程中的思路和收获进行一下沉淀。由于公司原因，代码尚未开源。</p>
-<p>不过沉淀了个动态配置表单的尝试： <a href="https://github.com/callmedadaxin/custom-form">github</a>，用于后台快速开发表单等需求，搭配element-ui进行使用，同时可通过后台进行配置生成表单等。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/04/16/qss-summary/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/27/记一次h5游戏/" itemprop="url">
-                  记一次h5游戏
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-27T23:01:08+08:00" content="2017-03-27">
-              2017-03-27
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/03/27/记一次h5游戏/" class="leancloud_visitors" data-flag-title="记一次h5游戏">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>快到年终的时候做了一个以游戏形式展示的h5活动页，第一次尝试使用js写小游戏，很有趣的过程，很宝贵的经验。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/03/27/记一次h5游戏/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
           </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/19/mongoose学习笔记/" itemprop="url">
-                  mongoose学习笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-19T23:21:48+08:00" content="2017-03-19">
-              2017-03-19
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/03/19/mongoose学习笔记/" class="leancloud_visitors" data-flag-title="mongoose学习笔记">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <blockquote>
-<p>上手学习Mongoose,用来记录和梳理内容。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/03/19/mongoose学习笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/26/设计模式之-单一职责/" itemprop="url">
-                  设计模式之-单一职责&文件结构
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-26T15:19:44+08:00" content="2016-12-26">
-              2016-12-26
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/12/26/设计模式之-单一职责/" class="leancloud_visitors" data-flag-title="设计模式之-单一职责&文件结构">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>听了公司架构师的软件设计分享，以及最近对整体的代码结构设计与优化的一系列事件，赶紧动动笔头，记下来。本文章主要记录的分享内容以及我后面查阅的资料以及一些自己的理解。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/26/设计模式之-单一职责/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/22/常见兼容问题积累/" itemprop="url">
-                  常见兼容问题积累
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-22T12:08:49+08:00" content="2016-12-22">
-              2016-12-22
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/12/22/常见兼容问题积累/" class="leancloud_visitors" data-flag-title="常见兼容问题积累">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>常见兼容性问题积累</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/22/常见兼容问题积累/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/22/vue常见问题积累/" itemprop="url">
-                  vue常见问题积累
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-22T12:06:09+08:00" content="2016-12-22">
-              2016-12-22
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/12/22/vue常见问题积累/" class="leancloud_visitors" data-flag-title="vue常见问题积累">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>问题总结积累，便于快速查找</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/22/vue常见问题积累/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/01/dependencies/" itemprop="url">
-                  dependencies和devDependencies
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-01T17:25:02+08:00" content="2016-11-01">
-              2016-11-01
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/11/01/dependencies/" class="leancloud_visitors" data-flag-title="dependencies和devDependencies">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>在使用npm时，我们总能看到packjson里有dependencies和devDependencies</p>
-</blockquote>
-<ul>
-<li>dependencies 使用npm i module –save 安装</li>
-<li>devDependencies 使用 npm i module –save-dev 安装</li>
-</ul>
-<p><a href="https://github.com/ericdum/mujiang.info/issues/6/" target="_blank" rel="external">packagejson官方文档</a></p>
-<p>参考官方文档可以大概理解成</p>
-<ul>
-<li>dependencies 为生产环境所需依赖，不包含测试或过渡性依赖</li>
-<li>devDependencies 开发调试过程中集成测试等依赖</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/01/vue学习笔记之vue2-0/" itemprop="url">
-                  vue学习笔记之router2.0
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-01T16:57:55+08:00" content="2016-11-01">
-              2016-11-01
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/11/01/vue学习笔记之vue2-0/" class="leancloud_visitors" data-flag-title="vue学习笔记之router2.0">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>最近一直在搞ssr的东西，也没来的及看看router2.0和vuex2.0到底带来了什么变化，今天来具体尝试一下，边学边练，我们会实现具有以下功能的例子</p>
-</blockquote>
-<ul>
-<li>还有两级以上的嵌套路由</li>
-<li>控制路由跳转规则</li>
-<li>实现懒加载</li>
-</ul>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/11/01/vue学习笔记之vue2-0/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/24/Express-vue2-0-server-render/" itemprop="url">
-                  Express-vue2.0-server-render
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-24T15:13:04+08:00" content="2016-10-24">
-              2016-10-24
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/10/24/Express-vue2-0-server-render/" class="leancloud_visitors" data-flag-title="Express-vue2.0-server-render">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>#Vue2.0服务端渲染</p>
-<blockquote>
-<p>快速的过一遍Node搭建服务之后，今天我们终于可以看下如何进行vue服务端渲染啦。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/24/Express-vue2-0-server-render/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+  </div>
 
 
           </div>
@@ -1378,6 +422,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -1397,8 +445,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -1434,6 +491,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#最简单的watcher"><span class="nav-number">1.</span> <span class="nav-text">最简单的watcher</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Proxy"><span class="nav-number">1.1.</span> <span class="nav-text">Proxy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单的Dom操作"><span class="nav-number">2.</span> <span class="nav-text">简单的Dom操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拼接基础框架"><span class="nav-number">3.</span> <span class="nav-text">拼接基础框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化数据"><span class="nav-number">3.1.</span> <span class="nav-text">初始化数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新DOM"><span class="nav-number">3.2.</span> <span class="nav-text">更新DOM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绑定this"><span class="nav-number">3.3.</span> <span class="nav-text">绑定this</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">5.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -1537,6 +605,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

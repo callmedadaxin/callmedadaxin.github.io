@@ -84,26 +84,17 @@
 
 
 
-<meta name="description" content="尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。相关代码放在github，会持续更新，欢迎赏个star。本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。
-
-最简单的watcher从开始接触Vue开始，我们便对它的“数据响应”赞叹不绝，那么我们首先，来实现一个最简单的watcher，来监听数据，以进行对应的操作，类似后续会涉及的dom操作等。
-Proxy我们都">
+<meta name="description" content="尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。相关代码放在github，会持续更新，欢迎赏个star。本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用ES6新特性实现简单的MVVM（1）--数据驱动">
 <meta property="og:url" content="http://yoursite.com/2017/07/25/使用ES6新特性实现简单的MVVM（1）-数据驱动/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。相关代码放在github，会持续更新，欢迎赏个star。本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。
-
-最简单的watcher从开始接触Vue开始，我们便对它的“数据响应”赞叹不绝，那么我们首先，来实现一个最简单的watcher，来监听数据，以进行对应的操作，类似后续会涉及的dom操作等。
-Proxy我们都">
+<meta property="og:description" content="尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。相关代码放在github，会持续更新，欢迎赏个star。本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。">
 <meta property="og:image" content="http://oowxefv5q.bkt.clouddn.com/blog/mvvm/W.gif">
-<meta property="og:updated_time" content="2017-07-25T11:19:48.000Z">
+<meta property="og:updated_time" content="2017-07-25T11:21:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用ES6新特性实现简单的MVVM（1）--数据驱动">
-<meta name="twitter:description" content="尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。相关代码放在github，会持续更新，欢迎赏个star。本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。
-
-最简单的watcher从开始接触Vue开始，我们便对它的“数据响应”赞叹不绝，那么我们首先，来实现一个最简单的watcher，来监听数据，以进行对应的操作，类似后续会涉及的dom操作等。
-Proxy我们都">
+<meta name="twitter:description" content="尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。相关代码放在github，会持续更新，欢迎赏个star。本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。">
 <meta name="twitter:image" content="http://oowxefv5q.bkt.clouddn.com/blog/mvvm/W.gif">
 
 
@@ -319,6 +310,7 @@ Proxy我们都">
         <blockquote>
 <p>尝试使用es6新特性，自己来实现一个mvvm及vue的各种特性。<br>相关代码放在<a href="https://github.com/callmedadaxin/proxy-vue" target="_blank" rel="external">github</a>，会持续更新，欢迎赏个star。<br>本篇文章为系列文章的第一篇，会比较容易理解，后续会持续更新后面的记录。</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="最简单的watcher"><a href="#最简单的watcher" class="headerlink" title="最简单的watcher"></a>最简单的watcher</h2><p>从开始接触Vue开始，我们便对它的“数据响应”赞叹不绝，那么我们首先，来实现一个最简单的watcher，来监听数据，以进行对应的操作，类似后续会涉及的dom操作等。</p>
 <h3 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h3><p>我们都知道，Vue使用Object.defineProperty来进行数据监听，监听obj的get和set方法。在ES6中，Proxy可以拦截某些操作的默认行为，也就是对目标对象的访问进行拦截，过滤和改写。我们可以利用这个特性来实现对数据的监听：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">const watcher = (obj, fn) =&gt; &#123;</div><div class="line">  return new Proxy(obj, &#123;</div><div class="line">    get (target, prop, receiver) &#123;</div><div class="line">      return Reflect.get(target, prop, receiver)</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    set (target, prop, value) &#123;</div><div class="line">      const oldValue = Reflect.get(target, prop, receiver)</div><div class="line">      const return = Reflect.set(target, prop, value)</div><div class="line"></div><div class="line">      fn(value, oldValue)</div><div class="line"></div><div class="line">      return result</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>

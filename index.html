@@ -255,6 +255,159 @@
             
               
                 
+                <a class="post-title-link" href="/2017/08/01/观察者模式/" itemprop="url">
+                  观察者模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-08-01T14:49:54+08:00" content="2017-08-01">
+              2017-08-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/08/01/观察者模式/" class="leancloud_visitors" data-flag-title="观察者模式">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>观察者模式：一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。这个主题对象在状态发生变化时，会通知所有观察者对象，使其更新。</p>
+</blockquote>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li>替代传递回调函数</li>
+<li>对象之间的通知模式</li>
+</ul>
+<h2 id="关键"><a href="#关键" class="headerlink" title="关键"></a>关键</h2><ol>
+<li>发布者 </li>
+<li>发布者的缓存列表，用于缓存回调</li>
+<li>订阅消息</li>
+<li>发布消息，依次调用缓存回调</li>
+</ol>
+<h2 id="通用实现"><a href="#通用实现" class="headerlink" title="通用实现"></a>通用实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">var event = &#123;</div><div class="line">  eventList: new Map(),</div><div class="line">  listen (key, fn) &#123;</div><div class="line">    const &#123; eventList &#125; = this</div><div class="line"></div><div class="line">    if (!eventList.get(key)) &#123;</div><div class="line">      eventList.set(key, [])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    eventList.get(key).push(fn)</div><div class="line">  &#125;,</div><div class="line">  trigger (key, ...others) &#123;</div><div class="line">    const fns = this.eventList.get(key)</div><div class="line"></div><div class="line">    if (!fns || !fns.length) &#123;</div><div class="line">      return</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fns.forEach(fn =&gt; fn.apply(this, others))</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var installEvent = obj =&gt; Object.assign(obj, event)</div></pre></td></tr></table></figure>
+<h3 id="添加取消订阅"><a href="#添加取消订阅" class="headerlink" title="添加取消订阅"></a>添加取消订阅</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">event.remove = (key, fn) =&gt; &#123;</div><div class="line">    const &#123; eventList &#125; = this</div><div class="line">    const fns = eventList.get(key)</div><div class="line"></div><div class="line">    if (!fns) &#123;</div><div class="line">      return false</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (!fn) &#123;</div><div class="line">      return eventList.set(key, [])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fns.splice(fns.indexOf(fn), 1)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="实例，订阅登陆成功的事件"><a href="#实例，订阅登陆成功的事件" class="headerlink" title="实例，订阅登陆成功的事件"></a>实例，订阅登陆成功的事件</h2><ol>
+<li>登陆成功为异步</li>
+<li>成功后需要进行相应的刷新等处理，处理时不定的，可变的，后续可能会增加的</li>
+<li>使用回调会导致强耦合，每次新增模块后，这边都需要添加一个步骤</li>
+<li>让模块来订阅登陆成功事件即可</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">var login = installEvent(&#123;</div><div class="line">  goLogin () &#123;</div><div class="line">    $.ajax(&apos;url&apos;, res =&gt; &#123;</div><div class="line">      this.trigger(&apos;loginSuccess&apos;, res)</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">var header = (function () &#123;</div><div class="line">  login.listen(&apos;loginSuccess&apos;, header.setAvatar(res))</div><div class="line"></div><div class="line">  function setAvatar(res) &#123;</div><div class="line">    console.log(&apos;设置头像&apos;, res)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  return &#123;</div><div class="line">    setAvatar</div><div class="line">  &#125;</div><div class="line">&#125;)()</div></pre></td></tr></table></figure>
+<p>你不必再关注为登陆成功添加回调处理，只需添加登陆成功的订阅即可。</p>
+<h2 id="模块间通信"><a href="#模块间通信" class="headerlink" title="模块间通信"></a>模块间通信</h2><p>发布订阅模式可以让两模块保持封装的前提下进行通信。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var a = (function ()&#123;</div><div class="line">  Event.trigger(‘add’, 1)</div><div class="line">&#125;)()</div><div class="line"></div><div class="line">var b = (function ()&#123;</div><div class="line">  Event.listen(‘add’, val =&gt; console.log(val))</div><div class="line">&#125;)()</div></pre></td></tr></table></figure></p>
+<h2 id="离线消息，实现先发布，后订阅"><a href="#离线消息，实现先发布，后订阅" class="headerlink" title="离线消息，实现先发布，后订阅"></a>离线消息，实现先发布，后订阅</h2><p>通过离线消息栈来保存没有被订阅的但是发生了的事件，等到有人订阅再依次取出执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">Event.trigger = function (key, ...others) &#123;</div><div class="line">    const fns = this.eventList.get(key)</div><div class="line"></div><div class="line">    if (!fns || !fns.length) &#123;</div><div class="line">      // 若消息还没有被订阅，则先缓存起来</div><div class="line">      return this.offlineStack.push(&#123;</div><div class="line">        key,</div><div class="line">        args: others</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fns.forEach(fn =&gt; fn.apply(this, others))</div><div class="line">&#125;</div><div class="line"></div><div class="line">Event.listen = function (key, fn)&#123;</div><div class="line">    const &#123; eventList &#125; = this</div><div class="line"></div><div class="line">    if (!eventList.get(key)) &#123;</div><div class="line">      eventList.set(key, [])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    eventList.get(key).push(fn)</div><div class="line"></div><div class="line">    // 离线消息中有此事件，则触发消息,并删除缓存</div><div class="line">    this.offlineStack = this.offlineStack.filter(event =&gt; &#123;</div><div class="line">      if (key === event.key) &#123;</div><div class="line">        fn.apply(this, event.args)</div><div class="line"></div><div class="line">        return false</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      return true</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="其他语言实现"><a href="#其他语言实现" class="headerlink" title="其他语言实现"></a>其他语言实现</h2><h3 id="Subject-通知者"><a href="#Subject-通知者" class="headerlink" title="Subject 通知者"></a>Subject 通知者</h3><p>使用抽象类或者接口实现，包含以下属性和方法</p>
+<ol>
+<li>observer列表</li>
+<li>Attach 增加观察者</li>
+<li>Detach 删除观察者</li>
+<li>Notify 通知</li>
+</ol>
+<h3 id="Observer-观察者"><a href="#Observer-观察者" class="headerlink" title="Observer 观察者"></a>Observer 观察者</h3><p>在得到主题通知时更新自己。包含一个Update方法。</p>
+<p>可以看出来，不同于javascript，其他语言的观察者往往需要实现Update接口，假设是别人已经写好的，就会出现问题了。</p>
+<h3 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h3><p>针对观察者，我们可以将其Update方法改为各种不同的事件，并将其委托到Subject的Update方法上，当我们进行Notify时，调用Subject的Update方法，类似我们在js中，将回调事件替代update的方式。</p>
+<h2 id="推拉模型"><a href="#推拉模型" class="headerlink" title="推拉模型"></a>推拉模型</h2><p>推模型： 在事件发生时，发布者一次性把所有状态和数据都发送给观察者，类似在notify方法中直接调用我们的回调</p>
+<p>拉模型： 在事件发生时，发布者只对观察者进行状态更新，让观察者自行实现自己的update方法。</p>
+<p>我们可以根据实际的需求，按照自己所需进行实现。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>优点：</p>
+<ol>
+<li>替代异步回调，时间解耦</li>
+<li>对象解耦，模块通信</li>
+</ol>
+<p>可广泛使用到MVC或者MVVM中</p>
+<p>缺点：</p>
+<ol>
+<li>时间和内存消耗</li>
+<li>过渡使用，容易搞不清对象间的联系，不易追踪bug</li>
+</ol>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>《JavaScript设计模式与开发实践》<br>《大话设计模式》</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/27/译-5分钟介绍Styled-Components/" itemprop="url">
                   [译]5分钟介绍Styled Components
                 </a>
@@ -1204,118 +1357,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/01/vue学习笔记之vue2-0/" itemprop="url">
-                  vue学习笔记之router2.0
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-01T16:57:55+08:00" content="2016-11-01">
-              2016-11-01
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/11/01/vue学习笔记之vue2-0/" class="leancloud_visitors" data-flag-title="vue学习笔记之router2.0">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>最近一直在搞ssr的东西，也没来的及看看router2.0和vuex2.0到底带来了什么变化，今天来具体尝试一下，边学边练，我们会实现具有以下功能的例子</p>
-</blockquote>
-<ul>
-<li>还有两级以上的嵌套路由</li>
-<li>控制路由跳转规则</li>
-<li>实现懒加载</li>
-</ul>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/11/01/vue学习笔记之vue2-0/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1361,7 +1402,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

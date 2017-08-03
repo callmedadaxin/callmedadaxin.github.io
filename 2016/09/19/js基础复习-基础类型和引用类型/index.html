@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JavaScript," />
 
 
 
@@ -99,7 +99,7 @@
 基本类型：按值访问,可以操作保存在变量中的实际的值。
 引用类型：值是保存在内存中的对象。JavaScript不允许直接访问内存中的位置, 也就是说不能直接操作对象的内存空间，而是操作对象的引用。">
 <meta property="og:image" content="http://yoursite.com/images/zuoyongyu.png">
-<meta property="og:updated_time" content="2016-09-19T06:13:04.000Z">
+<meta property="og:updated_time" content="2017-08-03T10:16:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js基础复习--引用类型">
 <meta name="twitter:description" content="最近开始重新复习js基础知识，巩固自己的基本技能，重看高程三~在这里做下笔记
@@ -288,6 +288,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -335,7 +354,7 @@
 <h4 id="3-传参"><a href="#3-传参" class="headerlink" title="3.传参"></a>3.传参</h4><p>ECMAScript 中所有函数的参数都是按值传递的。基本类型将值赋给形参，而引用类型会把 这个值在内存中的地址复制给形参，效果和复制相似。形参接收到的，是传入的对象的引用。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//基本类型</span></div><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">change</span> (<span class="params">x</span>)</span>&#123;</div><div class="line">  x = <span class="number">2</span>;</div><div class="line">  <span class="keyword">return</span> x;</div><div class="line">&#125;</div><div class="line"></div><div class="line">change(a);</div><div class="line"><span class="built_in">console</span>.log(change(a)) <span class="comment">// 2;</span></div><div class="line"><span class="built_in">console</span>.log(a) <span class="comment">// 1;</span></div><div class="line"></div><div class="line"><span class="comment">//引用类型</span></div><div class="line"><span class="keyword">var</span> a = &#123;&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeObj</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">  <span class="comment">//原始引用</span></div><div class="line">  obj.b = <span class="number">2</span>;</div><div class="line">  </div><div class="line">  <span class="comment">//新的引用</span></div><div class="line">  obj = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">  obj.b = <span class="number">3</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(a.b); <span class="comment">//=&gt; 2;</span></div></pre></td></tr></table></figure>
 <h3 id="执行环境及作用域"><a href="#执行环境及作用域" class="headerlink" title="执行环境及作用域"></a>执行环境及作用域</h3><h4 id="1-作用域链"><a href="#1-作用域链" class="headerlink" title="1.作用域链"></a>1.作用域链</h4><p>每个执行环境都有一个与之关联的<strong><em>变量对象</em></strong>，js以函数区分执行环境，通过<strong><em>作用域链</em></strong>保证对执行环境有权访问的所有变量和函数的有序访问。看下书中的例子：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> anotherColor = <span class="string">"red"</span>;</div><div class="line">  </div><div class="line">  </div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">swapColors</span>(<span class="params"></span>)</span>&#123;    <span class="keyword">var</span> tempColor = anotherColor;</div><div class="line">    </div><div class="line">    </div><div class="line">    anotherColor = color;</div><div class="line">    color = tempColor;</div><div class="line">    <span class="comment">// 这里可以访问color、anotherColor和tempColor </span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 这里可以访问color和anotherColor,但不能访问tempColor</span>  swapColors();&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// 这里只能访问color</span></div><div class="line"> </div><div class="line">changeColor();</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> anotherColor = <span class="string">"red"</span>;</div><div class="line">  </div><div class="line">  </div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">swapColors</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> tempColor = anotherColor;</div><div class="line">    </div><div class="line">    </div><div class="line">    anotherColor = color;</div><div class="line">    color = tempColor;</div><div class="line">    <span class="comment">// 这里可以访问color、anotherColor和tempColor </span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 这里可以访问color和anotherColor,但不能访问tempColor</span></div><div class="line">  swapColors();</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// 这里只能访问color</span></div><div class="line"> </div><div class="line">changeColor();</div></pre></td></tr></table></figure>
 <p><img src="/images/zuoyongyu.png" alt="作用域链"></p>
 <p><strong><em>注意</em></strong><br>对于try,catch,with等可以延长作用域链</p>
 <h4 id="2-没有块级作用域"><a href="#2-没有块级作用域" class="headerlink" title="2.没有块级作用域"></a>2.没有块级作用域</h4><p>在ES5中，是没有块级作用域的，像这样：</p>
@@ -368,6 +387,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
       
 
       
@@ -458,7 +483,21 @@
           </div>
 
           
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>

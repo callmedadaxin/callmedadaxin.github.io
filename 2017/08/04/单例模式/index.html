@@ -86,29 +86,20 @@
 
 <meta name="description" content="单例模式
 
-保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。
-
-基本实现使用getInstance 来创建类，并缓存实例
-12345678910111213class Singleton &amp;#123;  constructor (name)&amp;#123;    this.name = name  &amp;#125;&amp;#125;Singleton.getInst">
+保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="单例模式">
 <meta property="og:url" content="http://yoursite.com/2017/08/04/单例模式/index.html">
 <meta property="og:site_name" content="王卫新的博客">
 <meta property="og:description" content="单例模式
 
-保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。
-
-基本实现使用getInstance 来创建类，并缓存实例
-12345678910111213class Singleton &amp;#123;  constructor (name)&amp;#123;    this.name = name  &amp;#125;&amp;#125;Singleton.getInst">
-<meta property="og:updated_time" content="2017-08-04T11:27:53.000Z">
+保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。">
+<meta property="og:updated_time" content="2017-08-04T11:30:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式">
 <meta name="twitter:description" content="单例模式
 
-保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。
-
-基本实现使用getInstance 来创建类，并缓存实例
-12345678910111213class Singleton &amp;#123;  constructor (name)&amp;#123;    this.name = name  &amp;#125;&amp;#125;Singleton.getInst">
+保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。">
 
 
 
@@ -343,6 +334,7 @@
 <blockquote>
 <p>保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="基本实现"><a href="#基本实现" class="headerlink" title="基本实现"></a>基本实现</h2><p>使用getInstance 来创建类，并缓存实例</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class Singleton &#123;</div><div class="line">  constructor (name)&#123;</div><div class="line">    this.name = name</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Singleton.getInstance = (function ()&#123;</div><div class="line">  let instance = null</div><div class="line"></div><div class="line">  return name =&gt; &#123;</div><div class="line">    return instance || (instance = new Singleton(name))</div><div class="line">  &#125;</div><div class="line">&#125;)()</div></pre></td></tr></table></figure>
 <h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>

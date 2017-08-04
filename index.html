@@ -255,6 +255,155 @@
             
               
                 
+                <a class="post-title-link" href="/2017/08/04/单例模式/" itemprop="url">
+                  单例模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-08-04T19:27:14+08:00" content="2017-08-04">
+              2017-08-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/08/04/单例模式/" class="leancloud_visitors" data-flag-title="单例模式">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>单例模式</p>
+<blockquote>
+<p>保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。</p>
+</blockquote>
+<h2 id="基本实现"><a href="#基本实现" class="headerlink" title="基本实现"></a>基本实现</h2><p>使用getInstance 来创建类，并缓存实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class Singleton &#123;</div><div class="line">  constructor (name)&#123;</div><div class="line">    this.name = name</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Singleton.getInstance = (function ()&#123;</div><div class="line">  let instance = null</div><div class="line"></div><div class="line">  return name =&gt; &#123;</div><div class="line">    return instance || (instance = new Singleton(name))</div><div class="line">  &#125;</div><div class="line">&#125;)()</div></pre></td></tr></table></figure>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>不透明，我们需要知道该实例有getInstance方法，否则不会这样创建实例</li>
+<li>不通用，总要重写getInstance方法</li>
+</ul>
+<h2 id="透明单例"><a href="#透明单例" class="headerlink" title="透明单例"></a>透明单例</h2><p>使用闭包缓存实例，在构造函数中判断</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">const Singleton = (function ()&#123;</div><div class="line">  let instance = null</div><div class="line">  return class BaseSingle &#123;</div><div class="line">    constructor(name)&#123;</div><div class="line">      this.name = name</div><div class="line">      return instance || (instance = this)</div><div class="line">    &#125;</div><div class="line">  &#125; </div><div class="line">&#125;)()</div><div class="line"></div><div class="line">var b = new Singleton(&apos;wwe&apos;)</div><div class="line">var c = new Singleton(&apos;wwx’)</div><div class="line"></div><div class="line">b === c // true</div></pre></td></tr></table></figure>
+<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>对远构造函数进行修改，且构造函数不符合单一功能原则，做了多件事</li>
+<li>闭包看起来很难受</li>
+</ul>
+<h2 id="代理实现"><a href="#代理实现" class="headerlink" title="代理实现"></a>代理实现</h2><p>使用新的函数代理实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">const proxySingle = (function ()&#123;</div><div class="line">  ler instance</div><div class="line">  </div><div class="line">  return function()&#123;</div><div class="line">    return instance || (instance = new Singleton())</div><div class="line">  &#125;</div><div class="line">&#125;)()</div></pre></td></tr></table></figure>
+<h2 id="decorator实现"><a href="#decorator实现" class="headerlink" title="decorator实现"></a>decorator实现</h2><p>这种东西，是不是可以用decorator来实现一下？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 单例模式，实例仅能被创建一次</div><div class="line"> * @param  &#123;class&#125; Target 目标class</div><div class="line"> */</div><div class="line">export default Target =&gt; &#123;</div><div class="line">  let instance</div><div class="line">  return function (...args) &#123;</div><div class="line">    return instance || (instance = new Target(...args))</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">@single</div><div class="line">class Test &#123;</div><div class="line">  constructor (name) &#123;</div><div class="line">    this.name = name</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  show () &#123;</div><div class="line">    console.log(this.name)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">const a = new Test(&apos;hello&apos;)</div><div class="line">const b = new Test(&apos;222&apos;)</div><div class="line"></div><div class="line">console.log(a === b)</div></pre></td></tr></table></figure>
+<h2 id="惰性单利"><a href="#惰性单利" class="headerlink" title="惰性单利"></a>惰性单利</h2><p>惰性浮窗，只有在点击时，才创建浮窗<br>避免全局的浮窗，但是确保访问的都是同一浮窗。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">function single (fn) &#123;</div><div class="line">  let result</div><div class="line">  </div><div class="line">  return function(…args) &#123;</div><div class="line">    result || (result = fn.apply(this, args))</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$(‘button’).on(‘click’, function()&#123;</div><div class="line">  // 创建实例</div><div class="line">  var div = single(function() &#123;</div><div class="line">    var div = document.createElement(‘div’)</div><div class="line">    div.innerHTML = ‘弹框’</div><div class="line">    document.body.appendChild(div)</div><div class="line">    return div</div><div class="line">  &#125;)</div><div class="line">  </div><div class="line">  // 管理实例</div><div class="line">  div.style.display = ‘block’</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>decorator:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/**</div><div class="line"> * 惰性单例</div><div class="line"> */</div><div class="line">export const getSingle = (target, name, descriptor) =&gt; &#123;</div><div class="line">  let result,</div><div class="line">    fn = descriptor.value</div><div class="line"></div><div class="line">  descriptor.value = function (...args) &#123;</div><div class="line">    return result || (result = fn.apply(this, args))</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  return descriptor</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="其他方法实现"><a href="#其他方法实现" class="headerlink" title="其他方法实现"></a>其他方法实现</h2><h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>所有类都有构造方法，若显示定义构造方法，默认的构造方法就会失效。</p>
+<p>所以说，将构造方法设置为private,外部程序就不能通过new来实例化了。</p>
+<p>然后我们通过public的getInstance方法来维护实例被创建的次数并返回实例。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>单例模式非常常用，原理也很简单。总的来说，单例模式就是我们在创建对象时，希望该对象只可以被实例化一次，并且维护其只能进行一次实例化的工作不应该由用户进行，需要通过其本身或者代理方式进行。<br>以后在进行代码书写的时候，应该更多的考虑下，少写“bad smell”的代码</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/08/03/译-关键请求/" itemprop="url">
                   译-关键请求
                 </a>
@@ -1365,137 +1514,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/22/vue常见问题积累/" itemprop="url">
-                  vue常见问题积累
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-22T12:06:09+08:00" content="2016-12-22">
-              2016-12-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/12/22/vue常见问题积累/" class="leancloud_visitors" data-flag-title="vue常见问题积累">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>问题总结积累，便于快速查找</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/22/vue常见问题积累/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1536,7 +1559,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-count">31</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

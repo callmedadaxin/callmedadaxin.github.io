@@ -84,22 +84,16 @@
 
 
 
-<meta name="description" content="单例模式
-
-保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。">
+<meta name="description" content="保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="单例模式">
 <meta property="og:url" content="http://yoursite.com/2017/08/04/单例模式/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="单例模式
-
-保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。">
-<meta property="og:updated_time" content="2017-08-04T11:30:23.000Z">
+<meta property="og:description" content="保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。">
+<meta property="og:updated_time" content="2017-08-04T11:32:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式">
-<meta name="twitter:description" content="单例模式
-
-保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。">
+<meta name="twitter:description" content="保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。">
 
 
 
@@ -330,8 +324,7 @@
       
 
       
-        <p>单例模式</p>
-<blockquote>
+        <blockquote>
 <p>保证一个类只有一个实例，并可以进行全局访问。例如，唯一的登陆Modal等，都适用单例模式实现。</p>
 </blockquote>
 <a id="more"></a>
@@ -355,7 +348,7 @@
 <h2 id="惰性单利"><a href="#惰性单利" class="headerlink" title="惰性单利"></a>惰性单利</h2><p>惰性浮窗，只有在点击时，才创建浮窗<br>避免全局的浮窗，但是确保访问的都是同一浮窗。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">function single (fn) &#123;</div><div class="line">  let result</div><div class="line">  </div><div class="line">  return function(…args) &#123;</div><div class="line">    result || (result = fn.apply(this, args))</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$(‘button’).on(‘click’, function()&#123;</div><div class="line">  // 创建实例</div><div class="line">  var div = single(function() &#123;</div><div class="line">    var div = document.createElement(‘div’)</div><div class="line">    div.innerHTML = ‘弹框’</div><div class="line">    document.body.appendChild(div)</div><div class="line">    return div</div><div class="line">  &#125;)</div><div class="line">  </div><div class="line">  // 管理实例</div><div class="line">  div.style.display = ‘block’</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
 <p>decorator:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/**</div><div class="line"> * 惰性单例</div><div class="line"> */</div><div class="line">export const getSingle = (target, name, descriptor) =&gt; &#123;</div><div class="line">  let result,</div><div class="line">    fn = descriptor.value</div><div class="line"></div><div class="line">  descriptor.value = function (...args) &#123;</div><div class="line">    return result || (result = fn.apply(this, args))</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  return descriptor</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="其他方法实现"><a href="#其他方法实现" class="headerlink" title="其他方法实现"></a>其他方法实现</h2><h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>所有类都有构造方法，若显示定义构造方法，默认的构造方法就会失效。</p>
+<h2 id="其他语言实现"><a href="#其他语言实现" class="headerlink" title="其他语言实现"></a>其他语言实现</h2><h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>所有类都有构造方法，若显示定义构造方法，默认的构造方法就会失效。</p>
 <p>所以说，将构造方法设置为private,外部程序就不能通过new来实例化了。</p>
 <p>然后我们通过public的getInstance方法来维护实例被创建的次数并返回实例。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>单例模式非常常用，原理也很简单。总的来说，单例模式就是我们在创建对象时，希望该对象只可以被实例化一次，并且维护其只能进行一次实例化的工作不应该由用户进行，需要通过其本身或者代理方式进行。<br>以后在进行代码书写的时候，应该更多的考虑下，少写“bad smell”的代码</p>
@@ -397,6 +390,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/09/策略模式/" rel="prev" title="策略模式">
+                策略模式 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -464,7 +461,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-count">32</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -510,7 +507,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本实现"><span class="nav-number">1.</span> <span class="nav-text">基本实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.1.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#透明单例"><span class="nav-number">2.</span> <span class="nav-text">透明单例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-1"><span class="nav-number">2.1.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理实现"><span class="nav-number">3.</span> <span class="nav-text">代理实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decorator实现"><span class="nav-number">4.</span> <span class="nav-text">decorator实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#惰性单利"><span class="nav-number">5.</span> <span class="nav-text">惰性单利</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他方法实现"><span class="nav-number">6.</span> <span class="nav-text">其他方法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现原理"><span class="nav-number">6.1.</span> <span class="nav-text">实现原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本实现"><span class="nav-number">1.</span> <span class="nav-text">基本实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.1.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#透明单例"><span class="nav-number">2.</span> <span class="nav-text">透明单例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-1"><span class="nav-number">2.1.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理实现"><span class="nav-number">3.</span> <span class="nav-text">代理实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decorator实现"><span class="nav-number">4.</span> <span class="nav-text">decorator实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#惰性单利"><span class="nav-number">5.</span> <span class="nav-text">惰性单利</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他语言实现"><span class="nav-number">6.</span> <span class="nav-text">其他语言实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现原理"><span class="nav-number">6.1.</span> <span class="nav-text">实现原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
           </div>
         </section>

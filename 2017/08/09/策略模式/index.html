@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS," />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -84,20 +84,25 @@
 
 
 
-<meta name="description" content="一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。">
+<meta name="description" content="定义一系列算法，把它们封装起来，并且使它们可以相互替换。其至少有两部分组成
+
+策略类，负责各个具体的算法，负责具体计算过程
+环境类Context, 接收用户请求，负责委托给策略类">
 <meta property="og:type" content="article">
-<meta property="og:title" content="flexbox">
-<meta property="og:url" content="http://yoursite.com/2016/09/23/flexbox/index.html">
+<meta property="og:title" content="策略模式">
+<meta property="og:url" content="http://yoursite.com/2017/08/09/策略模式/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。">
-<meta property="og:image" content="http://yoursite.com/images/center.png">
-<meta property="og:image" content="http://yoursite.com/images/center2.png">
-<meta property="og:image" content="http://yoursite.com/images/center3.png">
-<meta property="og:updated_time" content="2017-08-03T10:16:14.000Z">
+<meta property="og:description" content="定义一系列算法，把它们封装起来，并且使它们可以相互替换。其至少有两部分组成
+
+策略类，负责各个具体的算法，负责具体计算过程
+环境类Context, 接收用户请求，负责委托给策略类">
+<meta property="og:updated_time" content="2017-08-09T06:24:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="flexbox">
-<meta name="twitter:description" content="一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。">
-<meta name="twitter:image" content="http://yoursite.com/images/center.png">
+<meta name="twitter:title" content="策略模式">
+<meta name="twitter:description" content="定义一系列算法，把它们封装起来，并且使它们可以相互替换。其至少有两部分组成
+
+策略类，负责各个具体的算法，负责具体计算过程
+环境类Context, 接收用户请求，负责委托给策略类">
 
 
 
@@ -118,9 +123,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/09/23/flexbox/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/09/策略模式/"/>
 
-  <title> flexbox | 王卫新的博客 </title>
+  <title> 策略模式 | 王卫新的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -260,7 +265,7 @@
             
             
               
-                flexbox
+                策略模式
               
             
           </h1>
@@ -272,8 +277,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-23T16:27:00+08:00" content="2016-09-23">
-              2016-09-23
+            <time itemprop="dateCreated" datetime="2017-08-09T14:23:15+08:00" content="2017-08-09">
+              2017-08-09
             </time>
           </span>
 
@@ -306,7 +311,7 @@
 
           
           
-             <span id="/2016/09/23/flexbox/" class="leancloud_visitors" data-flag-title="flexbox">
+             <span id="/2017/08/09/策略模式/" class="leancloud_visitors" data-flag-title="策略模式">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -329,102 +334,35 @@
 
       
         <blockquote>
-<p>一年前学css3的时候就感觉flex-box非常好用，但是并没有对其进行深入研究以及对其抱有兼容性的担忧，导致一直未进行使用。最近感觉flexbox突然很常见了，赶紧学习下不能太老土。<br><a id="more"></a></p>
+<p>定义一系列算法，把它们封装起来，并且使它们可以相互替换。其至少有两部分组成</p>
+<ul>
+<li>策略类，负责各个具体的算法，负责具体计算过程</li>
+<li>环境类Context, 接收用户请求，负责委托给策略类</li>
+</ul>
 </blockquote>
-<h3 id="Flex布局是什么"><a href="#Flex布局是什么" class="headerlink" title="Flex布局是什么"></a>Flex布局是什么</h3><p>由其名称我们可以看出来，“弹性盒子模型”，恩，听名字就很灵活好用。看看如何使用：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">.box&#123; display: flex; &#125;</div><div class="line"></div><div class="line">//内联元素</div><div class="line">.inline-box&#123; display: inline-flex; &#125;</div></pre></td></tr></table></figure>
-<p><strong><em>注意</em></strong><br>设置flex后，子元素的float、clear和vertical-align属性将失效。</p>
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>flex的语法比较复杂，我们总结下：<br>其主要包括两部分，<strong><em>容器</em></strong> 和 <strong><em>元素</em></strong>，容器负责整个容器，包括排列方式，等的设置。元素主要为容器内部的内容，主要包括元素的顺序，缩放等元素自身的属性。</p>
-<h4 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h4><table>
-<thead>
-<tr>
-<th>属性</th>
-<th style="text-align:right">功能</th>
-<th style="text-align:right">值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>flex-direction</td>
-<td style="text-align:right">元素排列方向</td>
-<td style="text-align:right">row 水平顺序， row-reverse 水平倒序， column 垂直顺序， column-reverse 垂直倒叙</td>
-</tr>
-<tr>
-<td>flex-wrap</td>
-<td style="text-align:right">类似文字white-space 控制元素超出换行</td>
-<td style="text-align:right">nowrap 不换行，文字会压缩；wrap 换行，顺序 wrap-reverse 换行 行序倒序</td>
-</tr>
-<tr>
-<td>flex-flow</td>
-<td style="text-align:right">flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。</td>
-<td style="text-align:right">-</td>
-</tr>
-<tr>
-<td>justify-content</td>
-<td style="text-align:right">元素的水平对齐方式</td>
-<td style="text-align:right">flex-start，flex-end，center，space-between两端对齐，间隔相等，space-around：每个项目两侧的间隔相等</td>
-</tr>
-<tr>
-<td>align-items</td>
-<td style="text-align:right">单行垂直对齐方式</td>
-<td style="text-align:right">flex-start,flex-end, center, baseline, stretch:拉伸</td>
-</tr>
-<tr>
-<td>align-content</td>
-<td style="text-align:right">多行垂直对齐方式</td>
-<td style="text-align:right">flex-start， flex-end， center ，space-between ，space-around ， stretch</td>
-</tr>
-</tbody>
-</table>
-<h4 id="元素"><a href="#元素" class="headerlink" title="元素"></a>元素</h4><table>
-<thead>
-<tr>
-<th>属性</th>
-<th style="text-align:right">功能</th>
-<th style="text-align:right">值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>order</td>
-<td style="text-align:right">规定顺序，数值越小越靠前</td>
-<td style="text-align:right">0，1，2…</td>
-</tr>
-<tr>
-<td>flex-grow</td>
-<td style="text-align:right">元素容器过大，元素放大比</td>
-<td style="text-align:right">0，1，2</td>
-</tr>
-<tr>
-<td>flex-shrink</td>
-<td style="text-align:right">缩小比例</td>
-<td style="text-align:right">0，1，2</td>
-</tr>
-<tr>
-<td>flex-basis</td>
-<td style="text-align:right">元素分配空间前，占用的宽度或高度</td>
-<td style="text-align:right">length , auto</td>
-</tr>
-<tr>
-<td>flex</td>
-<td style="text-align:right">前三个的缩写</td>
-<td style="text-align:right">默认值为0 1 auto</td>
-</tr>
-<tr>
-<td>align-self</td>
-<td style="text-align:right">元素单独设置对齐方式</td>
-<td style="text-align:right">flex-start， flex-end， center ，space-between ，space-around ， stretch</td>
-</tr>
-</tbody>
-</table>
-<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>看起来很复杂，但实在是好用！哪里好用？试几个例子吧：</p>
-<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><p>单元素：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">	<span class="attribute">display</span>: flex;</div><div class="line">	<span class="attribute">justify-content</span>: center;</div><div class="line">	<span class="attribute">align-items</span>: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>一个两个都可以！！！ 很轻易！！<br>效果：</p>
-<p><img src="/images/center.png" alt="center"><br><img src="/images/center2.png" alt="center"></p>
-<p>垂直排列：添加flex-flow: column即可。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span>&#123;</div><div class="line">	<span class="attribute">display</span>: flex;</div><div class="line">	<span class="attribute">flex-flow</span>: column;</div><div class="line">	<span class="attribute">justify-content</span>: center;</div><div class="line">	<span class="attribute">align-items</span>: center;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="/images/center3.png" alt="center"></p>
+<a id="more"></a>
+<h2 id="简例"><a href="#简例" class="headerlink" title="简例"></a>简例</h2><p>计算年终奖，有多种方案，使用各种策略类实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">class PerformanceA &#123;</div><div class="line">  cal (salary) &#123;</div><div class="line">    return salary * 4</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">class PerformanceB &#123;</div><div class="line">  cal (salary) &#123;</div><div class="line">    return salary * 3</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>奖金对应多种绩效，但是规则都是一样的，接收用户的设置和请求，并委托给策略：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">class Bonus &#123;</div><div class="line">  setSalary (salary) &#123;</div><div class="line">    this.salary = salary</div><div class="line">  &#125;</div><div class="line">  getPerformance (perform) &#123;</div><div class="line">    this.performance = perform</div><div class="line">  &#125;</div><div class="line">  getBonus()&#123;</div><div class="line">    return this.this.performance.cal(this.salary)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样，我们的Bonus类，并不负责计算，而将计算委托给传入的Performance类进行，做了好的解耦。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var bonus = new Bonus(); </div><div class="line"> bonus.setSalary( 10000 );</div><div class="line">bonus.getPerformance( new performanceS() ); // 设置策略对象</div><div class="line">console.log( bonus.getBonus() ); // 输出:40000</div></pre></td></tr></table></figure></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>总的来说，我们需要两个东西来实现JavaScript策略模式：策略集和策略管理</p>
+<p>其实最好理解的就是表单验证了，针对各种表单，我们可以为其设置一个验证的策略集合：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var validateRules = &#123;</div><div class="line">  isNotEmpty (value, errMsg) &#123;</div><div class="line">  return value === ‘’ ? errMsg : ’’</div><div class="line">  &#125;,</div><div class="line">  minLength (value, length, errMsg) &#123;</div><div class="line">       return value.length &lt; length ? errMsg : ‘’</div><div class="line">  &#125;</div><div class="line">  …</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后有个Validator管理策略<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">class Validator &#123;</div><div class="line">  contructor ()&#123;</div><div class="line">    this.rules = []</div><div class="line">  &#125;</div><div class="line">  add (target, rules) &#123;</div><div class="line">    rules = rules.map(rule =&gt; &#123;</div><div class="line">  const ruleDetail = rule.rule.split(‘:’)</div><div class="line">         const [fnName, …params] = ruleDetail</div><div class="line">         const ruleFn = validateRules[fnName]</div><div class="line">       </div><div class="line">  return () =&gt; &#123;</div><div class="line">           return ruleFn(target.value, …params)</div><div class="line">         &#125;</div><div class="line">    &#125;)</div><div class="line">   </div><div class="line">    this.rules = this.rules.concat(rules)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  validate () &#123;</div><div class="line">    const msg = this.rules.some(fn =&gt; fn())</div><div class="line">    if (msg) &#123;</div><div class="line">      return msg</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以通过add方法添加规则，通过validate执行validate。实现了我们的策略管理。</p>
+<h2 id="其他语言实现"><a href="#其他语言实现" class="headerlink" title="其他语言实现"></a>其他语言实现</h2><p>策略模式（Strategy）：定义了算法家族，分别封装起来，让他们之间可以互相替换，此模式让算法的变化，不会影响使用算法的客户</p>
+<ol>
+<li>Strategy类，定义所有支持算法的接口</li>
+<li>ConcreteStrategy，继承Strategy，实现具体算法或行为</li>
+<li>Context 类，维护算法Strategy类的引用</li>
+</ol>
+<p>最终：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ctx = new Context(new ConcreteStrategyA())</div><div class="line">ctx.count()</div><div class="line"></div><div class="line">ctx = new Context(new ConcreteStrategyB())</div><div class="line">ctx.count()</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>策略模式是指定义一些列算法，以相同的方式调用这些算法，减少了算法使用和算法类之间的耦合。</li>
+<li>使用Strategy可以有效的消除if,switch这种条件语句，避免大量的判断，更加便于理解</li>
+<li>算法可重用</li>
+<li>在js中其实并不明显，被各类函数直接代替</li>
+</ol>
 
       
     </div>
@@ -447,7 +385,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CSS/" rel="tag">#CSS</a>
+            <a href="/tags/设计模式/" rel="tag">#设计模式</a>
           
         </div>
       
@@ -456,17 +394,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/19/js基础复习-基础类型和引用类型/" rel="next" title="js基础复习--引用类型">
-                <i class="fa fa-chevron-left"></i> js基础复习--引用类型
+              <a href="/2017/08/04/单例模式/" rel="next" title="单例模式">
+                <i class="fa fa-chevron-left"></i> 单例模式
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/09/阿里云搭建Nginx-nodejs运行环境/" rel="prev" title="阿里云搭建Nginx+nodejs运行环境">
-                阿里云搭建Nginx+nodejs运行环境 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -580,7 +514,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Flex布局是什么"><span class="nav-number">1.</span> <span class="nav-text">Flex布局是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">2.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#容器"><span class="nav-number">2.1.</span> <span class="nav-text">容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#元素"><span class="nav-number">2.2.</span> <span class="nav-text">元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">3.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#垂直居中"><span class="nav-number">3.1.</span> <span class="nav-text">垂直居中</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简例"><span class="nav-number">1.</span> <span class="nav-text">简例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他语言实现"><span class="nav-number">3.</span> <span class="nav-text">其他语言实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
           </div>
         </section>

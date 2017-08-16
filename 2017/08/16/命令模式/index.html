@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS," />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -84,15 +84,19 @@
 
 
 
+<meta name="description" content="命令模式
+使用松耦合的方式设计程序，向某些对象发送一些请求，并不需要请求的接受者和谁来操作，使得发送者和接收者消除彼此间的耦合关系。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[译]5分钟介绍Styled Components">
-<meta property="og:url" content="http://yoursite.com/2017/07/27/译-5分钟介绍Styled-Components/index.html">
+<meta property="og:title" content="命令模式">
+<meta property="og:url" content="http://yoursite.com/2017/08/16/命令模式/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:image" content="http://p0.qhimg.com/t01d6b31cf2ab1cb6a4.png">
-<meta property="og:updated_time" content="2017-08-03T10:14:22.000Z">
+<meta property="og:description" content="命令模式
+使用松耦合的方式设计程序，向某些对象发送一些请求，并不需要请求的接受者和谁来操作，使得发送者和接收者消除彼此间的耦合关系。">
+<meta property="og:updated_time" content="2017-08-16T10:34:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[译]5分钟介绍Styled Components">
-<meta name="twitter:image" content="http://p0.qhimg.com/t01d6b31cf2ab1cb6a4.png">
+<meta name="twitter:title" content="命令模式">
+<meta name="twitter:description" content="命令模式
+使用松耦合的方式设计程序，向某些对象发送一些请求，并不需要请求的接受者和谁来操作，使得发送者和接收者消除彼此间的耦合关系。">
 
 
 
@@ -113,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/27/译-5分钟介绍Styled-Components/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/16/命令模式/"/>
 
-  <title> [译]5分钟介绍Styled Components | 王卫新的博客 </title>
+  <title> 命令模式 | 王卫新的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -255,7 +259,7 @@
             
             
               
-                [译]5分钟介绍Styled Components
+                命令模式
               
             
           </h1>
@@ -267,8 +271,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-07-27T16:25:23+08:00" content="2017-07-27">
-              2017-07-27
+            <time itemprop="dateCreated" datetime="2017-08-16T18:34:07+08:00" content="2017-08-16">
+              2017-08-16
             </time>
           </span>
 
@@ -281,8 +285,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/翻译/" itemprop="url" rel="index">
-                    <span itemprop="name">翻译</span>
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
                   </a>
                 </span>
 
@@ -301,7 +305,7 @@
 
           
           
-             <span id="/2017/07/27/译-5分钟介绍Styled-Components/" class="leancloud_visitors" data-flag-title="[译]5分钟介绍Styled Components">
+             <span id="/2017/08/16/命令模式/" class="leancloud_visitors" data-flag-title="命令模式">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -323,56 +327,40 @@
       
 
       
-        <p><img src="http://p0.qhimg.com/t01d6b31cf2ab1cb6a4.png" alt=""></p>
+        <h1 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h1><blockquote>
+<p>使用松耦合的方式设计程序，向某些对象发送一些请求，并不需要请求的接受者和谁来操作，使得发送者和接收者消除彼此间的耦合关系。</p>
+</blockquote>
 <a id="more"></a>
-<p>CSS很奇怪，你花上15分钟就可以学会它的基础，但是需要花费数年才能想到一个好方法来组织你的样式。</p>
-<p>造成上述问题的原因有一部分是语言本身的怪癖。除了盒模型以外，CSS是很局限的：没有变量、循环或者函数。同时，它又允许你使用元素、类、ID或者它们的组合来改变样式。</p>
-<h3 id="混乱的样式表"><a href="#混乱的样式表" class="headerlink" title="混乱的样式表"></a>混乱的样式表</h3><p>你可能已经亲身经历过，样式表常常是造成混乱的原因。尽管像SASS、LESS这种预处理语言添加了很多好用的特性，但是他们依旧没有有效地阻止CSS变混乱。</p>
-<p>于是组织代码的任务就留给了像 <a href="http://getbem.com/" target="_blank" rel="external">BEM</a>这样的方法，虽然很有效，但是它完全是自选方案，不能被强制应用在语言或者工具层面。</p>
-<h3 id="CSS新浪潮"><a href="#CSS新浪潮" class="headerlink" title="CSS新浪潮"></a>CSS新浪潮</h3><p>最近几年，基于JavaScript的新工具正试图通过改变CSS的书写方式，从根本上解决这些问题。</p>
-<p><a href="https://github.com/styled-components/styled-components" target="_blank" rel="external">Styled Components</a> 就是其中之一，因为既具备创新性同时保留了编码习惯，它很快吸引了大量的关注。因此如果你正在使用React（如果没有，看看我的<a href="https://medium.freecodecamp.com/a-study-plan-to-cure-javascript-fatigue-8ad3a54f2eb1" target="_blank" rel="external">JS学习计划</a> 和我的 <a href="https://medium.freecodecamp.com/the-5-things-you-need-to-know-to-understand-react-a1dbd5d114a3" target="_blank" rel="external">React简介</a>），你一定要看看这个CSS新方式。</p>
-<p>我最近在用它重构<a href="http://sachagreif.com/" target="_blank" rel="external">我的个人网站</a>，今天我想把我在重构过程中学到的东西在这里分享一下。</p>
-<h3 id="组件，样式化"><a href="#组件，样式化" class="headerlink" title="组件，样式化"></a>组件，样式化</h3><p>关于Styled Components您首先要理解的是——正如它的名字所表示的——样式化的组件。 你不必再根据类名或HTML元素来为HTML元素或组件写样式了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;h1 className=&quot;title&quot;&gt;Hello World&lt;/h1&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">h1.title&#123;</div><div class="line">  font-size: 1.5em;</div><div class="line">  color: purple;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>相反，你定义具有自己的封装样式的<strong>样式化组件（styled components）</strong>，然后就可以自由地在你的代码中使用它：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">import styled from &apos;styled-components&apos;;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">const Title = styled.h1`</div><div class="line">  font-size: 1.5em;</div><div class="line">  color: purple;</div><div class="line">`;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Title&gt;Hello World&lt;/Title&gt;</div></pre></td></tr></table></figure>
-<p>这看上去有一些小的差异，而事实上两者的语法很相似。但它们的关键区别在于样式现在是组件的<strong>一部分</strong>了。</p>
-<p>换句话说，我们正在摆脱 CSS 类名作为组件和其样式的中间步骤这种情况。</p>
-<p>就像styled-components的联合创始人 Max Stoiber 所说：</p>
-<p><em>“<code>styled-components</code>的最基本思想就是通过移除样式和组件之间的映射来执行最佳实践”</em></p>
-<h3 id="减少复杂性"><a href="#减少复杂性" class="headerlink" title="减少复杂性"></a>减少复杂性</h3><p>乍一看会感觉这是反直觉的，因为使用CSS而不直接用带样式的html元素（还记得 <code>&lt;font&gt;</code>标签吗）的重点就是通过引用中介类名来解耦样式和标记。</p>
-<p>但是这种解耦也带来了很多的复杂性，而且与CSS相比，像JavaScript这样的“真正”的编程语言可以更好地处理这种复杂性。</p>
-<h3 id="用属性（Prop）代替类名（Class）"><a href="#用属性（Prop）代替类名（Class）" class="headerlink" title="用属性（Prop）代替类名（Class）"></a>用属性（Prop）代替类名（Class）</h3><p>为了遵循“去类名”（no-classes）的理念，当需要定义一个组件的行为时，styled-component使用属性而不是类名。因此不应该用如下方式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;h1 className=&quot;title primary&quot;&gt;Hello World&lt;/h1&gt; // will be blue</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">h1.title&#123;</div><div class="line">  font-size: 1.5em;</div><div class="line">  color: purple;</div><div class="line"></div><div class="line">  &amp;.primary&#123;</div><div class="line">    color: blue;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>你应该这样写：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">const Title = styled.h1`</div><div class="line">  font-size: 1.5em;</div><div class="line">  color: $&#123;props =&gt; props.primary ? &apos;blue&apos; : &apos;purple&apos;&#125;;</div><div class="line">`;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Title primary&gt;Hello World&lt;/Title&gt; // will be blue</div></pre></td></tr></table></figure>
-<p>就像你看到的， styled-components通过封装所有CSS和HTML相关的实现细节来让您的组件更加干净。</p>
-<p>也就是说，样式组件的CSS仍然是CSS。这样的代码也是完全有效的（尽管平时不这么用）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">const Title = styled.h1`</div><div class="line">  font-size: 1.5em;</div><div class="line">  color: purple;</div><div class="line"></div><div class="line">  &amp;.primary&#123;</div><div class="line">    color: blue;</div><div class="line">  &#125;</div><div class="line">`;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;Title className=&quot;primary&quot;&gt;Hello World&lt;/Title&gt; // will be blue</div></pre></td></tr></table></figure>
-<p>这个特性让styled-components很容易被接受：当它被怀疑的时候，你同样可以使用你熟悉的方法去使用它！</p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>值得注意的是，styled-components还只是一个年轻的项目，很多新的特性还没有被完全支持。例如，如果你想<a href="https://github.com/styled-components/styled-components/issues/142" target="_blank" rel="external">从父组件中为子组件添加样式</a>，你现在需要先使用CSS类名（至少要等到styled-components的v2版本出来才可以实现）。</p>
-<p>这里同样还没有<a href="https://github.com/styled-components/styled-components/issues/124" target="_blank" rel="external">在服务端预渲染你的CSS</a>的<span style="font-size: 1rem;">“官方途径”</span>，虽然通过手动注入样式肯定是可以实现的。</p>
-<p>并且，styled-component会生成随机的类名，这会导致很难用浏览器调试出你是在哪里定义的样式。</p>
-<p>但是令人振奋人心的是 styled-components的核心成员意识到了所有这些问题，并且正在努力地逐一修复它们。 <a href="https://github.com/styled-components/styled-components/tree/v2" target="_blank" rel="external">第二个版本即将发布</a>，还有点小期待呢！</p>
-<h3 id="了解更多"><a href="#了解更多" class="headerlink" title="了解更多"></a>了解更多</h3><p>我的目标不是详细解释styled-components是如何工作的，而是给您简单的介绍他的特性，以便您自己决定是否使用它。</p>
-<p>如果我已经激发了你的好奇心，你可以通过以下方式了解更多：</p>
+<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>将一个请求封装为一个对象，从而你可以用不同的请求对客户进行参数化；对请求排队或记录日志，同时支持撤销的操作</p>
 <ul>
-<li><p>Max Stoiber最近在 <a href="https://www.smashingmagazine.com/2017/01/styled-components-enforcing-best-practices-component-based-systems/" target="_blank" rel="external">Smashing Magazine</a>上发表了一篇文章介绍为什么要使用styled-components。</p>
-</li>
-<li><p><a href="https://github.com/styled-components/styled-components" target="_blank" rel="external">styled-components 项目</a>本身就有大量的文档。</p>
-</li>
-<li><p><a href="https://medium.com/@jamiedixon/styled-components-production-patterns-c22e24b1d896#.tfxr5bws2" target="_blank" rel="external">Jamie Dixon写的文章</a> 使用styled-components的一些好处。</p>
-</li>
-<li><p>如果你想知道这个库是如何实现的，看看Max的<a href="http://mxstbr.blog/2016/11/styled-components-magic-explained/" target="_blank" rel="external">这篇文章</a> 。</p>
-</li>
+<li>接受者 receiver 执行具体操作</li>
+<li>command对象 封装excute方法，使客户不用关心是如何执行的</li>
+<li>Invoker 设置命令与通知执行命令，用于排队等</li>
 </ul>
-<p>如果你想要了解更多，你还可以看看 <a href="https://github.com/threepointone/glamor" target="_blank" rel="external">Glamor</a>，它是<span style="font-size: 1rem;">CSS新浪潮的另一种实现方式</span>！</p>
+<h2 id="简例"><a href="#简例" class="headerlink" title="简例"></a>简例</h2><p>将各种按钮与按钮的具体执行功能解耦</p>
+<p>按钮的具体执行功能，也就是接收者：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var MenuBar = &#123;</div><div class="line">  refresh: function ()&#123;</div><div class="line">    console.log(‘刷新菜单’)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">var SubMenu = &#123;</div><div class="line">  add: function ()&#123;</div><div class="line">    console.log(‘添加子菜单’)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为按钮安装命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var setCommand = function (button, command) &#123;</div><div class="line">  button.onclick = function ()&#123;</div><div class="line">    command.excute()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>封装command对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">class RefreshCommand &#123;</div><div class="line">  constructor (receiver) &#123;</div><div class="line">    this.receiver = receiver</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  excute () &#123;</div><div class="line">    this.receiver.refresh()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class AddCommand &#123;</div><div class="line">  constructor (receiver) &#123;</div><div class="line">    this.receiver = receiver</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  excute () &#123;</div><div class="line">    this.receiver.add()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var refresh = new RefreshCommand(MenuBar)</div><div class="line">var add = new AddCommand(SubMenu)</div><div class="line"></div><div class="line">setCommand(button1, refresh)</div><div class="line">setCommand(button2, add)</div></pre></td></tr></table></figure></p>
+<h2 id="javaScript中的命令模式"><a href="#javaScript中的命令模式" class="headerlink" title="javaScript中的命令模式"></a>javaScript中的命令模式</h2><p>命令模式的由来，其实是回调(callback)函数的一个面向对象的替代品。<br>在js中，可以使用函数来替代对象，进行四处传递和封装功能</p>
+<h3 id="使用闭包实现command对象"><a href="#使用闭包实现command对象" class="headerlink" title="使用闭包实现command对象"></a>使用闭包实现command对象</h3><p>command对象的关键就是，保存接受者receiver的引用，然后封装执行函数，所以我们可以通过闭包来实现它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var refreshCommand = function (receiver) &#123;</div><div class="line">  return &#123;</div><div class="line">    excute () &#123;</div><div class="line">      receiver.refresh()</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="撤销命令"><a href="#撤销命令" class="headerlink" title="撤销命令"></a>撤销命令</h2><p>撤销命令，也是命令模式的关键<br>撤销命令一般是给command对象添加一些unexcute或者undo方法，执行excute的反向操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var moveCommand = function (receiver, value) &#123;</div><div class="line">  var cache = []</div><div class="line"></div><div class="line">  return &#123;</div><div class="line">    excute () &#123;</div><div class="line">      // 缓存执行的历史</div><div class="line">      cache.push(value)</div><div class="line">      receiver.move(value)</div><div class="line">    &#125;</div><div class="line">    undo () &#123;</div><div class="line">       receiver.move(cache.pop())</div><div class="line">     &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="重做命令"><a href="#重做命令" class="headerlink" title="重做命令"></a>重做命令</h2><p>针对某些不可逆的命令，我们可以将所有的命令缓存，并从头执行到上一步即可</p>
+<h2 id="命令队列"><a href="#命令队列" class="headerlink" title="命令队列"></a>命令队列</h2><p>将命令用队列缓存，当接受者执行完后，再将队列等待的第一个命令对象执行</p>
+<h2 id="宏命令"><a href="#宏命令" class="headerlink" title="宏命令"></a>宏命令</h2><p>相当于执行一组命令的集合</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>更容易的设计命令队列</li>
+<li>容易进行日志记录</li>
+<li>允许接收请求方否决请求</li>
+<li>方便撤销和重做</li>
+<li>解耦请求操作和执行操作</li>
+</ul>
+<p>在JavaScript中，可以用高阶函数对命令进行封装，在JavaScript模式中，是一种隐形模式。</p>
 
       
     </div>
@@ -395,7 +383,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CSS/" rel="tag">#CSS</a>
+            <a href="/tags/设计模式/" rel="tag">#设计模式</a>
           
         </div>
       
@@ -404,17 +392,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/25/使用ES6新特性实现简单的MVVM（1）-数据驱动/" rel="next" title="使用ES6新特性实现简单的MVVM（1）--数据驱动">
-                <i class="fa fa-chevron-left"></i> 使用ES6新特性实现简单的MVVM（1）--数据驱动
+              <a href="/2017/08/10/代理模式/" rel="next" title="代理moshi">
+                <i class="fa fa-chevron-left"></i> 代理moshi
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/01/观察者模式/" rel="prev" title="观察者模式">
-                观察者模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -528,7 +512,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#混乱的样式表"><span class="nav-number">1.</span> <span class="nav-text">混乱的样式表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS新浪潮"><span class="nav-number">2.</span> <span class="nav-text">CSS新浪潮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件，样式化"><span class="nav-number">3.</span> <span class="nav-text">组件，样式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#减少复杂性"><span class="nav-number">4.</span> <span class="nav-text">减少复杂性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用属性（Prop）代替类名（Class）"><span class="nav-number">5.</span> <span class="nav-text">用属性（Prop）代替类名（Class）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">6.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#了解更多"><span class="nav-number">7.</span> <span class="nav-text">了解更多</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#命令模式"><span class="nav-number">1.</span> <span class="nav-text">命令模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概要"><span class="nav-number">1.1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简例"><span class="nav-number">1.2.</span> <span class="nav-text">简例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#javaScript中的命令模式"><span class="nav-number">1.3.</span> <span class="nav-text">javaScript中的命令模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用闭包实现command对象"><span class="nav-number">1.3.1.</span> <span class="nav-text">使用闭包实现command对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撤销命令"><span class="nav-number">1.4.</span> <span class="nav-text">撤销命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重做命令"><span class="nav-number">1.5.</span> <span class="nav-text">重做命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令队列"><span class="nav-number">1.6.</span> <span class="nav-text">命令队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#宏命令"><span class="nav-number">1.7.</span> <span class="nav-text">宏命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.8.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

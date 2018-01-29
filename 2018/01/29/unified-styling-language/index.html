@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="react," />
 
 
 
@@ -84,12 +84,22 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="王卫新的博客">
-<meta property="og:url" content="http://yoursite.com/tags/Vue/page/2/index.html">
+<meta name="description" content="some description of css-in-js
+
+original">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unified-styling-language">
+<meta property="og:url" content="http://yoursite.com/2018/01/29/unified-styling-language/index.html">
 <meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="some description of css-in-js
+
+original">
+<meta property="og:updated_time" content="2018-01-29T06:32:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="王卫新的博客">
+<meta name="twitter:title" content="unified-styling-language">
+<meta name="twitter:description" content="some description of css-in-js
+
+original">
 
 
 
@@ -110,9 +120,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/Vue/page/2/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/29/unified-styling-language/"/>
 
-  <title> 标签: Vue | 王卫新的博客 </title>
+  <title> unified-styling-language | 王卫新的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -143,7 +153,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right  ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -231,50 +241,181 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        Vue
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                unified-styling-language
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-01-29T14:31:49+08:00" content="2018-01-29">
+              2018-01-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/01/29/unified-styling-language/" class="leancloud_visitors" data-flag-title="unified-styling-language">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <blockquote>
+<p>some description of css-in-js</p>
+</blockquote>
+<p><a href="https://medium.com/seek-blog/a-unified-styling-language-d0c208de2660" target="_blank" rel="external">original</a></p>
+<a id="more"></a>
+<h2 id="Scoped-styles"><a href="#Scoped-styles" class="headerlink" title="Scoped styles"></a>Scoped styles</h2><ul>
+<li>automatically generate className</li>
+<li>no selectors clashing</li>
+<li>generating real css, not inline styles</li>
+<li>describe our styles as component(like styled components</li>
+</ul>
+<h2 id="Critical-CSS"><a href="#Critical-CSS" class="headerlink" title="Critical CSS"></a>Critical CSS</h2><ul>
+<li>providing only those styles required to render the current page</li>
+</ul>
+<p>is now baked in, not opt-in？</p>
+<h2 id="Smarter-optimisations"><a href="#Smarter-optimisations" class="headerlink" title="Smarter optimisations"></a>Smarter optimisations</h2><ul>
+<li>function-like classes to keep bundle lean(Atomic css</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;Bgc(#0280ae.5) C(#fff) P(20px)&quot;&gt;</div><div class="line">  Atomic CSS</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>devide styles into different classes and combine them(styletron</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">styletron.injectDeclaration(&#123;</div><div class="line">  prop: &apos;color&apos;,</div><div class="line">  val: &apos;red&apos;,</div><div class="line">  media: &apos;(min-width: 800px)&apos;</div><div class="line">&#125;);</div><div class="line">// → &apos;a&apos;</div><div class="line"></div><div class="line">injectStyle(styletron, &#123;</div><div class="line">  color: &apos;red&apos;,</div><div class="line">  display: &apos;inline-block&apos;</div><div class="line">&#125;);</div><div class="line">// → &apos;a d&apos;</div><div class="line">injectStyle(styletron, &#123;</div><div class="line">  color: &apos;red&apos;,</div><div class="line">  fontSize: &apos;1.6em&apos;</div><div class="line">&#125;);</div><div class="line">// → &apos;a e&apos;</div></pre></td></tr></table></figure>
+<h2 id="Package-management"><a href="#Package-management" class="headerlink" title="Package management"></a>Package management</h2><ul>
+<li>css dpepending</li>
+<li>make css as a library (polished</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">import &#123; clearFix, animation &#125; from &apos;polished&apos;</div><div class="line"></div><div class="line">const styles = &#123;</div><div class="line">  ...clearFix,</div><div class="line">  ...animation,</div><div class="line">  fontFamily: &apos;Comic Sans MS&apos;,</div><div class="line">  color: &apos;blue&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Non-browser-styling"><a href="#Non-browser-styling" class="headerlink" title="Non-browser styling"></a>Non-browser styling</h2><ul>
+<li>not only for react-dom</li>
+</ul>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>We may not be using CSS-in-JS today, but it’s quite possible that a compelling reason to switch could arise sooner than we think</p>
 
-      <h1 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2016/08/23/Vue学习笔记之-组件通信/" itemprop="url">
-              
-                <span itemprop="name">Vue学习笔记之--组件通信</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-08-23T17:36:29+08:00"
-              content="2016-08-23" >
-          08-23
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag">#react</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/17/组合模式/" rel="next" title="组合模式">
+                <i class="fa fa-chevron-left"></i> 组合模式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
+
+    <div class="post-spread">
+      
+    </div>
   </div>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/tags/Vue/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/tags/Vue/">1</a><span class="page-number current">2</span>
-  </nav>
-
 
 
           </div>
@@ -282,6 +423,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -301,8 +446,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -352,6 +506,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Scoped-styles"><span class="nav-number">1.</span> <span class="nav-text">Scoped styles</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Critical-CSS"><span class="nav-number">2.</span> <span class="nav-text">Critical CSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Smarter-optimisations"><span class="nav-number">3.</span> <span class="nav-text">Smarter optimisations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Package-management"><span class="nav-number">4.</span> <span class="nav-text">Package management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Non-browser-styling"><span class="nav-number">5.</span> <span class="nav-text">Non-browser styling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">6.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -455,6 +620,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

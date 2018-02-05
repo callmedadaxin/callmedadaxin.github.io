@@ -84,24 +84,18 @@
 
 
 
-<meta name="description" content="最近针对日常业务需求使用react封装了一套组件库, 大概记录下整个开发过程中的心得。刚接触react不久，很多东西可能会比较基础。
-
-概述我们都知道，组件化的开发模式对于我们的开发效率有着极大的提升，针对我们日常使用的基本组件进行封装，可以大量的简化我们对于基本UI的关注度，让我们的工作聚焦在业务逻辑上，很好的分离业务与基础UI的代码，使得整个项目更有调理，这也是我们要进行本组件库开发的原因。">
+<meta name="description" content="最近针对日常业务需求使用react封装了一套组件库, 大概记录下整个开发过程中的心得。刚接触react不久，很多东西可能会比较基础。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用React进行组件库开发">
 <meta property="og:url" content="http://yoursite.com/2018/02/05/develop-component-library-with-react/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="最近针对日常业务需求使用react封装了一套组件库, 大概记录下整个开发过程中的心得。刚接触react不久，很多东西可能会比较基础。
-
-概述我们都知道，组件化的开发模式对于我们的开发效率有着极大的提升，针对我们日常使用的基本组件进行封装，可以大量的简化我们对于基本UI的关注度，让我们的工作聚焦在业务逻辑上，很好的分离业务与基础UI的代码，使得整个项目更有调理，这也是我们要进行本组件库开发的原因。">
+<meta property="og:description" content="最近针对日常业务需求使用react封装了一套组件库, 大概记录下整个开发过程中的心得。刚接触react不久，很多东西可能会比较基础。">
 <meta property="og:image" content="http://yoursite.com/images/dll.png">
 <meta property="og:image" content="http://yoursite.com/images/doc.png">
-<meta property="og:updated_time" content="2018-02-05T09:28:42.000Z">
+<meta property="og:updated_time" content="2018-02-05T09:29:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用React进行组件库开发">
-<meta name="twitter:description" content="最近针对日常业务需求使用react封装了一套组件库, 大概记录下整个开发过程中的心得。刚接触react不久，很多东西可能会比较基础。
-
-概述我们都知道，组件化的开发模式对于我们的开发效率有着极大的提升，针对我们日常使用的基本组件进行封装，可以大量的简化我们对于基本UI的关注度，让我们的工作聚焦在业务逻辑上，很好的分离业务与基础UI的代码，使得整个项目更有调理，这也是我们要进行本组件库开发的原因。">
+<meta name="twitter:description" content="最近针对日常业务需求使用react封装了一套组件库, 大概记录下整个开发过程中的心得。刚接触react不久，很多东西可能会比较基础。">
 <meta name="twitter:image" content="http://yoursite.com/images/dll.png">
 
 
@@ -336,6 +330,7 @@
         <blockquote>
 <p>最近针对日常业务需求使用react封装了一套<a href="https://github.com/callmedadaxin/react-components" target="_blank" rel="external">组件库</a>, 大概记录下整个开发过程中的心得。刚接触react不久，很多东西可能会比较基础。</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>我们都知道，组件化的开发模式对于我们的开发效率有着极大的提升，针对我们日常使用的基本组件进行封装，可以大量的简化我们对于基本UI的关注度，让我们的工作聚焦在业务逻辑上，很好的分离业务与基础UI的代码，使得整个项目更有调理，这也是我们要进行本组件库开发的原因。</p>
 <p>然而现有React开源组件有很多，像ant-design和material-ui等等，是否需要花费精力打造适合自身团队的组件库往往需要酌情考虑。我们来看下我现有团队及业务的几个特点：</p>
 <ol>

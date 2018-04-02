@@ -84,22 +84,16 @@
 
 
 
-<meta name="description" content="在日常开发过程中我们采用react+redux方案进行开发，往往会遇到redux样板代码过多的问题，在不断的抽离过程中，顺手封装了一个redux-middleware。在此进行详细的问题和解决思路。最终代码和示例可以再项目中查看并使用，欢迎使用、建议并star~
-
-抛出问题使用Redux进行开发时，遇到请求，我们往往需要很复杂的过程，并且这个过程是重复的。我们往往会把一个请求拆分成三个阶段，对应">
+<meta name="description" content="在日常开发过程中我们采用react+redux方案进行开发，往往会遇到redux样板代码过多的问题，在不断的抽离过程中，顺手封装了一个redux-middleware。在此进行详细的问题和解决思路。最终代码和示例可以再项目中查看并使用，欢迎使用、建议并star~">
 <meta property="og:type" content="article">
 <meta property="og:title" content="优雅地减少redux请求样板代码">
 <meta property="og:url" content="http://yoursite.com/2018/04/02/simplify-redux-fetch/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="在日常开发过程中我们采用react+redux方案进行开发，往往会遇到redux样板代码过多的问题，在不断的抽离过程中，顺手封装了一个redux-middleware。在此进行详细的问题和解决思路。最终代码和示例可以再项目中查看并使用，欢迎使用、建议并star~
-
-抛出问题使用Redux进行开发时，遇到请求，我们往往需要很复杂的过程，并且这个过程是重复的。我们往往会把一个请求拆分成三个阶段，对应">
-<meta property="og:updated_time" content="2018-04-02T09:06:30.675Z">
+<meta property="og:description" content="在日常开发过程中我们采用react+redux方案进行开发，往往会遇到redux样板代码过多的问题，在不断的抽离过程中，顺手封装了一个redux-middleware。在此进行详细的问题和解决思路。最终代码和示例可以再项目中查看并使用，欢迎使用、建议并star~">
+<meta property="og:updated_time" content="2018-04-02T09:08:28.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="优雅地减少redux请求样板代码">
-<meta name="twitter:description" content="在日常开发过程中我们采用react+redux方案进行开发，往往会遇到redux样板代码过多的问题，在不断的抽离过程中，顺手封装了一个redux-middleware。在此进行详细的问题和解决思路。最终代码和示例可以再项目中查看并使用，欢迎使用、建议并star~
-
-抛出问题使用Redux进行开发时，遇到请求，我们往往需要很复杂的过程，并且这个过程是重复的。我们往往会把一个请求拆分成三个阶段，对应">
+<meta name="twitter:description" content="在日常开发过程中我们采用react+redux方案进行开发，往往会遇到redux样板代码过多的问题，在不断的抽离过程中，顺手封装了一个redux-middleware。在此进行详细的问题和解决思路。最终代码和示例可以再项目中查看并使用，欢迎使用、建议并star~">
 
 
 
@@ -333,6 +327,7 @@
         <blockquote>
 <p>在日常开发过程中我们采用react+redux方案进行开发，往往会遇到redux样板代码过多的问题，在不断的抽离过程中，顺手封装了一个<a href="https://github.com/callmedadaxin/react-fetch-middleware" target="_blank" rel="external">redux-middleware</a>。在此进行详细的问题和解决思路。最终代码和示例可以再项目中查看并使用，欢迎使用、建议并star~</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="抛出问题"><a href="#抛出问题" class="headerlink" title="抛出问题"></a>抛出问题</h2><p>使用Redux进行开发时，遇到请求，我们往往需要很复杂的过程，并且这个过程是重复的。我们往往会把一个请求拆分成三个阶段，对应到三个Action Type中去，并且配合<a href="https://github.com/gaearon/redux-thunk" target="_blank" rel="external">redux-thunk</a>中间件，将一个异步action进行拆分，分别对应请求的三个阶段。如下所示：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 请求的三个状态，开始请求，请求成功，请求失败</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> START_FETCH = <span class="string">'START_FETCH'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> FETCH_SUCCESS = <span class="string">'FETCH_SUCCESS'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> FETCH_FAILED = <span class="string">'FETCH_FAILED'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> startFetch = () =&gt; (&#123;</div><div class="line">  type: START_FETCH</div><div class="line">&#125;)</div><div class="line"><span class="keyword">const</span> fetchSuccess = payload =&gt; (&#123;</div><div class="line">  type: FETCH_SUCCESS,</div><div class="line">  payload</div><div class="line">&#125;)</div><div class="line"><span class="keyword">const</span> fetchFailed = error =&gt; (&#123;</div><div class="line">  type: FETCH_FAILED,</div><div class="line">  error</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// 在请求的三个阶段中，dispatch不同的action</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> fetchData = (params) =&gt; (dispatch) =&gt; &#123;</div><div class="line">  <span class="comment">// 开始请求</span></div><div class="line">  dispatch(startFetch())</div><div class="line"></div><div class="line">  <span class="keyword">return</span> fetch(<span class="string">`/api/getData`</span>)</div><div class="line">    .then(res =&gt; res.json())</div><div class="line">    .then(json =&gt; &#123;</div><div class="line">      dispatch(fetchSuccess(json))</div><div class="line">    &#125;)</div><div class="line">    .catch(error =&gt; &#123;</div><div class="line">      dispatch(fetchFailed(error))</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>同时，我们需要在reducer中，添加三个action所对应的状态更改，来相应的对整个请求进行展示。例如：</p>

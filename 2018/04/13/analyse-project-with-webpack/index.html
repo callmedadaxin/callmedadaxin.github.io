@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍一下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unused">
+<meta name="description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍以下下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unuse">
 <meta property="og:type" content="article">
 <meta property="og:title" content="借助webpack对项目进行分析优化">
 <meta property="og:url" content="http://yoursite.com/2018/04/13/analyse-project-with-webpack/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍一下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unused">
+<meta property="og:description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍以下下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unuse">
 <meta property="og:image" content="http://yoursite.com/images/webpack-modules.png">
 <meta property="og:image" content="http://yoursite.com/images/webpack-analyse.png">
 <meta property="og:image" content="http://yoursite.com/images/webpack-chart.png">
-<meta property="og:updated_time" content="2018-04-13T08:29:33.220Z">
+<meta property="og:updated_time" content="2018-04-13T08:31:49.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="借助webpack对项目进行分析优化">
-<meta name="twitter:description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍一下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unused">
+<meta name="twitter:description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍以下下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unuse">
 <meta name="twitter:image" content="http://yoursite.com/images/webpack-modules.png">
 
 
@@ -329,8 +329,9 @@
 
       
         <blockquote>
-<p>进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，<br>但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，<br>想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍<br>一下我是如何配合webpack一步步进行分析，将项目进行优化的。<br>同时我针对思路封装了一个<a href="https://github.com/callmedadaxin/webpack-unused-files" target="_blank" rel="external">webpack-unused-files</a>，用于查找项目中的冗余文件，欢迎试用并star</p>
+<p>进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，<br>但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，<br>想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍<br>以下下我是如何配合webpack一步步进行分析，将项目进行优化的。<br>同时我针对思路封装了一个<a href="https://github.com/callmedadaxin/webpack-unused-files" target="_blank" rel="external">webpack-unused-files</a>，用于查找项目中的冗余文件，欢迎试用并star</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>首先，我们先大致看下我们都有什么问题，然后一步步进行解决</p>
 <ul>
 <li>项目频繁进行修改，冗余文件过多</li>

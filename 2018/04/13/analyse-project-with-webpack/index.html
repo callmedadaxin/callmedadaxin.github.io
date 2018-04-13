@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍以下下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unuse">
+<meta name="description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍一下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unused">
 <meta property="og:type" content="article">
 <meta property="og:title" content="借助webpack对项目进行分析优化">
 <meta property="og:url" content="http://yoursite.com/2018/04/13/analyse-project-with-webpack/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍以下下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unuse">
+<meta property="og:description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍一下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unused">
 <meta property="og:image" content="http://yoursite.com/images/webpack-modules.png">
 <meta property="og:image" content="http://yoursite.com/images/webpack-analyse.png">
 <meta property="og:image" content="http://yoursite.com/images/webpack-chart.png">
-<meta property="og:updated_time" content="2018-04-13T08:31:49.227Z">
+<meta property="og:updated_time" content="2018-04-13T08:34:08.181Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="借助webpack对项目进行分析优化">
-<meta name="twitter:description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍以下下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unuse">
+<meta name="twitter:description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍一下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unused">
 <meta name="twitter:image" content="http://yoursite.com/images/webpack-modules.png">
 
 
@@ -329,7 +329,7 @@
 
       
         <blockquote>
-<p>进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，<br>但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，<br>想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍<br>以下下我是如何配合webpack一步步进行分析，将项目进行优化的。<br>同时我针对思路封装了一个<a href="https://github.com/callmedadaxin/webpack-unused-files" target="_blank" rel="external">webpack-unused-files</a>，用于查找项目中的冗余文件，欢迎试用并star</p>
+<p>进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍一下我是如何配合webpack一步步进行分析，将项目进行优化的。<br>同时我针对思路封装了一个<a href="https://github.com/callmedadaxin/webpack-unused-files" target="_blank" rel="external">webpack-unused-files</a>，用于查找项目中的冗余文件，欢迎试用并star</p>
 </blockquote>
 <a id="more"></a>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>首先，我们先大致看下我们都有什么问题，然后一步步进行解决</p>
@@ -364,11 +364,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webpack --display-modules --sort-modules-by size</div></pre></td></tr></table></figure>
 <p>结果类似这样：<br><img src="/images/webpack-modules.png" alt="webpack依赖结果"></p>
 <p>我们可以很快的定位到排名前几的js文件或者第三方依赖，决定该如何对其进行处置。</p>
-<h3 id="2-可视化依赖"><a href="#2-可视化依赖" class="headerlink" title="2.可视化依赖"></a>2.可视化依赖</h3><p>webpack提供了一个功能，将打包的所有依赖文件以及关系，以json格式进行输出：</p>
+<h3 id="2-可视化分析依赖"><a href="#2-可视化分析依赖" class="headerlink" title="2.可视化分析依赖"></a>2.可视化分析依赖</h3><p>webpack提供了一个功能，将打包的所有依赖文件以及关系，以json格式进行输出：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webpack --profile --json &gt; stats.json</div></pre></td></tr></table></figure>
 <p>这是我们整篇文章的一个基础，很多人基于此封装了不少可视化分析的工具,可以直观的看到各个<br>文件、chunk之间的依赖关系以及大小等，快速定位到大文件、大模块</p>
 <h4 id="webpack-analyse"><a href="#webpack-analyse" class="headerlink" title="webpack analyse"></a><a href="http://webpack.github.io/analyse/" target="_blank" rel="external">webpack analyse</a></h4><p><img src="/images/webpack-analyse.png" alt="webpack analyse"></p>
-<h4 id="webpack-chart"><a href="#webpack-chart" class="headerlink" title="- webpack chart"></a>- <a href="http://alexkuz.github.io/webpack-chart/" target="_blank" rel="external">webpack chart</a></h4><p><img src="/images/webpack-chart.png" alt="webpack-chart"></p>
+<h4 id="webpack-chart"><a href="#webpack-chart" class="headerlink" title="webpack chart"></a><a href="http://alexkuz.github.io/webpack-chart/" target="_blank" rel="external">webpack chart</a></h4><p><img src="/images/webpack-chart.png" alt="webpack-chart"></p>
 <h3 id="3-优化方案"><a href="#3-优化方案" class="headerlink" title="3.优化方案"></a>3.优化方案</h3><p>通过以上两种方法，我们可以很好的对内容文件和依赖进行定位和分析，针对打包大小的优化方案网上已经有很多了，在此不再进行赘述，提供几个思路及参考：</p>
 <ul>
 <li>CommonsChunkPlugin提取公共代码</li>
@@ -555,7 +555,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除冗余文件"><span class="nav-number">2.</span> <span class="nav-text">删除冗余文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-获取项目依赖的所有文件"><span class="nav-number">2.1.</span> <span class="nav-text">1.获取项目依赖的所有文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-获取项目中所有的文件"><span class="nav-number">2.2.</span> <span class="nav-text">2.获取项目中所有的文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-将两个文件数组进行对比，然后进行删除等操作："><span class="nav-number">2.3.</span> <span class="nav-text">3.将两个文件数组进行对比，然后进行删除等操作：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析第三方依赖"><span class="nav-number">3.</span> <span class="nav-text">分析第三方依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化打包大小"><span class="nav-number">4.</span> <span class="nav-text">优化打包大小</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-展示打包结果"><span class="nav-number">4.1.</span> <span class="nav-text">1.展示打包结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-可视化依赖"><span class="nav-number">4.2.</span> <span class="nav-text">2.可视化依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#webpack-analyse"><span class="nav-number">4.2.1.</span> <span class="nav-text">webpack analyse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#webpack-chart"><span class="nav-number">4.2.2.</span> <span class="nav-text">- webpack chart</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-优化方案"><span class="nav-number">4.3.</span> <span class="nav-text">3.优化方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化打包时间"><span class="nav-number">5.</span> <span class="nav-text">优化打包时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#日常打包时间优化点"><span class="nav-number">5.1.</span> <span class="nav-text">日常打包时间优化点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除冗余文件"><span class="nav-number">2.</span> <span class="nav-text">删除冗余文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-获取项目依赖的所有文件"><span class="nav-number">2.1.</span> <span class="nav-text">1.获取项目依赖的所有文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-获取项目中所有的文件"><span class="nav-number">2.2.</span> <span class="nav-text">2.获取项目中所有的文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-将两个文件数组进行对比，然后进行删除等操作："><span class="nav-number">2.3.</span> <span class="nav-text">3.将两个文件数组进行对比，然后进行删除等操作：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析第三方依赖"><span class="nav-number">3.</span> <span class="nav-text">分析第三方依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化打包大小"><span class="nav-number">4.</span> <span class="nav-text">优化打包大小</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-展示打包结果"><span class="nav-number">4.1.</span> <span class="nav-text">1.展示打包结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-可视化分析依赖"><span class="nav-number">4.2.</span> <span class="nav-text">2.可视化分析依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#webpack-analyse"><span class="nav-number">4.2.1.</span> <span class="nav-text">webpack analyse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#webpack-chart"><span class="nav-number">4.2.2.</span> <span class="nav-text">webpack chart</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-优化方案"><span class="nav-number">4.3.</span> <span class="nav-text">3.优化方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化打包时间"><span class="nav-number">5.</span> <span class="nav-text">优化打包时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#日常打包时间优化点"><span class="nav-number">5.1.</span> <span class="nav-text">日常打包时间优化点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
           </div>
         </section>

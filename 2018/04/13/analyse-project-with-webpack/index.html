@@ -1,0 +1,802 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,Webpack," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍一下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unused">
+<meta property="og:type" content="article">
+<meta property="og:title" content="借助webpack对项目进行分析优化">
+<meta property="og:url" content="http://yoursite.com/2018/04/13/analyse-project-with-webpack/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍一下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unused">
+<meta property="og:image" content="http://yoursite.com/images/webpack-modules.png">
+<meta property="og:image" content="http://yoursite.com/images/webpack-analyse.png">
+<meta property="og:image" content="http://yoursite.com/images/webpack-chart.png">
+<meta property="og:updated_time" content="2018-04-13T08:29:33.220Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="借助webpack对项目进行分析优化">
+<meta name="twitter:description" content="进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍一下我是如何配合webpack一步步进行分析，将项目进行优化的。同时我针对思路封装了一个webpack-unused">
+<meta name="twitter:image" content="http://yoursite.com/images/webpack-modules.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/13/analyse-project-with-webpack/"/>
+
+  <title> 借助webpack对项目进行分析优化 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                借助webpack对项目进行分析优化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-04-13T14:47:16+08:00" content="2018-04-13">
+              2018-04-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/心得实践/" itemprop="url" rel="index">
+                    <span itemprop="name">心得实践</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/04/13/analyse-project-with-webpack/" class="leancloud_visitors" data-flag-title="借助webpack对项目进行分析优化">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>进入公司之后，接手的便是前人留下来的一个大项目。庆幸的是整个项目拥有完善的产品功能文档，<br>但是由于项目过于庞大，老旧。包含了打包过慢，冗余文件过多等诸多问题。想要快速的解决这些问题，<br>想要完全把功能重构一遍的话，成本太高了。一个一个文件来过，时间成本也比较大。因此在此篇文章中，我们介绍<br>一下我是如何配合webpack一步步进行分析，将项目进行优化的。<br>同时我针对思路封装了一个<a href="https://github.com/callmedadaxin/webpack-unused-files" target="_blank" rel="external">webpack-unused-files</a>，用于查找项目中的冗余文件，欢迎试用并star</p>
+</blockquote>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>首先，我们先大致看下我们都有什么问题，然后一步步进行解决</p>
+<ul>
+<li>项目频繁进行修改，冗余文件过多</li>
+<li>部分第三方依赖滥用，想去除但是不知道在哪个文件中。或没用，但是遗留在package.json里，</li>
+<li>项目庞大，打包的结果过大，时间过长</li>
+</ul>
+<h2 id="删除冗余文件"><a href="#删除冗余文件" class="headerlink" title="删除冗余文件"></a>删除冗余文件</h2><p>由于项目的频繁改动，有很多文件已经不被使用并且没有被删除。由于项目的不断扩大，只会影响我们定位功能和问题的速度，因此对冗余文件进行清理，是很重要的。但是我们单凭肉眼很难识别哪个文件是否被依赖的，因此还要通过webpack来解决。</p>
+<h3 id="1-获取项目依赖的所有文件"><a href="#1-获取项目依赖的所有文件" class="headerlink" title="1.获取项目依赖的所有文件"></a>1.获取项目依赖的所有文件</h3><p>我们来看一下webpack的输出文件格式:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  ...</div><div class="line">  chunks: [&#123;</div><div class="line">    name: <span class="string">'chunk-name'</span>,</div><div class="line">    modules: [</div><div class="line">      <span class="comment">// 每个chunk中所有的依赖文件</span></div><div class="line">    ]</div><div class="line">  &#125;]</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>所以说，根据这个stats.json，我们可以拿到在整个项目中拿到的所有项目文件:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 查询依赖的模块</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">findSrcModules</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>((resolve, reject) =&gt; &#123;</div><div class="line">    fs.readFile(statPath, (err, data) =&gt; &#123;</div><div class="line">      <span class="keyword">if</span> (err) <span class="keyword">return</span></div><div class="line">      <span class="keyword">const</span> json = <span class="built_in">JSON</span>.parse(data)</div><div class="line">      <span class="keyword">const</span> assetsList = json.chunks</div><div class="line">      <span class="keyword">let</span> ret = []</div><div class="line">      <span class="comment">// 拿到所有chunk的所有依赖文件</span></div><div class="line">      assetsList.forEach(chunk =&gt; &#123;</div><div class="line">        <span class="keyword">const</span> modules = chunk.modules.map(item =&gt; item.name)</div><div class="line">        ret = ret.concat(modules)</div><div class="line">      &#125;)</div><div class="line">      <span class="comment">// 去除node_modules中的文件</span></div><div class="line">      ret = ret.filter(item =&gt; item.indexOf(<span class="string">'node_modules'</span>) &lt; <span class="number">0</span>)</div><div class="line">      resolve(ret)</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过这一步，我们可以拿到项目中，所有打包依赖的文件。</p>
+<h3 id="2-获取项目中所有的文件"><a href="#2-获取项目中所有的文件" class="headerlink" title="2.获取项目中所有的文件"></a>2.获取项目中所有的文件</h3><p>通过glob,我们可以获取所有的文件:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getAllFilesInSrc</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> pattern = <span class="string">'./src/**'</span></div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>((resolve, reject) =&gt; &#123;</div><div class="line">    glob(pattern, &#123;</div><div class="line">      nodir: <span class="literal">true</span></div><div class="line">    &#125;, (err, files) =&gt; &#123;</div><div class="line">      <span class="keyword">const</span> ret = files.map(item =&gt; &#123;</div><div class="line">        <span class="keyword">return</span> item.replace(<span class="string">'./src'</span>, <span class="string">'.'</span>)</div><div class="line">      &#125;)</div><div class="line">      resolve(ret)</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-将两个文件数组进行对比，然后进行删除等操作："><a href="#3-将两个文件数组进行对比，然后进行删除等操作：" class="headerlink" title="3.将两个文件数组进行对比，然后进行删除等操作："></a>3.将两个文件数组进行对比，然后进行删除等操作：</h3><p>将两个数组进行对比，没有出现在依赖中的文件，就是冗余文件。我们可以一键删除</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">findSrcModules().then(ret =&gt; &#123;</div><div class="line">  getAllFilesInSrc().then(allFiles =&gt; &#123;</div><div class="line">    <span class="keyword">const</span> unUsed = allFiles.filter(item =&gt; &#123;</div><div class="line">      <span class="keyword">return</span> ret.indexOf(item) &lt; <span class="number">0</span></div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">const</span> join = p =&gt; path.join(<span class="string">'./src'</span>, p)</div><div class="line"></div><div class="line">    unUsed.forEach(file =&gt; &#123;</div><div class="line">      shelljs.rm(join(file))</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="分析第三方依赖"><a href="#分析第三方依赖" class="headerlink" title="分析第三方依赖"></a>分析第三方依赖</h2><p>根据上述冗余文件的思路，我们同样可以对第三方依赖进行处理，大致思路如下</p>
+<ol>
+<li>获取所有包含node_modules的依赖</li>
+<li>将文件名进行截取、去重。获取到所有的依赖</li>
+<li>与package.json进行对比，拿到没有使用的依赖</li>
+<li>将对比结果进行分析，将不想使用的依赖保存下来</li>
+<li>再次查找stat.json，查找该依赖的reson字段，获取再哪里引用了该依赖，进行输出</li>
+<li>将依赖进行手动替换、删除等操作</li>
+</ol>
+<p>可以说，拿到了所有依赖及依赖关系，我们可以很灵活的对其进行处理，拿到我们想要的结果。</p>
+<p>该功能后续也会更新到<a href="https://github.com/callmedadaxin/webpack-unused-files" target="_blank" rel="external">webpack-unused-files</a>中去。</p>
+<h2 id="优化打包大小"><a href="#优化打包大小" class="headerlink" title="优化打包大小"></a>优化打包大小</h2><p>让人震惊的是，整个项目由于种种原因，打包后的大小有近20M的大小！虽然并不是TO C项目，并且针对页面进行了代码拆分和懒加载，但是作为一个“合格的前端”，这种现象是一定要修改的（没错！）。该如何下手呢？一个个的翻代码，看看我们都引用了什么大依赖，看哪些项目过大未免太复杂了。我们看看webpack给我吗提供了什么方案：</p>
+<h3 id="1-展示打包结果"><a href="#1-展示打包结果" class="headerlink" title="1.展示打包结果"></a>1.展示打包结果</h3><p>我们知道，在webpack打包结束后，会自动在控制台显示打包结果。同时，他也提供了输出依赖及大小的功能，我们执行以下参数, 便可将所有的依赖进行展示，并且看到他们的大小了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webpack --display-modules --sort-modules-by size</div></pre></td></tr></table></figure>
+<p>结果类似这样：<br><img src="/images/webpack-modules.png" alt="webpack依赖结果"></p>
+<p>我们可以很快的定位到排名前几的js文件或者第三方依赖，决定该如何对其进行处置。</p>
+<h3 id="2-可视化依赖"><a href="#2-可视化依赖" class="headerlink" title="2.可视化依赖"></a>2.可视化依赖</h3><p>webpack提供了一个功能，将打包的所有依赖文件以及关系，以json格式进行输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webpack --profile --json &gt; stats.json</div></pre></td></tr></table></figure>
+<p>这是我们整篇文章的一个基础，很多人基于此封装了不少可视化分析的工具,可以直观的看到各个<br>文件、chunk之间的依赖关系以及大小等，快速定位到大文件、大模块</p>
+<h4 id="webpack-analyse"><a href="#webpack-analyse" class="headerlink" title="webpack analyse"></a><a href="http://webpack.github.io/analyse/" target="_blank" rel="external">webpack analyse</a></h4><p><img src="/images/webpack-analyse.png" alt="webpack analyse"></p>
+<h4 id="webpack-chart"><a href="#webpack-chart" class="headerlink" title="- webpack chart"></a>- <a href="http://alexkuz.github.io/webpack-chart/" target="_blank" rel="external">webpack chart</a></h4><p><img src="/images/webpack-chart.png" alt="webpack-chart"></p>
+<h3 id="3-优化方案"><a href="#3-优化方案" class="headerlink" title="3.优化方案"></a>3.优化方案</h3><p>通过以上两种方法，我们可以很好的对内容文件和依赖进行定位和分析，针对打包大小的优化方案网上已经有很多了，在此不再进行赘述，提供几个思路及参考：</p>
+<ul>
+<li>CommonsChunkPlugin提取公共代码</li>
+<li><a href="https://segmentfault.com/a/1190000005969643" target="_blank" rel="external">dll-plugin进行大文件单独打包，缓存</a></li>
+<li>删除无用的依赖（后面会提到</li>
+<li>选择性的弃用一些依赖</li>
+<li>代码压缩</li>
+<li>babel-polyfill</li>
+<li>Scope Hoisting</li>
+</ul>
+<h2 id="优化打包时间"><a href="#优化打包时间" class="headerlink" title="优化打包时间"></a>优化打包时间</h2><p>针对打包时间的优化的文章其实也很多了，我们在此仅提供一些思路。我们主要提一点，通过构建会发现，项目中引用了大量的svg图标以及国旗图标，每次在静态资源处理中，打包时间就会变的特别慢。</p>
+<p>我们在项目中使用的svg-sprite-loader，自动将各个svg图标进行svg-spirte。但是我们知道，这些图标一旦引用，我们很少进行修改。尤其是像国旗图标这种，但是每次构建我们都需要进行重复打包。因此，我们可以提前把这些图标进行svg-sprite。推荐一个网站，将各种svg图标提前进行sprite并自动进行引用： </p>
+<p><a href="https://icomoon.io/" target="_blank" rel="external">iconmoon</a></p>
+<h3 id="日常打包时间优化点"><a href="#日常打包时间优化点" class="headerlink" title="日常打包时间优化点"></a>日常打包时间优化点</h3><ul>
+<li>externals 避免打包大的第三方依赖</li>
+<li>dll-plugin 预打包第三方依赖</li>
+<li>happypack 多进程处理，缓存</li>
+<li>缓存与增量构建<ul>
+<li>babel-loader?cacheDirectory</li>
+<li>webpack cache:true</li>
+</ul>
+</li>
+<li>减少构建搜索或编译路径 alias resolve</li>
+<li>具象打包的范围 include exclude</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过对webpack输出依赖关系的json的分析，我们可以直观的拿到以下数据：</p>
+<ul>
+<li>所有依赖文件及其大小</li>
+<li>每个依赖文件是被哪些文件引用的</li>
+<li>项目依赖的第三方依赖</li>
+</ul>
+<p>通过这些数据，我们可以很方便的对现有项目进行优化。</p>
+<p>生命不息，倒腾不止。让我们对所有的恶心代码说再见！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/Webpack/" rel="tag">#Webpack</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/02/simplify-redux-fetch/" rel="next" title="优雅地减少redux请求样板代码">
+                <i class="fa fa-chevron-left"></i> 优雅地减少redux请求样板代码
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除冗余文件"><span class="nav-number">2.</span> <span class="nav-text">删除冗余文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-获取项目依赖的所有文件"><span class="nav-number">2.1.</span> <span class="nav-text">1.获取项目依赖的所有文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-获取项目中所有的文件"><span class="nav-number">2.2.</span> <span class="nav-text">2.获取项目中所有的文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-将两个文件数组进行对比，然后进行删除等操作："><span class="nav-number">2.3.</span> <span class="nav-text">3.将两个文件数组进行对比，然后进行删除等操作：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析第三方依赖"><span class="nav-number">3.</span> <span class="nav-text">分析第三方依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化打包大小"><span class="nav-number">4.</span> <span class="nav-text">优化打包大小</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-展示打包结果"><span class="nav-number">4.1.</span> <span class="nav-text">1.展示打包结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-可视化依赖"><span class="nav-number">4.2.</span> <span class="nav-text">2.可视化依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#webpack-analyse"><span class="nav-number">4.2.1.</span> <span class="nav-text">webpack analyse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#webpack-chart"><span class="nav-number">4.2.2.</span> <span class="nav-text">- webpack chart</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-优化方案"><span class="nav-number">4.3.</span> <span class="nav-text">3.优化方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化打包时间"><span class="nav-number">5.</span> <span class="nav-text">优化打包时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#日常打包时间优化点"><span class="nav-number">5.1.</span> <span class="nav-text">日常打包时间优化点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

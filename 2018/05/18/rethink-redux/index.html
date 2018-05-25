@@ -84,17 +84,17 @@
 
 
 
-<meta name="description" content="https://juejin.im/post/5ac1f428f265da23884d3997从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何对Redux进行一步步“改造”以适应个人和团队开发需求">
+<meta name="description" content="从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何对Redux进行一步步“改造”以适应个人和团队开发需求的。过程中的示例和结果放在了easy-redux,欢迎star。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="我是如何一步步“改造”redux的">
 <meta property="og:url" content="http://yoursite.com/2018/05/18/rethink-redux/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="https://juejin.im/post/5ac1f428f265da23884d3997从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何对Redux进行一步步“改造”以适应个人和团队开发需求">
+<meta property="og:description" content="从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何对Redux进行一步步“改造”以适应个人和团队开发需求的。过程中的示例和结果放在了easy-redux,欢迎star。">
 <meta property="og:image" content="http://yoursite.com/images/easy-redux.png">
-<meta property="og:updated_time" content="2018-05-25T02:45:58.351Z">
+<meta property="og:updated_time" content="2018-05-25T02:50:19.036Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我是如何一步步“改造”redux的">
-<meta name="twitter:description" content="https://juejin.im/post/5ac1f428f265da23884d3997从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何对Redux进行一步步“改造”以适应个人和团队开发需求">
+<meta name="twitter:description" content="从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何对Redux进行一步步“改造”以适应个人和团队开发需求的。过程中的示例和结果放在了easy-redux,欢迎star。">
 <meta name="twitter:image" content="http://yoursite.com/images/easy-redux.png">
 
 
@@ -326,7 +326,7 @@
       
 
       
-        <p><a href="https://juejin.im/post/5ac1f428f265da23884d3997" target="_blank" rel="external">https://juejin.im/post/5ac1f428f265da23884d3997</a><br>从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，<br>高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何<br>对Redux进行一步步“改造”以适应个人和团队开发需求的。<br>过程中的示例和结果放在了<a href="https://github.com/callmedadaxin/easy-redux" target="_blank" rel="external">easy-redux</a>欢迎star。</p>
+        <p>从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何对Redux进行一步步“改造”以适应个人和团队开发需求的。<br>过程中的示例和结果放在了<a href="https://github.com/callmedadaxin/easy-redux" target="_blank" rel="external">easy-redux</a>,欢迎star。</p>
 <a id="more"></a>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在使用Redux开发的过程中逐渐发现，虽然我们已经将UI组件和业务组件尽可能的进行抽离，尽可能的保证reducer\actions的复用性，<br>但是我们还是会花费大量的时间来书写近乎相同的代码。尤其是我们组内希望秉承一个原则：尽量将所有的操作及状态修改都交由action来执行，方便我们对问题进行定位。当我在某大型前端交流群里还看到“不用Redux,不想加班”的说法时，不得不感叹，需要做些努力来解决我目前的问题了。</p>
 <p>是的，<strong><em>Redux对我来说，太复杂了</em></strong></p>

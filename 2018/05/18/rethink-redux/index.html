@@ -1,0 +1,804 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,React," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="https://juejin.im/post/5ac1f428f265da23884d3997从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何对Redux进行一步步“改造”以适应个人和团队开发需求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我是如何一步步“改造”redux的">
+<meta property="og:url" content="http://yoursite.com/2018/05/18/rethink-redux/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="https://juejin.im/post/5ac1f428f265da23884d3997从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何对Redux进行一步步“改造”以适应个人和团队开发需求">
+<meta property="og:image" content="http://yoursite.com/images/easy-redux.png">
+<meta property="og:updated_time" content="2018-05-25T02:45:58.351Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我是如何一步步“改造”redux的">
+<meta name="twitter:description" content="https://juejin.im/post/5ac1f428f265da23884d3997从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何对Redux进行一步步“改造”以适应个人和团队开发需求">
+<meta name="twitter:image" content="http://yoursite.com/images/easy-redux.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/18/rethink-redux/"/>
+
+  <title> 我是如何一步步“改造”redux的 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                我是如何一步步“改造”redux的
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-05-18T16:50:24+08:00" content="2018-05-18">
+              2018-05-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/心得实践/" itemprop="url" rel="index">
+                    <span itemprop="name">心得实践</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/05/18/rethink-redux/" class="leancloud_visitors" data-flag-title="我是如何一步步“改造”redux的">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://juejin.im/post/5ac1f428f265da23884d3997" target="_blank" rel="external">https://juejin.im/post/5ac1f428f265da23884d3997</a><br>从Vue换到React+Redux进行开发已经有半年多的时间，总的来说体验是很好的，对于各种逻辑和业务组件的抽象实在是方便的不行，<br>高阶组件，洋葱模型等等给我带来了很多编程思想上的提升。但是在使用Redux开发的过程中还是感觉不太顺手，本文将阐述我是如何<br>对Redux进行一步步“改造”以适应个人和团队开发需求的。<br>过程中的示例和结果放在了<a href="https://github.com/callmedadaxin/easy-redux" target="_blank" rel="external">easy-redux</a>欢迎star。</p>
+<a id="more"></a>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在使用Redux开发的过程中逐渐发现，虽然我们已经将UI组件和业务组件尽可能的进行抽离，尽可能的保证reducer\actions的复用性，<br>但是我们还是会花费大量的时间来书写近乎相同的代码。尤其是我们组内希望秉承一个原则：尽量将所有的操作及状态修改都交由action来执行，方便我们对问题进行定位。当我在某大型前端交流群里还看到“不用Redux,不想加班”的说法时，不得不感叹，需要做些努力来解决我目前的问题了。</p>
+<p>是的，<strong><em>Redux对我来说，太复杂了</em></strong></p>
+<p>针对一个简单的操作，我们需要进行以下步骤来完成：</p>
+<ol>
+<li>定义action</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> CHANGE_CONDITION = <span class="string">'CHANGE_CONDITION'</span></div></pre></td></tr></table></figure>
+<ol>
+<li>定义一个对应的action创建函数</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> changeCondition = condition =&gt; (&#123;</div><div class="line">  type: CHANGE_CONDITION,</div><div class="line">  condition</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<ol>
+<li>引入action, 定义reducer, 在复杂的switch语句中，对对象进行更改</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; CHANGE_CONDITION &#125; <span class="keyword">from</span> <span class="string">'@actions'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> condition = (state = initCondition, action) =&gt; &#123;</div><div class="line">  <span class="keyword">switch</span>(action.type) &#123;</div><div class="line">    <span class="keyword">case</span> CHANGE_CONDITION:</div><div class="line">      <span class="keyword">return</span> ...</div><div class="line">    default:</div><div class="line">      <span class="keyword">return</span> state</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>在需要时，引入action创建函数, 并将对应的state进行连接</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; changeCondition &#125; <span class="keyword">from</span> <span class="string">'actions'</span></div><div class="line">@connect(...)</div></pre></td></tr></table></figure>
+<p>我只是想做一个简单的状态修改呀！</p>
+<p>可能我们会说，这样拆分能够保证我们整个项目的规范化，增强业务的可预测性与错误定位能力。<br>但是随着项目的不断扩大，每个页面都有一堆action需要我加的时候，实在是让人头痛啊。</p>
+<p>而且，针对请求的修改，我们往往要把action拆分成START,SUCCESS,FAILED三种状态，reducer里需要进行三次修改。而且往往<br>针对这些修改，我们进行的处理都是大致相同的：更新loading状态，更新数据，更新错误等等。</p>
+<p>所以说，我们如何在保证redux的设计原则以及项目规范性上，对其进行“简化改造”，是我这里需要解决的问题。</p>
+<h2 id="使用middleware简化请求"><a href="#使用middleware简化请求" class="headerlink" title="使用middleware简化请求"></a>使用middleware简化请求</h2><p>针对请求的处理，我之前也写过一篇文章<a href="https://juejin.im/post/5ac1f428f265da23884d3997" target="_blank" rel="external">优雅地减少redux请求样板代码</a>, 通过封装了一个redux中间件<a href="https://github.com/callmedadaxin/react-fetch-middleware" target="_blank" rel="external">react-fetch-middleware</a><br>来对请求代码进行优化。</p>
+<p>大致思路如下：</p>
+<ol>
+<li>action创建函数返回的内容为一个包含请求信息的对象，并包含需要分发的三个action，这三个action可以通过actionCreator进行创建</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; actionCreator &#125; <span class="keyword">from</span> <span class="string">'redux-data-fetch-middleware'</span></div><div class="line"></div><div class="line"><span class="comment">// create action types</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> actionTypes = actionCreator(<span class="string">'GET_USER_LIST'</span>)</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> getUserList = params =&gt; (&#123;</div><div class="line">  url: <span class="string">'/api/userList'</span>,</div><div class="line">  params: params,</div><div class="line">  types: actionTypes,</div><div class="line">  <span class="comment">// handle result</span></div><div class="line">  handleResult: res =&gt; res.data.list,</div><div class="line">  <span class="comment">// handle error</span></div><div class="line">  handleError: ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<ol>
+<li>在redux中间件中，针对以上格式的action进行处理，首先进行请求，并分发请求开始的action,<br>在请求成功和失败时，分别分发对应的action</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> applyFetchMiddleware = (</div><div class="line">  fetchMethod = fetch,</div><div class="line">  handleResponse = val =&gt; val,</div><div class="line">  handleErrorTotal = error =&gt; error</div><div class="line">) =&gt;</div><div class="line">  store =&gt; next =&gt; action =&gt; &#123;</div><div class="line">    <span class="comment">// 判断action的格式</span></div><div class="line">    <span class="keyword">if</span> (!action.url || !<span class="built_in">Array</span>.isArray(action.types)) &#123;</div><div class="line">      <span class="keyword">return</span> next(action)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 获取传入的三个action</span></div><div class="line">    <span class="keyword">const</span> [ START, SUCCESS, FAILED ] = action.types</div><div class="line"></div><div class="line">    <span class="comment">// 在不同状态分发action, 并传入loading,error状态</span></div><div class="line">    next(&#123;</div><div class="line">      type: START,</div><div class="line">      loading: <span class="literal">true</span>,</div><div class="line">      ...action</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> fetchMethod(url, params)</div><div class="line">      .then(ret =&gt; &#123;</div><div class="line">        next(&#123;</div><div class="line">          type: SUCCESS,</div><div class="line">          loading: <span class="literal">false</span>,</div><div class="line">          payload: handleResult(ret)</div><div class="line">        &#125;)</div><div class="line">      &#125;)</div><div class="line">      .catch(error =&gt; &#123;</div><div class="line">        next(&#123;</div><div class="line">          type: FAILED,</div><div class="line">          loading: <span class="literal">false</span>,</div><div class="line">          error: handleError(error)</div><div class="line">        &#125;)</div><div class="line">      &#125;)</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<ol>
+<li>将reducer进行对应的默认处理，使用reducerCreator创建的函数中自动进行对应处理，并且提供二次处理的机制</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> [ GET, GET_SUCCESS, GET_FAILED ] = actionTypes</div><div class="line"></div><div class="line"><span class="comment">// 会在这里自动处理分发的三个action</span></div><div class="line"><span class="keyword">const</span> fetchedUserList = reducerCreator(actionTypes)</div><div class="line"></div><div class="line"><span class="keyword">const</span> userList = (state = &#123;</div><div class="line">  list: []</div><div class="line">&#125;, action =&gt; &#123;</div><div class="line">  <span class="comment">// 二次处理</span></div><div class="line">  <span class="keyword">switch</span>(action.type) &#123;</div><div class="line">    <span class="keyword">case</span> GET_SUCCESS:</div><div class="line">      <span class="keyword">return</span> &#123;</div><div class="line">        ...state,</div><div class="line">        action.payload</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> combineReducers(&#123;</div><div class="line">  userList: fetchedUserList(userList)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="再进一步，简化Redux-Api"><a href="#再进一步，简化Redux-Api" class="headerlink" title="再进一步，简化Redux Api"></a>再进一步，简化Redux Api</h2><p>经过前一步对请求的简化，我们已经可以在保证不改变redux原则和书写习惯的基础上，极大的简化请求样板代码。<br>针对普通的数据处理，我们是不是可以更进一步？</p>
+<p>很高兴看到这个库： <a href="https://hk.saowen.com/a/904ec76cd8897fc055a07d37b2cc37228a315575c14c8bfdedc727886b736292" target="_blank" rel="external">Rematch</a><br>, 对Redux Api进行了极大的简化。</p>
+<p>但是有些功能和改进并不是我们想要的，因此我仅对我需要的功能和改进点进行说明，并用自己的方式进行实现。我们来一步步看看<br>我们需要解决的问题以及如何解决的。</p>
+<h3 id="1-冗长的switch语句"><a href="#1-冗长的switch语句" class="headerlink" title="1.冗长的switch语句"></a>1.冗长的switch语句</h3><p>针对reducer，我们不希望重复的引用定义的各个action, 并且去掉冗长的switch判断。其实我们可以将其进行反转拆分，将每一个action定义为标准化的reducer, 在其中对state进行处理.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> counter = &#123;</div><div class="line">  state: <span class="number">1</span>,</div><div class="line">  reducers: &#123;</div><div class="line">    add: (state, payload) =&gt; state + payload,</div><div class="line">    sub: (state, payload) =&gt; state - payload</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-复杂的action创建函数"><a href="#2-复杂的action创建函数" class="headerlink" title="2.复杂的action创建函数"></a>2.复杂的action创建函数</h3><p>去掉之前的action和action创建函数，直接在actions中进行数据处理，并与对应的reducer进行match</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> addNum = num =&gt; dispatch =&gt; dispatch(<span class="string">'/counter/add'</span>, num)</div></pre></td></tr></table></figure>
+<p>我们会看到，与reducer进行match时，我们使用了’/counter/add’这种命名空间的方式，<br>目的是在保证其直观性的同时，保证action与其reducer是一一对应的。</p>
+<p>我们可以通过增强的combinceReducer进行命名空间的设定:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> counter1 = &#123;</div><div class="line">  ...</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> counter2 = &#123;</div><div class="line">  ...</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> counters = combinceReducer(&#123;</div><div class="line">  counter1,</div><div class="line">  counter2</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">const</span> list = &#123;</div><div class="line">  ...</div><div class="line">&#125;</div><div class="line"><span class="comment">// 设置大reducer的根命名空间</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> combinceReducer(&#123;</div><div class="line">  counters,</div><div class="line">  list</div><div class="line">&#125;, <span class="string">'/test'</span>)</div><div class="line"></div><div class="line"><span class="comment">// 我们可以通过这样来访问</span></div><div class="line">dispatch(<span class="string">'/test/counters/counter1/add'</span>)</div></pre></td></tr></table></figure>
+<h3 id="3-别忘了请求"><a href="#3-别忘了请求" class="headerlink" title="3.别忘了请求"></a>3.别忘了请求</h3><p>针对请求这些异步action,我们可以参考我们之前的修改, dispatch一个对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> getList = params =&gt; dispatch =&gt; &#123;</div><div class="line">  <span class="keyword">return</span> dispatch(&#123;</div><div class="line">    <span class="comment">//对应到我们想要dispatch的命名空间</span></div><div class="line">    action: <span class="string">'/list/getList'</span>,</div><div class="line">    url: <span class="string">'/api/getList'</span>,</div><div class="line">    params,</div><div class="line">    handleResponse: res =&gt; res.data.list,</div><div class="line">    handleError: error =&gt; error</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>同时，我们在reducer中进行简单的处理即可，依旧可以进行默认的三个状态处理</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> list = &#123;</div><div class="line">  <span class="comment">// 定义reducer头，会自动变为getList(开始请求),getListSuccess,getListFailed</span></div><div class="line">  <span class="comment">// 并进行loading等默认处理</span></div><div class="line">  fetch: <span class="string">'getList'</span></div><div class="line">  state: &#123;</div><div class="line">    list: []</div><div class="line">  &#125;,</div><div class="line">  reducers: &#123;</div><div class="line">    <span class="comment">// 二次处理</span></div><div class="line">    getListSuccess: (state, payload) =&gt; (&#123;</div><div class="line">      ...state,</div><div class="line">      list: payload</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="与项目进行整合"><a href="#与项目进行整合" class="headerlink" title="与项目进行整合"></a>与项目进行整合</h2><p>我们会看到，我们已经将redux的api进行了极大的简化，但是依旧保持了原有的结构。目的有以下几点：</p>
+<ol>
+<li>依旧遵循默认原则，保证项目的规范性</li>
+<li>通过约定和命名空间来保证action和reducer的match</li>
+<li>底层还是使用redux实现，这些只不过是语法糖</li>
+<li>保证与老项目的兼容性</li>
+</ol>
+<p>原有的数据流变成了这样：<br><img src="/images/easy-redux.png" alt=""></p>
+<p>因此，我们是在redux的基础上进行二次封装的，我们依然保证了原有的Redux数据流，保证数据的可回溯性，增强业务的可预测性与错误定位能力。这样能极大的保证与老项目的兼容性，所以我们需要做的，只是对action和reducer的转化工作</p>
+<h3 id="1-combinceReducer返回原格式的reducer"><a href="#1-combinceReducer返回原格式的reducer" class="headerlink" title="1.combinceReducer返回原格式的reducer"></a>1.combinceReducer返回原格式的reducer</h3><p>我们通过新的combinceReducer，将新的格式，转化为之前的reducer格式，并保存各个reducer其和对应的action的命名空间。</p>
+<p>代码简单示意：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获取各reducers里的方法</span></div><div class="line"><span class="keyword">const</span> actionNames = <span class="built_in">Object</span>.keys(reducers)</div><div class="line"><span class="keyword">const</span> resultActions = actionNames.map(action =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> childNamespace = <span class="string">`<span class="subst">$&#123;namespace&#125;</span>/<span class="subst">$&#123;action&#125;</span>`</span></div><div class="line">  <span class="comment">// 将action存入namespace</span></div><div class="line">  Namespace.setActionByNamespace(childNamespace)</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    name: Namespace.toAction(childNamespace),</div><div class="line">    fn: reducers[action]</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// 返回默认格式</span></div><div class="line"><span class="keyword">return</span> (state = inititalState, action) =&gt; &#123;</div><div class="line">  <span class="comment">// 查询action对应的新的reducer里的方法</span></div><div class="line">  <span class="keyword">const</span> actionFn = resultActions.find(cur =&gt; cur.name === action.type)</div><div class="line">  <span class="keyword">if</span> (actionFn) &#123;</div><div class="line">    <span class="keyword">return</span> actionFn.fn &amp;&amp; actionFn.fn(state, action.payload)</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> state</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="2-新的action创建函数最终dispatch出原格式的action"><a href="#2-新的action创建函数最终dispatch出原格式的action" class="headerlink" title="2.新的action创建函数最终dispatch出原格式的action"></a>2.新的action创建函数最终dispatch出原格式的action</h2><p>我们需要把这样格式的函数，转化成这样</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">count =&gt; dispatch =&gt; dispatch(<span class="string">'/count/add'</span>, count)</div><div class="line"></div><div class="line"><span class="comment">//or</span></div><div class="line">params =&gt; dispatch =&gt; &#123; dispatch(<span class="string">'/count/add'</span>, <span class="number">1</span>), dispatch(<span class="string">'/count/sub'</span>, <span class="number">2</span>) &#125;</div><div class="line"></div><div class="line"><span class="comment">//结果</span></div><div class="line">count =&gt; (&#123; type: <span class="string">'count_add'</span>, payload: count &#125;)</div></pre></td></tr></table></figure>
+<p>这里的处理比较复杂，其实就是改造我们的dispatch函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">action =&gt; params =&gt; (dispatch, getstate) =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> retDispatch = (namespace, payload) =&gt; &#123;</div><div class="line">    <span class="keyword">return</span> dispatch(&#123;</div><div class="line">      type: Namespace.get(namespace),</div><div class="line">      payload</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> action(params)(retDispatch, getstate)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过对Redux Api的改造，相当于二次封装，已经很大的简化了目前在项目中的样板代码，并且在项目中很顺畅的使用。</p>
+<p>针对整个过程，其实还有几个可以改进的地方：</p>
+<ul>
+<li>actions的转化过程，交由中间件处理</li>
+<li>性能问题，目前相当于多做了一层转化，但是目前影响不大</li>
+<li>reducer,action复用</li>
+</ul>
+<p>有兴趣的话，欢迎探讨~ 附上github <a href="https://github.com/callmedadaxin/easy-redux" target="_blank" rel="external">easy-redux</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/React/" rel="tag">#React</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/13/analyse-project-with-webpack/" rel="next" title="借助webpack对项目进行分析优化">
+                <i class="fa fa-chevron-left"></i> 借助webpack对项目进行分析优化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用middleware简化请求"><span class="nav-number">2.</span> <span class="nav-text">使用middleware简化请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#再进一步，简化Redux-Api"><span class="nav-number">3.</span> <span class="nav-text">再进一步，简化Redux Api</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-冗长的switch语句"><span class="nav-number">3.1.</span> <span class="nav-text">1.冗长的switch语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-复杂的action创建函数"><span class="nav-number">3.2.</span> <span class="nav-text">2.复杂的action创建函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-别忘了请求"><span class="nav-number">3.3.</span> <span class="nav-text">3.别忘了请求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与项目进行整合"><span class="nav-number">4.</span> <span class="nav-text">与项目进行整合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-combinceReducer返回原格式的reducer"><span class="nav-number">4.1.</span> <span class="nav-text">1.combinceReducer返回原格式的reducer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-新的action创建函数最终dispatch出原格式的action"><span class="nav-number">5.</span> <span class="nav-text">2.新的action创建函数最终dispatch出原格式的action</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

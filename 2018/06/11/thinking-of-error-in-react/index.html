@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="设计模式," />
+  <meta name="keywords" content="JavaScript,React," />
 
 
 
@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="将对象组合成树形结构以表示‘部分-整体’的曾侧结构。并利用多态性使单个对象和组合对象的使用具有一致性。">
+<meta name="description" content="近日在工作中由于疏忽问题导致某个客户的系统直接崩盘，极大的影响了用户使用产品的体验。在经过修改之后，不得不思考下在日常开发中的一些坏习惯以及如何规避这些日常问题了。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="组合模式">
-<meta property="og:url" content="http://yoursite.com/2017/08/17/组合模式/index.html">
+<meta property="og:title" content="关于一次线上出错的思考--如何规避线上程序崩盘">
+<meta property="og:url" content="http://yoursite.com/2018/06/11/thinking-of-error-in-react/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="将对象组合成树形结构以表示‘部分-整体’的曾侧结构。并利用多态性使单个对象和组合对象的使用具有一致性。">
-<meta property="og:updated_time" content="2017-08-17T11:34:54.000Z">
+<meta property="og:description" content="近日在工作中由于疏忽问题导致某个客户的系统直接崩盘，极大的影响了用户使用产品的体验。在经过修改之后，不得不思考下在日常开发中的一些坏习惯以及如何规避这些日常问题了。">
+<meta property="og:updated_time" content="2018-06-11T06:41:03.681Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="组合模式">
-<meta name="twitter:description" content="将对象组合成树形结构以表示‘部分-整体’的曾侧结构。并利用多态性使单个对象和组合对象的使用具有一致性。">
+<meta name="twitter:title" content="关于一次线上出错的思考--如何规避线上程序崩盘">
+<meta name="twitter:description" content="近日在工作中由于疏忽问题导致某个客户的系统直接崩盘，极大的影响了用户使用产品的体验。在经过修改之后，不得不思考下在日常开发中的一些坏习惯以及如何规避这些日常问题了。">
 
 
 
@@ -114,9 +114,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/17/组合模式/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/11/thinking-of-error-in-react/"/>
 
-  <title> 组合模式 | 王卫新的博客 </title>
+  <title> 关于一次线上出错的思考--如何规避线上程序崩盘 | 王卫新的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -256,7 +256,7 @@
             
             
               
-                组合模式
+                关于一次线上出错的思考--如何规避线上程序崩盘
               
             
           </h1>
@@ -268,8 +268,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-08-17T19:32:12+08:00" content="2017-08-17">
-              2017-08-17
+            <time itemprop="dateCreated" datetime="2018-06-11T10:22:32+08:00" content="2018-06-11">
+              2018-06-11
             </time>
           </span>
 
@@ -282,8 +282,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">学习笔记</span>
+                  <a href="/categories/心得实践/" itemprop="url" rel="index">
+                    <span itemprop="name">心得实践</span>
                   </a>
                 </span>
 
@@ -302,7 +302,7 @@
 
           
           
-             <span id="/2017/08/17/组合模式/" class="leancloud_visitors" data-flag-title="组合模式">
+             <span id="/2018/06/11/thinking-of-error-in-react/" class="leancloud_visitors" data-flag-title="关于一次线上出错的思考--如何规避线上程序崩盘">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -325,31 +325,20 @@
 
       
         <blockquote>
-<p>将对象组合成树形结构以表示‘部分-整体’的曾侧结构。并利用多态性使单个对象和组合对象的使用具有一致性。</p>
+<p>近日在工作中由于疏忽问题导致某个客户的系统直接崩盘，极大的影响了用户使用产品的体验。在经过修改之后，不得不思考下在日常开发中的一些坏习惯以及如何规避这些日常问题了。</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
-<li>通过对命令的封装，可一键对各种命令进行执行，不用关心各命令的执行过程，并依次向下传递</li>
-<li>用户只需关心最顶层的组合对象即可</li>
-<li>可以一致的对待组合对象和基本对象</li>
-</ul>
-<h2 id="简例"><a href="#简例" class="headerlink" title="简例"></a>简例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">var macroCommand = function ()&#123;</div><div class="line">  var commandList = []</div><div class="line">  return &#123;</div><div class="line">    add (command)&#123;</div><div class="line">      this.commandList.push(command)</div><div class="line">    &#125;,</div><div class="line">    excute()&#123;</div><div class="line">      commandList.forEach(command =&gt; command.excute())</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">var command 1 = &#123;</div><div class="line">  excute() &#123;</div><div class="line">    console.log(‘命令1’)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">var command 2 = &#123;</div><div class="line">  excute() &#123;</div><div class="line">    console.log(‘命令2’)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var command 3 = &#123;</div><div class="line">  excute() &#123;</div><div class="line">    console.log(‘命令3’)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var command 4 = &#123;</div><div class="line">  excute() &#123;</div><div class="line">    console.log(‘命令4’)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var macroCommand1 = macroCommand()</div><div class="line">macroCommand1.add(command1)</div><div class="line">macroCommand1.add(command2)</div><div class="line"></div><div class="line">var macroCommand2 = macroCommand()</div><div class="line">macroCommand2.add(command3)</div><div class="line">macroCommand2.add(command4)</div><div class="line"></div><div class="line">var macroCommand3 = macroCommand()</div><div class="line">macroCommand3.add(macroCommand1)</div><div class="line">macroCommand3.add(macroCommand2)</div><div class="line"></div><div class="line">macroCommand3.excute()</div></pre></td></tr></table></figure>
-<p>可见，我们的组合命令可以任意的向下扩展，仅仅关心执行即可。</p>
-<h2 id="透明性带来的安全问题"><a href="#透明性带来的安全问题" class="headerlink" title="透明性带来的安全问题"></a>透明性带来的安全问题</h2><ul>
-<li>组合对象都带有add方法而叶节点没有</li>
-<li>通过给叶节点添加同样的方法并抛出异常来解决</li>
-</ul>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><h3 id="1-组合模式不是父子关系"><a href="#1-组合模式不是父子关系" class="headerlink" title="1.组合模式不是父子关系"></a>1.组合模式不是父子关系</h3><p>组合对象是一种聚合关系，叶节点并不是组合对象的子类，只是具有相同的接口</p>
-<h3 id="2-针对叶节点操作的一致性"><a href="#2-针对叶节点操作的一致性" class="headerlink" title="2.针对叶节点操作的一致性"></a>2.针对叶节点操作的一致性</h3><p>针对一系列叶节点，需要有一致性操作，假设有特殊情况，就不太方便了。</p>
-<h3 id="3-双向映射关系"><a href="#3-双向映射关系" class="headerlink" title="3.双向映射关系"></a>3.双向映射关系</h3><p>对于某种情况，假设是给员工发邮件，假设员工隶属多个组，会重复收到。这种结构是不合适的，往往需要建立双向映射关系。<br>我们可以通过中介者模式来管理这些对象。</p>
-<h3 id="4-用职责链模式提高组合模式性能"><a href="#4-用职责链模式提高组合模式性能" class="headerlink" title="4.用职责链模式提高组合模式性能"></a>4.用职责链模式提高组合模式性能</h3><p>借用职责模式避免遍历整棵树</p>
-<h2 id="引用父对象"><a href="#引用父对象" class="headerlink" title="引用父对象"></a>引用父对象</h2><p>有的时候还是需要保持父级组合对象的引用，来进行更多的操作，可以通过这种方式实现</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var macroCommand = function ()&#123;</div><div class="line">  return &#123;</div><div class="line">    parent: null,</div><div class="line">    commandList = [],</div><div class="line">    add (command)&#123;</div><div class="line">      this.commandList.push(command)</div><div class="line">      command.parent = this</div><div class="line">    &#125;,</div><div class="line">    excute()&#123;</div><div class="line">      this.commandList.forEach(command =&gt; command.excute())</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>组合模式可以大大简化用户代码，适用于以下两种情况：</p>
-<ul>
-<li>表示对象的部分-整体结构，进行统一操作。在组合模式中添加和删除节点非常方便。</li>
-<li>客户需要统一对待树中所有的对象，用户不用关心正在处理的是组合对象还是叶对象。</li>
-</ul>
+<p>在日常开发中，我们往往会有很多不好的习惯，写出一些非常不健壮的代码，导致由于数据和条件的多样性，程序未能作出很好的预判。同时由于我们未能对错误进行好的处理，导致程序直接卡死。虽然这些问题可能是非常“低级”的错误，但也是非常常见的错误，所以有必要拿出来说一说。</p>
+<h2 id="1-为键值匹配设定默认值"><a href="#1-为键值匹配设定默认值" class="headerlink" title="1.为键值匹配设定默认值"></a>1.为键值匹配设定默认值</h2><p>针对以下这种键值匹配，我们往往并不能对所有的可能进行枚举，建议对其设置通用的默认值，也避免了在业务逻辑中进行重复的处理。避免为匹配到正确的值而报错。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> map = (obj, defaultValue) =&gt; &#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</div><div class="line">    get (target, key) &#123;</div><div class="line">      <span class="comment">// 你可以在这里进行其他处理</span></div><div class="line">      <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(target, key, receiver) || defaultValue</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> typeValueMap = map(&#123;</div><div class="line">  a: &#123;</div><div class="line">    color: <span class="string">'red'</span>,</div><div class="line">    desc: <span class="string">'红色'</span></div><div class="line">  &#125;,</div><div class="line">  b: &#123;</div><div class="line">    color: <span class="string">'blue'</span>,</div><div class="line">    desc: <span class="string">'蓝色'</span></div><div class="line">  &#125;</div><div class="line">&#125;, &#123;</div><div class="line">  color: <span class="string">'ccc'</span>,</div><div class="line">  desc: <span class="string">'灰色'</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="keyword">const</span> result = typeValueMap[type]</div></pre></td></tr></table></figure>
+<h2 id="2-当css-modules不能正确匹配时，不直接throw"><a href="#2-当css-modules不能正确匹配时，不直接throw" class="headerlink" title="2.当css-modules不能正确匹配时，不直接throw"></a>2.当css-modules不能正确匹配时，不直接throw</h2><p>css-modules会针对未能匹配的样式名，直接抛出问题，使整个模块崩掉。在生产环境中，个人觉得这种做法可能过于激进了，当然官方也提供了handleNotFoundStyleName参数，用于设置未匹配时，是直接throw, warn还是忽略。在此我们可以进行统一的处理：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cssmodules <span class="keyword">from</span> <span class="string">'react-css-modules'</span></div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> (style, allowMutiple = <span class="literal">false</span>) =&gt; cssmodules(style, &#123;</div><div class="line">  allowMultiple,</div><div class="line">  handleNotFoundStyleName: <span class="string">'log'</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h2 id="3-对未知的事件进行try-catch"><a href="#3-对未知的事件进行try-catch" class="headerlink" title="3.对未知的事件进行try/catch"></a>3.对未知的事件进行try/catch</h2><p>程序的执行过程中，我们往往无法保证传入的数据是我们想要的，因此我们需要对一些不能保证的过程进行try/catch，防止程序卡死。这也是很基础的一个内容了，但是保持良好的代码风格还是很重要的！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> ret</div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">  ret = <span class="built_in">JSON</span>.parse(json)</div><div class="line">&#125; <span class="keyword">catch</span> (error) &#123;</div><div class="line">  <span class="comment">// 错误处理，错误上报</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="4-使用ErrorBoundary对错误进行友好提示，保证其他模块的可用性"><a href="#4-使用ErrorBoundary对错误进行友好提示，保证其他模块的可用性" class="headerlink" title="4.使用ErrorBoundary对错误进行友好提示，保证其他模块的可用性"></a>4.使用ErrorBoundary对错误进行友好提示，保证其他模块的可用性</h2><p>类似try/catch，在react 16中也提供了对组件内部异常进行捕获的机制。我们可以利用这个机制，对错误进行友好的提示，避免整个程序卡死，保证其他模块是可用的，同时可以进行错误上报等操作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">ErrorBoundary</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  state = &#123;</div><div class="line">    error: <span class="literal">false</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  componentDidCatch(error, info) &#123;</div><div class="line">    <span class="keyword">const</span> &#123; onError = report, children, ...others &#125; = <span class="keyword">this</span>.props</div><div class="line">    <span class="keyword">this</span>.setState(&#123;</div><div class="line">      error: &#123;</div><div class="line">        error,</div><div class="line">        info,</div><div class="line">        prop: others</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">    onError(error, info, others)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">const</span> &#123; error &#125; = <span class="keyword">this</span>.state</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (error) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">ErrorBlock</span> <span class="attr">error</span>=<span class="string">&#123;error&#125;</span> /&gt;</span></span></div><div class="line">    &#125;</div><div class="line">    return this.props.children</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="5-及时进行错误回传，监控平台的稳定性"><a href="#5-及时进行错误回传，监控平台的稳定性" class="headerlink" title="5.及时进行错误回传，监控平台的稳定性"></a>5.及时进行错误回传，监控平台的稳定性</h2><p>通过配合类似<a href="https://github.com/getsentry/sentry" target="_blank" rel="external">sentry</a>这样的平台错误上报与收集，可以很方便的拿到用户的错误信息，错误时的props等数据，方便定位问题，拿到重要的反馈信息。</p>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h2><p>总的来说，很多情况下错误的诞生还是由于我们代码的“不健壮”导致的，所以在使用其他方案进行规避的同时，如何提升代码质量，保证代码稳定运行，是我们需要不断追求与提升的。</p>
 
       
     </div>
@@ -372,7 +361,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/设计模式/" rel="tag">#设计模式</a>
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/React/" rel="tag">#React</a>
           
         </div>
       
@@ -381,17 +372,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/16/命令模式/" rel="next" title="命令模式">
-                <i class="fa fa-chevron-left"></i> 命令模式
+              <a href="/2018/05/18/rethink-redux/" rel="next" title="我是如何一步步“改造”redux的">
+                <i class="fa fa-chevron-left"></i> 我是如何一步步“改造”redux的
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/29/unified-styling-language/" rel="prev" title="unified-styling-language">
-                unified-styling-language <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -505,7 +492,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简例"><span class="nav-number">2.</span> <span class="nav-text">简例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#透明性带来的安全问题"><span class="nav-number">3.</span> <span class="nav-text">透明性带来的安全问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意"><span class="nav-number">4.</span> <span class="nav-text">注意</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-组合模式不是父子关系"><span class="nav-number">4.1.</span> <span class="nav-text">1.组合模式不是父子关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-针对叶节点操作的一致性"><span class="nav-number">4.2.</span> <span class="nav-text">2.针对叶节点操作的一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-双向映射关系"><span class="nav-number">4.3.</span> <span class="nav-text">3.双向映射关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-用职责链模式提高组合模式性能"><span class="nav-number">4.4.</span> <span class="nav-text">4.用职责链模式提高组合模式性能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用父对象"><span class="nav-number">5.</span> <span class="nav-text">引用父对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-为键值匹配设定默认值"><span class="nav-number">1.</span> <span class="nav-text">1.为键值匹配设定默认值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-当css-modules不能正确匹配时，不直接throw"><span class="nav-number">2.</span> <span class="nav-text">2.当css-modules不能正确匹配时，不直接throw</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-对未知的事件进行try-catch"><span class="nav-number">3.</span> <span class="nav-text">3.对未知的事件进行try/catch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-使用ErrorBoundary对错误进行友好提示，保证其他模块的可用性"><span class="nav-number">4.</span> <span class="nav-text">4.使用ErrorBoundary对错误进行友好提示，保证其他模块的可用性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-及时进行错误回传，监控平台的稳定性"><span class="nav-number">5.</span> <span class="nav-text">5.及时进行错误回传，监控平台的稳定性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-总结"><span class="nav-number">6.</span> <span class="nav-text">6.总结</span></a></li></ol></div>
             
           </div>
         </section>

@@ -255,8 +255,288 @@
             
               
                 
+                <a class="post-title-link" href="/2018/09/21/learn-from-thinkjs-mongo-blog/" itemprop="url">
+                  Something about ThinkJs and Mongoose
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-09-21T17:38:59+08:00" content="2018-09-21">
+              2018-09-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/博客构建/" itemprop="url" rel="index">
+                    <span itemprop="name">博客构建</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/09/21/learn-from-thinkjs-mongo-blog/" class="leancloud_visitors" data-flag-title="Something about ThinkJs and Mongoose">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路</p>
+</blockquote>
+<h2 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h2><p>使用mongoose进行查询时的一些稍微复杂的查询方法，由于是初学，也记录一下:</p>
+<h3 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询"></a>关联查询</h3><p>mongoose可以通过populate方法直接进行关联查询，例如我们有这样的两个实例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> articleSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">  title: <span class="built_in">String</span>,</div><div class="line">  category: &#123;</div><div class="line">    type: Schema.Types.ObjectId,</div><div class="line">    ref: <span class="string">'Catetory'</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"><span class="keyword">const</span> cateSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">  name: <span class="built_in">String</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>可以直接这样进行关联查询:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">articleModel.find(&#123;&#125;)</div><div class="line">  .populate(&#123;</div><div class="line">    path: <span class="string">'category'</span>,</div><div class="line">    match,</div><div class="line">    select,</div><div class="line">    options</div><div class="line">    ...    </div><div class="line">  &#125;)</div></pre></td></tr></table></figure>
+<h3 id="聚合查询"><a href="#聚合查询" class="headerlink" title="聚合查询"></a>聚合查询</h3><p>可以使用aggregate进行聚合查询</p>
+<p>主要聚合的OPERATION可以在<a href="https://blog.csdn.net/qq_14950717/article/details/68925250" target="_blank" rel="external">这里</a>进行查看</p>
+<p>比如，针对文章列表，我们想要对其进行时间归档，可以按以下方式查询：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">aggregate([&#123;</div><div class="line">  $project: &#123;</div><div class="line">    time: &#123; $dateToString: &#123; format: <span class="string">"%Y-%m"</span>, date: <span class="string">"$create_at"</span> &#125; &#125;,</div><div class="line">    data: &#123;</div><div class="line">      _id: <span class="string">'$_id'</span>,</div><div class="line">      title: <span class="string">'$title'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;, &#123;</div><div class="line">  $group: &#123;</div><div class="line">    _id: <span class="string">'$time'</span>,</div><div class="line">    list: &#123;$push: <span class="string">'$data'</span>&#125;</div><div class="line">  &#125;</div><div class="line">&#125;, &#123;</div><div class="line">  $sort: &#123;</div><div class="line">    _id: <span class="number">-1</span></div><div class="line">  &#125;</div><div class="line">&#125;])</div></pre></td></tr></table></figure>
+<p>大体思路就是，使用$project修改文档结构，新增time和data字段，time表示对应的年和月，如2018-07。<br>然后按照对应的time进行分组，将同组的data插入到一个数组中。<br>最后按照_id进行排序。最后我们可以输出以下结构的数据了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">  _id: &apos;2018-08&apos;,</div><div class="line">  list: [&#123;</div><div class="line">    _id: &apos;sdfsdfsdf&apos;,</div><div class="line">    title: &apos;第一篇文章&apos;</div><div class="line">  &#125;, &#123;</div><div class="line">    _id: &apos;sdfaaaaa&apos;,</div><div class="line">    title: &apos;第二篇&apos;</div><div class="line">  &#125;]</div><div class="line">&#125;, &#123;</div><div class="line">  _id: &apos;2018-08&apos;,</div><div class="line">  list: [&#123;</div><div class="line">    _id: &apos;sdfsdfsdf&apos;,</div><div class="line">    title: &apos;第3篇文章&apos;</div><div class="line">  &#125;, &#123;</div><div class="line">    _id: &apos;sdfaaaaa&apos;,</div><div class="line">    title: &apos;第4篇&apos;</div><div class="line">  &#125;]</div><div class="line">&#125;]</div></pre></td></tr></table></figure>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="think-mongoose对populate的支持问题"><a href="#think-mongoose对populate的支持问题" class="headerlink" title="think-mongoose对populate的支持问题"></a>think-mongoose对populate的支持问题</h3><p>在使用think-mongoose进行populate时，会出现相关的model未进行注册</p>
+<p><a href="https://github.com/thinkjs/thinkjs/issues/984" target="_blank" rel="external">参考issue</a></p>
+<p>需要在return schema时手动实例对应的model</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  get schema () &#123;</div><div class="line">    const schema = new Schema(&#123;</div><div class="line">      type: &#123;</div><div class="line">        type: Schema.Types.ObjectId,</div><div class="line">        ref: `$&#123;this.tablePrefix&#125;types`</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">    think.mongoose(&apos;types&apos;)</div><div class="line">    return schema</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中，types是根据model里的文件名称来进行对应的</p>
+<h3 id="使用Context-model返回对象无法确定其类型"><a href="#使用Context-model返回对象无法确定其类型" class="headerlink" title="使用Context.model返回对象无法确定其类型"></a>使用Context.model返回对象无法确定其类型</h3><p>我们在Controller中，通过this.mongoose()方法获取Model实例,但是返回的对象是通用的MongooseModel，<br>typescript无法识别真实实例上的方法，我们需要强制对其进行转化。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">private getArticleModel(): ArticleModel &#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.mongoose(<span class="string">'article'</span>) <span class="keyword">as</span> ArticleModel</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="think-Mongoose实例上不能对mongoose的model进行友好提示"><a href="#think-Mongoose实例上不能对mongoose的model进行友好提示" class="headerlink" title="think.Mongoose实例上不能对mongoose的model进行友好提示"></a>think.Mongoose实例上不能对mongoose的model进行友好提示</h3><p>看了下think-mongoose的声明文件，针对think.Mongoose的声明如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">interface MongooseModel &#123;</div><div class="line">  <span class="keyword">new</span>(modelName?: string, config?: object): MongooseModel;</div><div class="line">  readonly tablePrefix: string;</div><div class="line">  readonly tableName: string;</div><div class="line">  models: object;</div><div class="line">  mongoose(name: string): MongooseModel;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到其未集成mongoose的model声明，我们可以让其集成Model声明，这样在think.Mongoose实例上调用this.find等方法时，就会进行友好的提示及验证了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">interface Base extends Document &#123;&#125;</div><div class="line">interface MongooseModel extends Model&lt;Base&gt; &#123;...&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/08/22/thinking-of-js-environment/" itemprop="url">
+                  thinking-of-js-environment
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-08-22T19:26:46+08:00" content="2018-08-22">
+              2018-08-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/想法/" itemprop="url" rel="index">
+                    <span itemprop="name">想法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/08/22/thinking-of-js-environment/" class="leancloud_visitors" data-flag-title="thinking-of-js-environment">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>从实习到现在接触到前端基本已经三年多了，前端的整个大环境也在这几年经历了很大的变化。从整体上来说，<br>作为一个开发者，借助Webpack等打包工具和几种组件化、数据驱动的框架，整体的开发体验已经很有了很大的提升了。<br>然而，目前的整个大环境真的满足我们的需求了吗？我们现在所做的工作，是不是都是值得或者说必须由我们来完成的？</p>
+</blockquote>
+<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p>我们来看下日常前端开发中，目前有一个怎样的工作环境</p>
+<h3 id="工作流"><a href="#工作流" class="headerlink" title="工作流"></a>工作流</h3><p>得益于Node.js以及在其之上、以Webpack为代表的打包工具，我们拥有了一整套开发流程：</p>
+<ul>
+<li>使用Npm进行包管理</li>
+<li>使用dev server启动开发服务器，配合hot-middleware等进行实时开发调试</li>
+<li>使用打包工具进行打包构建</li>
+<li>自动化测试</li>
+<li>配合Jenkins等工具进行上传、部署（当然这个过程可能包含上面的打包和测试</li>
+<li>使用Sentry等进行错误监控</li>
+</ul>
+<h3 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h3>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/07/20/jenkins-github-hook/" itemprop="url">
-                  jenkins-github-hook
+                  使用Jenkins配合Github hook持续集成
                 </a>
               
             
@@ -303,7 +583,7 @@
 
           
           
-             <span id="/2018/07/20/jenkins-github-hook/" class="leancloud_visitors" data-flag-title="jenkins-github-hook">
+             <span id="/2018/07/20/jenkins-github-hook/" class="leancloud_visitors" data-flag-title="使用Jenkins配合Github hook持续集成">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1241,259 +1521,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/16/命令模式/" itemprop="url">
-                  命令模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-08-16T18:34:07+08:00" content="2017-08-16">
-              2017-08-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/16/命令模式/" class="leancloud_visitors" data-flag-title="命令模式">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>使用松耦合的方式设计程序，向某些对象发送一些请求，并不需要请求的接受者和谁来操作，使得发送者和接收者消除彼此间的耦合关系。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/08/16/命令模式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/10/代理模式/" itemprop="url">
-                  代理moshi
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-08-10T17:13:29+08:00" content="2017-08-10">
-              2017-08-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/10/代理模式/" class="leancloud_visitors" data-flag-title="代理moshi">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>为一个对象提供一个代理，以便控制对它的访问。</p>
-</blockquote>
-<p>关键：提供一个替身对象来控制对该对象的访问，以满足需求。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/08/10/代理模式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1539,7 +1566,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1547,7 +1574,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1556,7 +1583,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

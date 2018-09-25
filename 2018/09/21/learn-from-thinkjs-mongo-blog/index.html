@@ -1,0 +1,764 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="nodejs,mongo,thinkjs," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路
+
+收获使用mongoose进行查询时的一些稍微复杂的查询方法，由于是初学，也记录一下:
+关联查询mongoose可以通过populate方法直接进行关联查询，例如我们有这样的两个实例：
+12345678910const articleSchema = new Schema(&amp;#12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Something about ThinkJs and Mongoose">
+<meta property="og:url" content="http://yoursite.com/2018/09/21/learn-from-thinkjs-mongo-blog/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路
+
+收获使用mongoose进行查询时的一些稍微复杂的查询方法，由于是初学，也记录一下:
+关联查询mongoose可以通过populate方法直接进行关联查询，例如我们有这样的两个实例：
+12345678910const articleSchema = new Schema(&amp;#12">
+<meta property="og:updated_time" content="2018-09-25T02:26:38.558Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Something about ThinkJs and Mongoose">
+<meta name="twitter:description" content="最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路
+
+收获使用mongoose进行查询时的一些稍微复杂的查询方法，由于是初学，也记录一下:
+关联查询mongoose可以通过populate方法直接进行关联查询，例如我们有这样的两个实例：
+12345678910const articleSchema = new Schema(&amp;#12">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/21/learn-from-thinkjs-mongo-blog/"/>
+
+  <title> Something about ThinkJs and Mongoose | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Something about ThinkJs and Mongoose
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-09-21T17:38:59+08:00" content="2018-09-21">
+              2018-09-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/博客构建/" itemprop="url" rel="index">
+                    <span itemprop="name">博客构建</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/09/21/learn-from-thinkjs-mongo-blog/" class="leancloud_visitors" data-flag-title="Something about ThinkJs and Mongoose">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路</p>
+</blockquote>
+<h2 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h2><p>使用mongoose进行查询时的一些稍微复杂的查询方法，由于是初学，也记录一下:</p>
+<h3 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询"></a>关联查询</h3><p>mongoose可以通过populate方法直接进行关联查询，例如我们有这样的两个实例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> articleSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">  title: <span class="built_in">String</span>,</div><div class="line">  category: &#123;</div><div class="line">    type: Schema.Types.ObjectId,</div><div class="line">    ref: <span class="string">'Catetory'</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"><span class="keyword">const</span> cateSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">  name: <span class="built_in">String</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>可以直接这样进行关联查询:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">articleModel.find(&#123;&#125;)</div><div class="line">  .populate(&#123;</div><div class="line">    path: <span class="string">'category'</span>,</div><div class="line">    match,</div><div class="line">    select,</div><div class="line">    options</div><div class="line">    ...    </div><div class="line">  &#125;)</div></pre></td></tr></table></figure>
+<h3 id="聚合查询"><a href="#聚合查询" class="headerlink" title="聚合查询"></a>聚合查询</h3><p>可以使用aggregate进行聚合查询</p>
+<p>主要聚合的OPERATION可以在<a href="https://blog.csdn.net/qq_14950717/article/details/68925250" target="_blank" rel="external">这里</a>进行查看</p>
+<p>比如，针对文章列表，我们想要对其进行时间归档，可以按以下方式查询：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">aggregate([&#123;</div><div class="line">  $project: &#123;</div><div class="line">    time: &#123; $dateToString: &#123; format: <span class="string">"%Y-%m"</span>, date: <span class="string">"$create_at"</span> &#125; &#125;,</div><div class="line">    data: &#123;</div><div class="line">      _id: <span class="string">'$_id'</span>,</div><div class="line">      title: <span class="string">'$title'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;, &#123;</div><div class="line">  $group: &#123;</div><div class="line">    _id: <span class="string">'$time'</span>,</div><div class="line">    list: &#123;$push: <span class="string">'$data'</span>&#125;</div><div class="line">  &#125;</div><div class="line">&#125;, &#123;</div><div class="line">  $sort: &#123;</div><div class="line">    _id: <span class="number">-1</span></div><div class="line">  &#125;</div><div class="line">&#125;])</div></pre></td></tr></table></figure>
+<p>大体思路就是，使用$project修改文档结构，新增time和data字段，time表示对应的年和月，如2018-07。<br>然后按照对应的time进行分组，将同组的data插入到一个数组中。<br>最后按照_id进行排序。最后我们可以输出以下结构的数据了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">  _id: &apos;2018-08&apos;,</div><div class="line">  list: [&#123;</div><div class="line">    _id: &apos;sdfsdfsdf&apos;,</div><div class="line">    title: &apos;第一篇文章&apos;</div><div class="line">  &#125;, &#123;</div><div class="line">    _id: &apos;sdfaaaaa&apos;,</div><div class="line">    title: &apos;第二篇&apos;</div><div class="line">  &#125;]</div><div class="line">&#125;, &#123;</div><div class="line">  _id: &apos;2018-08&apos;,</div><div class="line">  list: [&#123;</div><div class="line">    _id: &apos;sdfsdfsdf&apos;,</div><div class="line">    title: &apos;第3篇文章&apos;</div><div class="line">  &#125;, &#123;</div><div class="line">    _id: &apos;sdfaaaaa&apos;,</div><div class="line">    title: &apos;第4篇&apos;</div><div class="line">  &#125;]</div><div class="line">&#125;]</div></pre></td></tr></table></figure>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="think-mongoose对populate的支持问题"><a href="#think-mongoose对populate的支持问题" class="headerlink" title="think-mongoose对populate的支持问题"></a>think-mongoose对populate的支持问题</h3><p>在使用think-mongoose进行populate时，会出现相关的model未进行注册</p>
+<p><a href="https://github.com/thinkjs/thinkjs/issues/984" target="_blank" rel="external">参考issue</a></p>
+<p>需要在return schema时手动实例对应的model</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  get schema () &#123;</div><div class="line">    const schema = new Schema(&#123;</div><div class="line">      type: &#123;</div><div class="line">        type: Schema.Types.ObjectId,</div><div class="line">        ref: `$&#123;this.tablePrefix&#125;types`</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">    think.mongoose(&apos;types&apos;)</div><div class="line">    return schema</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中，types是根据model里的文件名称来进行对应的</p>
+<h3 id="使用Context-model返回对象无法确定其类型"><a href="#使用Context-model返回对象无法确定其类型" class="headerlink" title="使用Context.model返回对象无法确定其类型"></a>使用Context.model返回对象无法确定其类型</h3><p>我们在Controller中，通过this.mongoose()方法获取Model实例,但是返回的对象是通用的MongooseModel，<br>typescript无法识别真实实例上的方法，我们需要强制对其进行转化。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">private getArticleModel(): ArticleModel &#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.mongoose(<span class="string">'article'</span>) <span class="keyword">as</span> ArticleModel</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="think-Mongoose实例上不能对mongoose的model进行友好提示"><a href="#think-Mongoose实例上不能对mongoose的model进行友好提示" class="headerlink" title="think.Mongoose实例上不能对mongoose的model进行友好提示"></a>think.Mongoose实例上不能对mongoose的model进行友好提示</h3><p>看了下think-mongoose的声明文件，针对think.Mongoose的声明如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">interface MongooseModel &#123;</div><div class="line">  <span class="keyword">new</span>(modelName?: string, config?: object): MongooseModel;</div><div class="line">  readonly tablePrefix: string;</div><div class="line">  readonly tableName: string;</div><div class="line">  models: object;</div><div class="line">  mongoose(name: string): MongooseModel;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到其未集成mongoose的model声明，我们可以让其集成Model声明，这样在think.Mongoose实例上调用this.find等方法时，就会进行友好的提示及验证了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">interface Base extends Document &#123;&#125;</div><div class="line">interface MongooseModel extends Model&lt;Base&gt; &#123;...&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nodejs/" rel="tag">#nodejs</a>
+          
+            <a href="/tags/mongo/" rel="tag">#mongo</a>
+          
+            <a href="/tags/thinkjs/" rel="tag">#thinkjs</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/22/thinking-of-js-environment/" rel="next" title="thinking-of-js-environment">
+                <i class="fa fa-chevron-left"></i> thinking-of-js-environment
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">44</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#收获"><span class="nav-number">1.</span> <span class="nav-text">收获</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关联查询"><span class="nav-number">1.1.</span> <span class="nav-text">关联查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合查询"><span class="nav-number">1.2.</span> <span class="nav-text">聚合查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">2.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#think-mongoose对populate的支持问题"><span class="nav-number">2.1.</span> <span class="nav-text">think-mongoose对populate的支持问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Context-model返回对象无法确定其类型"><span class="nav-number">2.2.</span> <span class="nav-text">使用Context.model返回对象无法确定其类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#think-Mongoose实例上不能对mongoose的model进行友好提示"><span class="nav-number">2.3.</span> <span class="nav-text">think.Mongoose实例上不能对mongoose的model进行友好提示</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

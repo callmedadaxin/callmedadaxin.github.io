@@ -86,7 +86,7 @@
 
 <meta name="description" content="最近尝试了下使用Jenkins+Github hook持续集成，实现master/dev分支进行提交的时候，自动执行脚本进行构建，重启服务等操作。整个过程其实很简单，主要是一步一步跟着教程来走。在这里把每个步骤和要求都记录下，以便日后查看。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jenkins-github-hook">
+<meta property="og:title" content="使用Jenkins配合Github hook持续集成">
 <meta property="og:url" content="http://yoursite.com/2018/07/20/jenkins-github-hook/index.html">
 <meta property="og:site_name" content="王卫新的博客">
 <meta property="og:description" content="最近尝试了下使用Jenkins+Github hook持续集成，实现master/dev分支进行提交的时候，自动执行脚本进行构建，重启服务等操作。整个过程其实很简单，主要是一步一步跟着教程来走。在这里把每个步骤和要求都记录下，以便日后查看。">
@@ -98,9 +98,9 @@
 <meta property="og:image" content="http://yoursite.com/images/jenkins-6.png">
 <meta property="og:image" content="http://yoursite.com/images/jenkins-7.png">
 <meta property="og:image" content="http://yoursite.com/images/jenkins-8.png">
-<meta property="og:updated_time" content="2018-07-20T10:06:45.291Z">
+<meta property="og:updated_time" content="2018-09-25T02:27:58.348Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jenkins-github-hook">
+<meta name="twitter:title" content="使用Jenkins配合Github hook持续集成">
 <meta name="twitter:description" content="最近尝试了下使用Jenkins+Github hook持续集成，实现master/dev分支进行提交的时候，自动执行脚本进行构建，重启服务等操作。整个过程其实很简单，主要是一步一步跟着教程来走。在这里把每个步骤和要求都记录下，以便日后查看。">
 <meta name="twitter:image" content="http://yoursite.com/images/jenkins-1.png">
 
@@ -125,7 +125,7 @@
 
   <link rel="canonical" href="http://yoursite.com/2018/07/20/jenkins-github-hook/"/>
 
-  <title> jenkins-github-hook | 王卫新的博客 </title>
+  <title> 使用Jenkins配合Github hook持续集成 | 王卫新的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -265,7 +265,7 @@
             
             
               
-                jenkins-github-hook
+                使用Jenkins配合Github hook持续集成
               
             
           </h1>
@@ -311,7 +311,7 @@
 
           
           
-             <span id="/2018/07/20/jenkins-github-hook/" class="leancloud_visitors" data-flag-title="jenkins-github-hook">
+             <span id="/2018/07/20/jenkins-github-hook/" class="leancloud_visitors" data-flag-title="使用Jenkins配合Github hook持续集成">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -348,7 +348,7 @@
 <li>Jenkins和Github配置</li>
 <li>配置任务</li>
 </ol>
-<h2 id="1-安装JDK"><a href="#1-安装JDK" class="headerlink" title="1.安装JDK"></a>1.安装JDK</h2><p>Jenkins需要JDK才可以运行，我们首先安装JDK</p>
+<h2 id="1-安装JDK"><a href="#1-安装JDK" class="headerlink" title="1. 安装JDK"></a>1. 安装JDK</h2><p>Jenkins需要JDK才可以运行，我们首先安装JDK</p>
 <h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">下载链接查看地址</a></p>
 <p>首先点击Accept License Agreement，选择Linux对应版本</p>
 <p><strong><em>注</em></strong>若想要直接获取下载链接，使用wget进行下载是不行的，我们可以先点击链接进行下载，然后在chrome中的下载任务中查看下载链接进行复制。</p>
@@ -432,6 +432,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/08/22/thinking-of-js-environment/" rel="prev" title="thinking-of-js-environment">
+                thinking-of-js-environment <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -498,7 +502,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -506,7 +510,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -515,7 +519,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -544,7 +548,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要步骤"><span class="nav-number">2.</span> <span class="nav-text">主要步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装JDK"><span class="nav-number">3.</span> <span class="nav-text">1.安装JDK</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载"><span class="nav-number">3.0.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解压"><span class="nav-number">3.0.2.</span> <span class="nav-text">解压</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境变量"><span class="nav-number">3.0.3.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用配置"><span class="nav-number">3.0.4.</span> <span class="nav-text">启用配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看版本"><span class="nav-number">3.0.5.</span> <span class="nav-text">查看版本</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-安装Centos"><span class="nav-number">4.</span> <span class="nav-text">2. 安装Centos</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动"><span class="nav-number">4.0.1.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更改端口"><span class="nav-number">4.0.2.</span> <span class="nav-text">更改端口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Jenkins和Github配置"><span class="nav-number">5.</span> <span class="nav-text">3. Jenkins和Github配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化Jenkins"><span class="nav-number">5.1.</span> <span class="nav-text">初始化Jenkins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Github-webhooks"><span class="nav-number">5.2.</span> <span class="nav-text">配置Github webhooks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-在对项目有写权限的用户上获取token"><span class="nav-number">5.2.1.</span> <span class="nav-text">1.在对项目有写权限的用户上获取token</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-设置webhooks"><span class="nav-number">5.2.2.</span> <span class="nav-text">2.设置webhooks</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Jenkins的Git-Plugin"><span class="nav-number">5.3.</span> <span class="nav-text">配置Jenkins的Git Plugin</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-配置任务"><span class="nav-number">6.</span> <span class="nav-text">4. 配置任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-新建"><span class="nav-number">6.1.</span> <span class="nav-text">1.新建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-配置源码管理"><span class="nav-number">6.2.</span> <span class="nav-text">2.配置源码管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-构建触发器，构建环境"><span class="nav-number">6.3.</span> <span class="nav-text">3.构建触发器，构建环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-编写你的构建脚本"><span class="nav-number">6.4.</span> <span class="nav-text">4.编写你的构建脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题记录"><span class="nav-number">7.</span> <span class="nav-text">问题记录</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要步骤"><span class="nav-number">2.</span> <span class="nav-text">主要步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装JDK"><span class="nav-number">3.</span> <span class="nav-text">1. 安装JDK</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载"><span class="nav-number">3.0.1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解压"><span class="nav-number">3.0.2.</span> <span class="nav-text">解压</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境变量"><span class="nav-number">3.0.3.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用配置"><span class="nav-number">3.0.4.</span> <span class="nav-text">启用配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看版本"><span class="nav-number">3.0.5.</span> <span class="nav-text">查看版本</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-安装Centos"><span class="nav-number">4.</span> <span class="nav-text">2. 安装Centos</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动"><span class="nav-number">4.0.1.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更改端口"><span class="nav-number">4.0.2.</span> <span class="nav-text">更改端口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Jenkins和Github配置"><span class="nav-number">5.</span> <span class="nav-text">3. Jenkins和Github配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化Jenkins"><span class="nav-number">5.1.</span> <span class="nav-text">初始化Jenkins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Github-webhooks"><span class="nav-number">5.2.</span> <span class="nav-text">配置Github webhooks</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-在对项目有写权限的用户上获取token"><span class="nav-number">5.2.1.</span> <span class="nav-text">1.在对项目有写权限的用户上获取token</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-设置webhooks"><span class="nav-number">5.2.2.</span> <span class="nav-text">2.设置webhooks</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Jenkins的Git-Plugin"><span class="nav-number">5.3.</span> <span class="nav-text">配置Jenkins的Git Plugin</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-配置任务"><span class="nav-number">6.</span> <span class="nav-text">4. 配置任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-新建"><span class="nav-number">6.1.</span> <span class="nav-text">1.新建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-配置源码管理"><span class="nav-number">6.2.</span> <span class="nav-text">2.配置源码管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-构建触发器，构建环境"><span class="nav-number">6.3.</span> <span class="nav-text">3.构建触发器，构建环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-编写你的构建脚本"><span class="nav-number">6.4.</span> <span class="nav-text">4.编写你的构建脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题记录"><span class="nav-number">7.</span> <span class="nav-text">问题记录</span></a></li></ol></div>
             
           </div>
         </section>

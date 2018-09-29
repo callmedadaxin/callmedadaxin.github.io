@@ -255,6 +255,184 @@
             
               
                 
+                <a class="post-title-link" href="/2018/09/29/optimize-react-app-with-chrome-devtools/" itemprop="url">
+                  使用Chrome Performance对页面进行分析优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-09-29T14:29:37+08:00" content="2018-09-29">
+              2018-09-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/心得实践/" itemprop="url" rel="index">
+                    <span itemprop="name">心得实践</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/09/29/optimize-react-app-with-chrome-devtools/" class="leancloud_visitors" data-flag-title="使用Chrome Performance对页面进行分析优化">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>最近发现在调试应用的过程中，往往会发现对React某一组件的修改，往往会触发其他组件进行重新render,<br>有时这两个组件基本毫无关联。尤其是针对列表组件，往往会导致很多不必要的刷新。所以这次配合使用Chrome Performance对这点进行优化。本篇文章主要介绍开发工具的使用方式及各个结果的实际意义。</p>
+</blockquote>
+<h2 id="主要步骤"><a href="#主要步骤" class="headerlink" title="主要步骤"></a>主要步骤</h2><ol>
+<li>使用Chrome匿名模式，以保证环境的纯净性，不受当前安装插件的影响。</li>
+<li>勾选Screenshots选项，我们会看到各个时间渲染状态的截图</li>
+<li>可以使用CPU Network来模拟CPU和网络状态，以模拟弱网或者较差硬件下的性能。</li>
+<li>点击Record进行录制,录制过程中需等待一段时间，过程中可以进行你想要测试的相关操作</li>
+</ol>
+<h2 id="显示结果介绍"><a href="#显示结果介绍" class="headerlink" title="显示结果介绍"></a>显示结果介绍</h2><p>录制结束后，会在右侧生成一份分析报告，大体样式如下所示，直接看上去可能花花绿绿会有点蒙，我们来逐个解释各个部分及标识的意思及作用</p>
+<p><img src="/images/chrome-1.png" alt=""></p>
+<h3 id="三大时间"><a href="#三大时间" class="headerlink" title="三大时间"></a>三大时间</h3><p>你可以在上面的图上看到三条竖线：</p>
+<ul>
+<li>蓝线代表DOMContentLoaded事件</li>
+<li>绿线代表首次绘制时间</li>
+<li>红线代表load事件</li>
+</ul>
+<p><img src="/images/chrome-7.png" alt=""></p>
+<h3 id="FPS"><a href="#FPS" class="headerlink" title="FPS"></a>FPS</h3><p>FPS是用来分析动画的主要性能指标，如果能保持60FPS的话，则证明不错。主要包括以下几点</p>
+<p><img src="/images/chrome-3.png" alt=""></p>
+<ol>
+<li>上面的绿色区域标识各个时段的FPS状态，一般来说，绿色长条越高，说明FPS越高</li>
+<li>如果你在绿条上面发现一个红色的长条，说明该帧存在严重问题，可能会造成卡顿</li>
+<li>你可以在下面查看各个区间的实际帧的值是多少</li>
+</ol>
+<h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><p>绿色调下面的黄色和其他颜色混合的区域代表CPU图标，表明在各段时间内，CPU在各种处理上所花费的时间。<br>下面的Summary会显示选中事件内各种处理的总时间, 包括:</p>
+<ul>
+<li>蓝色，代表HTML文件</li>
+<li>黄色，代表脚本</li>
+<li>紫色，代表样式</li>
+<li>绿色，代表媒体文件</li>
+<li>其他，代表资源</li>
+</ul>
+<p><img src="/images/chrome-3.png" alt=""></p>
+<p>正常来说，React这种框架通过虚拟DOM,diff算法等，将更改合并，减少了不必要的DOM更新操作，从而减少了实际的Render时间</p>
+<p>在下面CPU详情中，你可以查看各个组件/方法的实际CPU耗时，查看到底是哪里占用的耗时最多，可以针对其进行定位及优化。同时你可以看到他是在进行mount还是update操作。</p>
+<p><img src="/images/chrome-4.png" alt=""></p>
+<p>若事件长条的右上角出现了红色的小三角，则说明这个事件需要特别注意，有可能存在问题。<br>双击长条，可以在Summary显示详细信息，点击对应的链接，可以跳转到对应代码处</p>
+<p><img src="/images/chrome-5.png" alt=""></p>
+<p>同样，对应的小紫条出现了红色小三角，则说明有可能存在很多reflow警告</p>
+<p><img src="/images/chrome-6.png" alt=""></p>
+<h2 id="主要优化点"><a href="#主要优化点" class="headerlink" title="主要优化点"></a>主要优化点</h2><p>在分析过程中，对应的几个参数往往说明了我们页面运行时优化需要关注的几个点。</p>
+<h3 id="Javacript计算"><a href="#Javacript计算" class="headerlink" title="Javacript计算"></a>Javacript计算</h3><p>避免触发大量视觉变化的计算降低应用性能，找出耗时较长的Evaluate Script事件，启用<a href="https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/timeline-tool?hl=zh-cn#profile-js" target="_blank" rel="external">JS分析器</a>进行定位。下图介绍了几点常用的问题和解决方案：(<a href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools/?hl=zh-cn" target="_blank" rel="external">from</a>)</p>
+<p><img src="/images/chrome-7.ong" alt=""></p>
+<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><p>避免大量的样式重计算。这个比较基础，可以参考<a href="https://developers.google.com/web/fundamentals/performance/rendering/reduce-the-scope-and-complexity-of-style-calculations?hl=zh-cn" target="_blank" rel="external">缩小样式计算的范围并降低其复杂性</a></p>
+<h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><ul>
+<li>避免过早布局，导致重复渲染，可以先批处理样式读取，最后进行写入</li>
+<li>避免循环，强制浏览器仿佛进行重新计算布局。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们介绍了Chrome Performance的使用方法，以及几点常见的问题和解决策略</p>
+<ul>
+<li>不要编写会强制浏览器重新计算布局的 JavaScript。将读取和写入功能分开，并首先执行读取。</li>
+<li>不要使您的 CSS 过于复杂。减少使用 CSS 并保持 CSS 选择器简洁。</li>
+<li>尽可能地避免布局。选择根本不会触发布局的 CSS。</li>
+<li>绘制比任何其他渲染活动花费的时间都要多。请留意绘制瓶颈。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools/?hl=zh-cn" target="_blank" rel="external">分析运行时性能</a><br><a href="https://nicholaslee119.github.io/2017/10/04/Chrome-Devtool-Performance%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" target="_blank" rel="external">Chrome-Devtool-Performance使用指南</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/09/21/learn-from-thinkjs-mongo-blog/" itemprop="url">
                   Something about ThinkJs and Mongoose
                 </a>
@@ -1387,132 +1565,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/08/16/命令模式/" itemprop="url">
-                  命令模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-08-16T18:34:07+08:00" content="2017-08-16">
-              2017-08-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
-                    <span itemprop="name">学习笔记</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/08/16/命令模式/" class="leancloud_visitors" data-flag-title="命令模式">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>使用松耦合的方式设计程序，向某些对象发送一些请求，并不需要请求的接受者和谁来操作，使得发送者和接收者消除彼此间的耦合关系。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/08/16/命令模式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1558,7 +1610,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">43</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1575,7 +1627,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -326,66 +326,14 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>最近发现在调试应用的过程中，往往会发现对React某一组件的修改，往往会触发其他组件进行重新render,<br>有时这两个组件基本毫无关联。尤其是针对列表组件，往往会导致很多不必要的刷新。所以这次配合使用Chrome Performance对这点进行优化。本篇文章主要介绍开发工具的使用方式及各个结果的实际意义。</p>
 </blockquote>
-<h2 id="主要步骤"><a href="#主要步骤" class="headerlink" title="主要步骤"></a>主要步骤</h2><ol>
-<li>使用Chrome匿名模式，以保证环境的纯净性，不受当前安装插件的影响。</li>
-<li>勾选Screenshots选项，我们会看到各个时间渲染状态的截图</li>
-<li>可以使用CPU Network来模拟CPU和网络状态，以模拟弱网或者较差硬件下的性能。</li>
-<li>点击Record进行录制,录制过程中需等待一段时间，过程中可以进行你想要测试的相关操作</li>
-</ol>
-<h2 id="显示结果介绍"><a href="#显示结果介绍" class="headerlink" title="显示结果介绍"></a>显示结果介绍</h2><p>录制结束后，会在右侧生成一份分析报告，大体样式如下所示，直接看上去可能花花绿绿会有点蒙，我们来逐个解释各个部分及标识的意思及作用</p>
-<p><img src="/images/chrome-1.png" alt=""></p>
-<h3 id="三大时间"><a href="#三大时间" class="headerlink" title="三大时间"></a>三大时间</h3><p>你可以在上面的图上看到三条竖线：</p>
-<ul>
-<li>蓝线代表DOMContentLoaded事件</li>
-<li>绿线代表首次绘制时间</li>
-<li>红线代表load事件</li>
-</ul>
-<p><img src="/images/chrome-7.png" alt=""></p>
-<h3 id="FPS"><a href="#FPS" class="headerlink" title="FPS"></a>FPS</h3><p>FPS是用来分析动画的主要性能指标，如果能保持60FPS的话，则证明不错。主要包括以下几点</p>
-<p><img src="/images/chrome-3.png" alt=""></p>
-<ol>
-<li>上面的绿色区域标识各个时段的FPS状态，一般来说，绿色长条越高，说明FPS越高</li>
-<li>如果你在绿条上面发现一个红色的长条，说明该帧存在严重问题，可能会造成卡顿</li>
-<li>你可以在下面查看各个区间的实际帧的值是多少</li>
-</ol>
-<h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><p>绿色调下面的黄色和其他颜色混合的区域代表CPU图标，表明在各段时间内，CPU在各种处理上所花费的时间。<br>下面的Summary会显示选中事件内各种处理的总时间, 包括:</p>
-<ul>
-<li>蓝色，代表HTML文件</li>
-<li>黄色，代表脚本</li>
-<li>紫色，代表样式</li>
-<li>绿色，代表媒体文件</li>
-<li>其他，代表资源</li>
-</ul>
-<p><img src="/images/chrome-3.png" alt=""></p>
-<p>正常来说，React这种框架通过虚拟DOM,diff算法等，将更改合并，减少了不必要的DOM更新操作，从而减少了实际的Render时间</p>
-<p>在下面CPU详情中，你可以查看各个组件/方法的实际CPU耗时，查看到底是哪里占用的耗时最多，可以针对其进行定位及优化。同时你可以看到他是在进行mount还是update操作。</p>
-<p><img src="/images/chrome-4.png" alt=""></p>
-<p>若事件长条的右上角出现了红色的小三角，则说明这个事件需要特别注意，有可能存在问题。<br>双击长条，可以在Summary显示详细信息，点击对应的链接，可以跳转到对应代码处</p>
-<p><img src="/images/chrome-5.png" alt=""></p>
-<p>同样，对应的小紫条出现了红色小三角，则说明有可能存在很多reflow警告</p>
-<p><img src="/images/chrome-6.png" alt=""></p>
-<h2 id="主要优化点"><a href="#主要优化点" class="headerlink" title="主要优化点"></a>主要优化点</h2><p>在分析过程中，对应的几个参数往往说明了我们页面运行时优化需要关注的几个点。</p>
-<h3 id="Javacript计算"><a href="#Javacript计算" class="headerlink" title="Javacript计算"></a>Javacript计算</h3><p>避免触发大量视觉变化的计算降低应用性能，找出耗时较长的Evaluate Script事件，启用<a href="https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/timeline-tool?hl=zh-cn#profile-js" target="_blank" rel="external">JS分析器</a>进行定位。下图介绍了几点常用的问题和解决方案：(<a href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools/?hl=zh-cn" target="_blank" rel="external">from</a>)</p>
-<p><img src="/images/chrome-7.ong" alt=""></p>
-<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><p>避免大量的样式重计算。这个比较基础，可以参考<a href="https://developers.google.com/web/fundamentals/performance/rendering/reduce-the-scope-and-complexity-of-style-calculations?hl=zh-cn" target="_blank" rel="external">缩小样式计算的范围并降低其复杂性</a></p>
-<h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><ul>
-<li>避免过早布局，导致重复渲染，可以先批处理样式读取，最后进行写入</li>
-<li>避免循环，强制浏览器仿佛进行重新计算布局。</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们介绍了Chrome Performance的使用方法，以及几点常见的问题和解决策略</p>
-<ul>
-<li>不要编写会强制浏览器重新计算布局的 JavaScript。将读取和写入功能分开，并首先执行读取。</li>
-<li>不要使您的 CSS 过于复杂。减少使用 CSS 并保持 CSS 选择器简洁。</li>
-<li>尽可能地避免布局。选择根本不会触发布局的 CSS。</li>
-<li>绘制比任何其他渲染活动花费的时间都要多。请留意绘制瓶颈。</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools/?hl=zh-cn" target="_blank" rel="external">分析运行时性能</a><br><a href="https://nicholaslee119.github.io/2017/10/04/Chrome-Devtool-Performance%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" target="_blank" rel="external">Chrome-Devtool-Performance使用指南</a></p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/09/29/optimize-react-app-with-chrome-devtools/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -504,34 +452,14 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路</p>
 </blockquote>
-<h2 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h2><p>使用mongoose进行查询时的一些稍微复杂的查询方法，由于是初学，也记录一下:</p>
-<h3 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询"></a>关联查询</h3><p>mongoose可以通过populate方法直接进行关联查询，例如我们有这样的两个实例：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> articleSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">  title: <span class="built_in">String</span>,</div><div class="line">  category: &#123;</div><div class="line">    type: Schema.Types.ObjectId,</div><div class="line">    ref: <span class="string">'Catetory'</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"><span class="keyword">const</span> cateSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">  name: <span class="built_in">String</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>可以直接这样进行关联查询:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">articleModel.find(&#123;&#125;)</div><div class="line">  .populate(&#123;</div><div class="line">    path: <span class="string">'category'</span>,</div><div class="line">    match,</div><div class="line">    select,</div><div class="line">    options</div><div class="line">    ...    </div><div class="line">  &#125;)</div></pre></td></tr></table></figure>
-<h3 id="聚合查询"><a href="#聚合查询" class="headerlink" title="聚合查询"></a>聚合查询</h3><p>可以使用aggregate进行聚合查询</p>
-<p>主要聚合的OPERATION可以在<a href="https://blog.csdn.net/qq_14950717/article/details/68925250" target="_blank" rel="external">这里</a>进行查看</p>
-<p>比如，针对文章列表，我们想要对其进行时间归档，可以按以下方式查询：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">aggregate([&#123;</div><div class="line">  $project: &#123;</div><div class="line">    time: &#123; $dateToString: &#123; format: <span class="string">"%Y-%m"</span>, date: <span class="string">"$create_at"</span> &#125; &#125;,</div><div class="line">    data: &#123;</div><div class="line">      _id: <span class="string">'$_id'</span>,</div><div class="line">      title: <span class="string">'$title'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;, &#123;</div><div class="line">  $group: &#123;</div><div class="line">    _id: <span class="string">'$time'</span>,</div><div class="line">    list: &#123;$push: <span class="string">'$data'</span>&#125;</div><div class="line">  &#125;</div><div class="line">&#125;, &#123;</div><div class="line">  $sort: &#123;</div><div class="line">    _id: <span class="number">-1</span></div><div class="line">  &#125;</div><div class="line">&#125;])</div></pre></td></tr></table></figure>
-<p>大体思路就是，使用$project修改文档结构，新增time和data字段，time表示对应的年和月，如2018-07。<br>然后按照对应的time进行分组，将同组的data插入到一个数组中。<br>最后按照_id进行排序。最后我们可以输出以下结构的数据了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">  _id: &apos;2018-08&apos;,</div><div class="line">  list: [&#123;</div><div class="line">    _id: &apos;sdfsdfsdf&apos;,</div><div class="line">    title: &apos;第一篇文章&apos;</div><div class="line">  &#125;, &#123;</div><div class="line">    _id: &apos;sdfaaaaa&apos;,</div><div class="line">    title: &apos;第二篇&apos;</div><div class="line">  &#125;]</div><div class="line">&#125;, &#123;</div><div class="line">  _id: &apos;2018-08&apos;,</div><div class="line">  list: [&#123;</div><div class="line">    _id: &apos;sdfsdfsdf&apos;,</div><div class="line">    title: &apos;第3篇文章&apos;</div><div class="line">  &#125;, &#123;</div><div class="line">    _id: &apos;sdfaaaaa&apos;,</div><div class="line">    title: &apos;第4篇&apos;</div><div class="line">  &#125;]</div><div class="line">&#125;]</div></pre></td></tr></table></figure>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="think-mongoose对populate的支持问题"><a href="#think-mongoose对populate的支持问题" class="headerlink" title="think-mongoose对populate的支持问题"></a>think-mongoose对populate的支持问题</h3><p>在使用think-mongoose进行populate时，会出现相关的model未进行注册</p>
-<p><a href="https://github.com/thinkjs/thinkjs/issues/984" target="_blank" rel="external">参考issue</a></p>
-<p>需要在return schema时手动实例对应的model</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  get schema () &#123;</div><div class="line">    const schema = new Schema(&#123;</div><div class="line">      type: &#123;</div><div class="line">        type: Schema.Types.ObjectId,</div><div class="line">        ref: `$&#123;this.tablePrefix&#125;types`</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">    think.mongoose(&apos;types&apos;)</div><div class="line">    return schema</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其中，types是根据model里的文件名称来进行对应的</p>
-<h3 id="使用Context-model返回对象无法确定其类型"><a href="#使用Context-model返回对象无法确定其类型" class="headerlink" title="使用Context.model返回对象无法确定其类型"></a>使用Context.model返回对象无法确定其类型</h3><p>我们在Controller中，通过this.mongoose()方法获取Model实例,但是返回的对象是通用的MongooseModel，<br>typescript无法识别真实实例上的方法，我们需要强制对其进行转化。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">private getArticleModel(): ArticleModel &#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.mongoose(<span class="string">'article'</span>) <span class="keyword">as</span> ArticleModel</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="think-Mongoose实例上不能对mongoose的model进行友好提示"><a href="#think-Mongoose实例上不能对mongoose的model进行友好提示" class="headerlink" title="think.Mongoose实例上不能对mongoose的model进行友好提示"></a>think.Mongoose实例上不能对mongoose的model进行友好提示</h3><p>看了下think-mongoose的声明文件，针对think.Mongoose的声明如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">interface MongooseModel &#123;</div><div class="line">  <span class="keyword">new</span>(modelName?: string, config?: object): MongooseModel;</div><div class="line">  readonly tablePrefix: string;</div><div class="line">  readonly tableName: string;</div><div class="line">  models: object;</div><div class="line">  mongoose(name: string): MongooseModel;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以看到其未集成mongoose的model声明，我们可以让其集成Model声明，这样在think.Mongoose实例上调用this.find等方法时，就会进行友好的提示及验证了</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">interface Base extends Document &#123;&#125;</div><div class="line">interface MongooseModel extends Model&lt;Base&gt; &#123;...&#125;</div></pre></td></tr></table></figure>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/09/21/learn-from-thinkjs-mongo-blog/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>

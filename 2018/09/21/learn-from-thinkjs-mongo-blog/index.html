@@ -84,28 +84,16 @@
 
 
 
-<meta name="description" content="最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路
-
-收获使用mongoose进行查询时的一些稍微复杂的查询方法，由于是初学，也记录一下:
-关联查询mongoose可以通过populate方法直接进行关联查询，例如我们有这样的两个实例：
-12345678910const articleSchema = new Schema(&amp;#12">
+<meta name="description" content="最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Something about ThinkJs and Mongoose">
 <meta property="og:url" content="http://yoursite.com/2018/09/21/learn-from-thinkjs-mongo-blog/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路
-
-收获使用mongoose进行查询时的一些稍微复杂的查询方法，由于是初学，也记录一下:
-关联查询mongoose可以通过populate方法直接进行关联查询，例如我们有这样的两个实例：
-12345678910const articleSchema = new Schema(&amp;#12">
-<meta property="og:updated_time" content="2018-09-25T02:26:38.558Z">
+<meta property="og:description" content="最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路">
+<meta property="og:updated_time" content="2018-09-29T08:41:26.369Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Something about ThinkJs and Mongoose">
-<meta name="twitter:description" content="最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路
-
-收获使用mongoose进行查询时的一些稍微复杂的查询方法，由于是初学，也记录一下:
-关联查询mongoose可以通过populate方法直接进行关联查询，例如我们有这样的两个实例：
-12345678910const articleSchema = new Schema(&amp;#12">
+<meta name="twitter:description" content="最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路">
 
 
 
@@ -339,6 +327,7 @@
         <blockquote>
 <p>最近使用thinksjs + mongoose把博客后端的接口搭出来了，过程中遇到了一些问题，也收获了一些新的思路</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="收获"><a href="#收获" class="headerlink" title="收获"></a>收获</h2><p>使用mongoose进行查询时的一些稍微复杂的查询方法，由于是初学，也记录一下:</p>
 <h3 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询"></a>关联查询</h3><p>mongoose可以通过populate方法直接进行关联查询，例如我们有这样的两个实例：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> articleSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">  title: <span class="built_in">String</span>,</div><div class="line">  category: &#123;</div><div class="line">    type: Schema.Types.ObjectId,</div><div class="line">    ref: <span class="string">'Catetory'</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"><span class="keyword">const</span> cateSchema = <span class="keyword">new</span> Schema(&#123;</div><div class="line">  name: <span class="built_in">String</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>

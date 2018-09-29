@@ -92,13 +92,13 @@
 <meta property="og:description" content="最近发现在调试应用的过程中，往往会发现对React某一组件的修改，往往会触发其他组件进行重新render,有时这两个组件基本毫无关联。尤其是针对列表组件，往往会导致很多不必要的刷新。所以这次配合使用Chrome Performance对这点进行优化。本篇文章主要介绍开发工具的使用方式及各个结果的实际意义。">
 <meta property="og:image" content="http://yoursite.com/images/chrome-1.png">
 <meta property="og:image" content="http://yoursite.com/images/chrome-7.png">
-<meta property="og:image" content="http://yoursite.com/images/chrome-3.png">
+<meta property="og:image" content="http://yoursite.com/images/chrome-2.png">
 <meta property="og:image" content="http://yoursite.com/images/chrome-3.png">
 <meta property="og:image" content="http://yoursite.com/images/chrome-4.png">
 <meta property="og:image" content="http://yoursite.com/images/chrome-5.png">
 <meta property="og:image" content="http://yoursite.com/images/chrome-6.png">
-<meta property="og:image" content="http://yoursite.com/images/chrome-7.ong">
-<meta property="og:updated_time" content="2018-09-29T08:40:37.219Z">
+<meta property="og:image" content="http://yoursite.com/images/chrome-7.png">
+<meta property="og:updated_time" content="2018-09-29T08:44:50.278Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Chrome Performance对页面进行分析优化">
 <meta name="twitter:description" content="最近发现在调试应用的过程中，往往会发现对React某一组件的修改，往往会触发其他组件进行重新render,有时这两个组件基本毫无关联。尤其是针对列表组件，往往会导致很多不必要的刷新。所以这次配合使用Chrome Performance对这点进行优化。本篇文章主要介绍开发工具的使用方式及各个结果的实际意义。">
@@ -353,7 +353,7 @@
 </ul>
 <p><img src="/images/chrome-7.png" alt=""></p>
 <h3 id="FPS"><a href="#FPS" class="headerlink" title="FPS"></a>FPS</h3><p>FPS是用来分析动画的主要性能指标，如果能保持60FPS的话，则证明不错。主要包括以下几点</p>
-<p><img src="/images/chrome-3.png" alt=""></p>
+<p><img src="/images/chrome-2.png" alt=""></p>
 <ol>
 <li>上面的绿色区域标识各个时段的FPS状态，一般来说，绿色长条越高，说明FPS越高</li>
 <li>如果你在绿条上面发现一个红色的长条，说明该帧存在严重问题，可能会造成卡顿</li>
@@ -377,7 +377,7 @@
 <p><img src="/images/chrome-6.png" alt=""></p>
 <h2 id="主要优化点"><a href="#主要优化点" class="headerlink" title="主要优化点"></a>主要优化点</h2><p>在分析过程中，对应的几个参数往往说明了我们页面运行时优化需要关注的几个点。</p>
 <h3 id="Javacript计算"><a href="#Javacript计算" class="headerlink" title="Javacript计算"></a>Javacript计算</h3><p>避免触发大量视觉变化的计算降低应用性能，找出耗时较长的Evaluate Script事件，启用<a href="https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/timeline-tool?hl=zh-cn#profile-js" target="_blank" rel="external">JS分析器</a>进行定位。下图介绍了几点常用的问题和解决方案：(<a href="https://developers.google.com/web/tools/chrome-devtools/rendering-tools/?hl=zh-cn" target="_blank" rel="external">from</a>)</p>
-<p><img src="/images/chrome-7.ong" alt=""></p>
+<p><img src="/images/chrome-7.png" alt=""></p>
 <h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><p>避免大量的样式重计算。这个比较基础，可以参考<a href="https://developers.google.com/web/fundamentals/performance/rendering/reduce-the-scope-and-complexity-of-style-calculations?hl=zh-cn" target="_blank" rel="external">缩小样式计算的范围并降低其复杂性</a></p>
 <h3 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h3><ul>
 <li>避免过早布局，导致重复渲染，可以先批处理样式读取，最后进行写入</li>

@@ -102,8 +102,9 @@
 <meta property="og:image" content="http://yoursite.com/images/ana-10.png">
 <meta property="og:image" content="http://yoursite.com/images/ana-11.png">
 <meta property="og:image" content="http://yoursite.com/images/ana-13.png">
-<meta property="og:image" content="http://yoursite.com/images/ana-13.png">
-<meta property="og:updated_time" content="2018-10-09T11:38:54.552Z">
+<meta property="og:image" content="http://yoursite.com/images/ana-12.png">
+<meta property="og:image" content="http://yoursite.com/images/ana-14.png">
+<meta property="og:updated_time" content="2018-10-09T11:48:01.557Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Performance对页面进行分析优化(实战篇)">
 <meta name="twitter:description" content="这篇文章将介绍下实际使用performance对页面进行优化的过程。总的来说，chrome performance工具让我们更方便的发现在代码运行过程中的问题在哪里，便于对一些可能注意不到的问题进行定位、分析和优化。">
@@ -367,18 +368,19 @@
 <p><img src="/images/ana-11.png" alt=""></p>
 <p>按理来说，alertList对应的请求，仅对应到当前展开内容的更新即可。因此，我们对此有几种修改方案：</p>
 <ol>
-<li>时间轴组件中启用对alertList的引用，以保证alertList不会牵连到时间轴组件整体更新</li>
-<li>将时间轴的渲染和详情渲染进行分离，向其传递对应的数据，通过PureComponent来控制更新</li>
+<li>时间轴组件中弃用对alertList的引用，以保证alertList不会牵连到时间轴组件整体更新</li>
+<li>将时间轴的渲染和详情渲染进行分离，向其传递各自对应的数据，通过PureComponent来控制更新</li>
 <li>使用shouldComponentUpdate进行优化</li>
 </ol>
 <p>在此我们采用第一种，避免alertList对整个组件的影响。</p>
 <p>我们会发现，点开详情后，整个timeLine只进行了一次大更新，详情的更新只在展开的组件中进行。</p>
 <p><img src="/images/ana-13.png" alt=""></p>
-<h3 id="优化点2-1"><a href="#优化点2-1" class="headerlink" title="优化点2"></a>优化点2</h3><p>我们会发现，在对某一个时间点进行展开时，整个list列表的节点都进行了更新，如下图所示。显然这样的性能耗费是及其大且不重要的。加入列表的内容很多，那极有可能造成大量的更新导致页面卡死。</p>
-<p><img src="/images/ana-13.png" alt=""></p>
-<p>因为其都引用了alertList这个prop, 当其进行改变时，所有的节点都会进行更新，所以我们需要使用shouldComponentUpdate手动对其进行优化:</p>
+<h3 id="优化点2-1"><a href="#优化点2-1" class="headerlink" title="优化点2"></a>优化点2</h3><p>我们会发现，在对某一个时间点进行展开时，整个list列表的节点都进行了更新，如下图所示。显然这样的性能耗费是及其大且不重要的。假如列表的内容很多，那极有可能造成大量的更新导致页面卡死。</p>
+<p><img src="/images/ana-12.png" alt=""></p>
+<p>因为其他的list列表节点都引用了alertList这个prop, 当其进行改变时，所有的节点都会进行更新，所以我们需要使用shouldComponentUpdate手动对其进行优化:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 当开关状态变化时，才从新渲染，否则不需要</span></div><div class="line">shouldComponentUpdate (nextProps, nextState) &#123;</div><div class="line">  <span class="keyword">const</span> opened = _.get(<span class="keyword">this</span>.props, <span class="string">'open'</span>)</div><div class="line">  <span class="keyword">const</span> willOpen = _.get(nextProps, <span class="string">'open'</span>)</div><div class="line">  <span class="keyword">if</span> (opened === willOpen &amp;&amp; !willOpen) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// 类似pureComponent进行浅比较</span></div><div class="line">    <span class="keyword">return</span> !_.isEqual(<span class="keyword">this</span>.props, nextProps) || !_.isEqual(<span class="keyword">this</span>.state, nextState)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>再次进行录制，我们发现只要当前Item进行了更新，整个更新事件缩短到不到40ms，极大的增加了体验。</p>
+<p>再次进行录制，我们发现只要当前Item进行了更新，整个Timeline更新时间缩短到不到40ms，极大的增加了体验。</p>
+<p><img src="/images/ana-14.png" alt=""></p>
 <p>其他优化过程与上面类似，不再赘述。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过配合performance工具进行一步步优化，整个页面的渲染和更新性能有了极大的提升，我们也借此知道了在平时书写代码过程中需要注意的问题。我们简单的做一下总结：</p>
 <ol>
@@ -386,6 +388,7 @@
 <li>必要时，手动进行懒加载以避免大型模块对页面进行营销，避免加载不必要的模块</li>
 <li>保证展示组件props的纯净性，避免因其他props的更改导致组件进行更新</li>
 <li>必要时，可使用shouldComponent进行手动优化</li>
+<li>平时可通过PureComponent来避免不必要的组件更新</li>
 </ol>
 
       

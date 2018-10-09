@@ -326,29 +326,12 @@
 
       
         
-          
-            <p>这篇文章将介绍下实际使用performance对页面进行优化的过程。总的来说，chrome performance工具让我们更方便的发现在代码运行过程中的问题在哪里，便于对一些可能注意不到的问题进行定位、分析和优化。</p>
-<h2 id="渲染优化"><a href="#渲染优化" class="headerlink" title="渲染优化"></a>渲染优化</h2><p>首先，我们对进入整个详情页进行分析，整个页面的结构大致如下，主要包含三个部分：基本信息，可视化图和时间轴。时间轴内部包含时间轴的详情信息，包括表格和几种类型的可视化图等，内部比较重。如图所示：</p>
-<p><img src="/images/ana-1.png" alt=""></p>
-<p>我们点击录制，查看进入页面的性能图：<br><img src="/images/ana-2.png" alt=""></p>
-<h3 id="优化点1"><a href="#优化点1" class="headerlink" title="优化点1"></a>优化点1</h3><p>可以看到，渲染当前页面的耗时将近1.5s，我们看看到底是哪里出现了问题。对渲染部分进行放大，我们发现在渲染时间轴的过程中，大部分时间耗费在了每个时间节点详情内容的展示上面，但是默认状态下，他们是进行隐藏的。也就是说，我们进行了N个节点的不必要的渲染，只需把他们干掉就好了。</p>
-<p><img src="/images/ana-3.png" alt=""></p>
-<p>查看代码，发现是以下位置导致的，我们进行了一个展开盒子的封装，类似这样:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;Box data=&#123;data&#125; border collapse loading=&#123;loading&#125;&gt;</div><div class="line">  <span class="xml"><span class="tag">&lt;<span class="name">AlertDetail</span> /&gt;</span></span></div><div class="line"><span class="tag">&lt;/<span class="name">Box</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>在非展开状态下，我们依然对内容进行了渲染，只是使用样式进行了隐藏，但是这样React仍然会进行虚拟dom的渲染和计算，在这里我们对其进行改造，让其只在展开时进行渲染，并尽量缓存渲染的结果。修改完成后，我们会发现，Scripting由之前的880+ms变成了670ms减少了200ms左右：</p>
-<p><img src="/images/ana-4.png" alt=""></p>
-<h3 id="优化点2"><a href="#优化点2" class="headerlink" title="优化点2"></a>优化点2</h3><p>我们继续看，会发现页面初始化时，详情部分会有大量的Evaluate Script耗时，主要是耗费在告警详情右侧的分类及各分类下的可视图及详情引起的。</p>
-<p><img src="/images/ana-5.jpeg" alt=""></p>
-<p>我们可能会想，这里在初始化时并没有进行渲染，为什么仍然会耗费时长进行计算呢？继续追查我发现原因在这里：</p>
-<p><img src="/images/ana-6.jpeg" alt=""></p>
-<p>在整个详情组件中，我们对包括http,tcp等所有类型的组件进行了引用，然后根据其类型进行组件的匹配，在各个组件中可能包含了每个类型对应的定义、分类和计算等等等等，不仅增加了加载时间，更延长了初始化时间，显然我们这么做是不对的。</p>
-<p>在此，我们可以使用<strong><em>懒加载</em></strong>方式对其进行优化，仅展示其对应类型的图，避免了不必要的资源浪费和计算时间。</p>
-<p><img src="/images/ana-7.jpeg" alt=""></p>
-<p>修改之后，我们再次进行性能测试，发现在进入页面时，详情组件的耗费时长由260ms变为不到2ms：</p>
-<p><img src="/images/ana-8.jpeg" alt=""></p>
-<p>而Scripting由之前的670+ms变成了415ms减少了250ms左右：<br><img src="/images/ana-9.png" alt=""></p>
-
-          
+          <p>这篇文章将介绍下实际使用performance对页面进行优化的过程。总的来说，chrome performance工具让我们更方便的发现在代码运行过程中的问题在哪里，便于对一些可能注意不到的问题进行定位、分析和优化。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/10/09/optimize-react-app-with-chrome-performance/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>

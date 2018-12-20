@@ -1,0 +1,758 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Webpack,React," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Why在更新React至16.6.*后，使用react-css-modules的项目会出现以下Warning
+1Expected instance props to match memoized props before componentDidUpdate. This is likely due to a bug in React. Please file an issue.
+主要是因为在rea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用babel-plugin-react-cssmodules替代react-css-modules">
+<meta property="og:url" content="http://yoursite.com/2018/12/20/update-babel-plugin-react-cssmodules/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="Why在更新React至16.6.*后，使用react-css-modules的项目会出现以下Warning
+1Expected instance props to match memoized props before componentDidUpdate. This is likely due to a bug in React. Please file an issue.
+主要是因为在rea">
+<meta property="og:updated_time" content="2018-12-20T08:03:08.967Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用babel-plugin-react-cssmodules替代react-css-modules">
+<meta name="twitter:description" content="Why在更新React至16.6.*后，使用react-css-modules的项目会出现以下Warning
+1Expected instance props to match memoized props before componentDidUpdate. This is likely due to a bug in React. Please file an issue.
+主要是因为在rea">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/20/update-babel-plugin-react-cssmodules/"/>
+
+  <title> 使用babel-plugin-react-cssmodules替代react-css-modules | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用babel-plugin-react-cssmodules替代react-css-modules
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-12-20T15:36:52+08:00" content="2018-12-20">
+              2018-12-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/心得实践/" itemprop="url" rel="index">
+                    <span itemprop="name">心得实践</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/12/20/update-babel-plugin-react-cssmodules/" class="leancloud_visitors" data-flag-title="使用babel-plugin-react-cssmodules替代react-css-modules">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><p>在更新React至16.6.*后，使用react-css-modules的项目会出现以下Warning</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Expected instance props to match memoized props before componentDidUpdate. This is likely due to a bug in React. Please file an issue.</div></pre></td></tr></table></figure>
+<p>主要是因为在react-cssmodules中，重写了this.props，详见<a href="https://github.com/facebook/react/issues/14224" target="_blank" rel="external">issues</a></p>
+<p>我们访问react-css-modules的项目，发现官方推荐了babel-plugin-react-css-modules作为替代品，其有以下优势：</p>
+<ol>
+<li>将处理过程交给babel而不是runtime, 提升runtime性能</li>
+<li>不用频繁的调用cssmodules高阶组件</li>
+<li>统一处理options等</li>
+</ol>
+<h2 id="替换过程"><a href="#替换过程" class="headerlink" title="替换过程"></a>替换过程</h2><p>官方案例很简单，但是我们替换的过程中还是遇到了挺多的问题。主要包含以下几个步骤：</p>
+<h3 id="1-安装babel-plugin-react-css-modules"><a href="#1-安装babel-plugin-react-css-modules" class="headerlink" title="1. 安装babel-plugin-react-css-modules"></a>1. 安装babel-plugin-react-css-modules</h3><p>不赘述</p>
+<h3 id="2-升级babel-7"><a href="#2-升级babel-7" class="headerlink" title="2. 升级babel 7"></a>2. 升级babel 7</h3><p>升级babel为@babel@7.1.6</p>
+<p>对应的plugin也需要进行升级, 官方有介绍相应的替换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&quot;@babel/core&quot;: &quot;^7.1.6&quot;,</div><div class="line">&quot;@babel/plugin-proposal-class-properties&quot;: &quot;^7.1.0&quot;,</div><div class="line">&quot;@babel/plugin-proposal-decorators&quot;: &quot;^7.1.6&quot;,</div><div class="line">&quot;@babel/plugin-proposal-object-rest-spread&quot;: &quot;^7.0.0&quot;,</div><div class="line">&quot;@babel/plugin-transform-runtime&quot;: &quot;^7.1.0&quot;,</div><div class="line">&quot;@babel/preset-env&quot;: &quot;^7.1.6&quot;,</div><div class="line">&quot;@babel/preset-flow&quot;: &quot;^7.0.0&quot;,</div><div class="line">&quot;@babel/preset-react&quot;: &quot;^7.0.0&quot;,</div></pre></td></tr></table></figure>
+<h3 id="3-格式化stylus文件"><a href="#3-格式化stylus文件" class="headerlink" title="3. 格式化stylus文件"></a>3. 格式化stylus文件</h3><p>我们需要对stylus进行统一的格式化处理，防止babel对语法校验出错，由于文件较多，我们使用stylus-supremacy进行处理，使用node写一个批处理文件:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> stylusSupremacy = <span class="built_in">require</span>(<span class="string">"stylus-supremacy"</span>);</div><div class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</div><div class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>);</div><div class="line"></div><div class="line"><span class="keyword">const</span> formattingOptions = &#123;</div><div class="line">  insertColons: <span class="literal">false</span>,</div><div class="line">  insertSemicolons: <span class="literal">false</span>,</div><div class="line">  insertBraces: <span class="literal">false</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatFile</span>(<span class="params">path</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> content = fs.readFileSync(path, <span class="string">"utf8"</span>);</div><div class="line">  <span class="keyword">const</span> result = stylusSupremacy.format(content, formattingOptions);</div><div class="line">  fs.writeFileSync(path, result, <span class="string">"utf8"</span>);</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"format 成功: "</span> + path);</div><div class="line">&#125;</div><div class="line">...</div></pre></td></tr></table></figure>
+<h3 id="4-配置css-loaders"><a href="#4-配置css-loaders" class="headerlink" title="4. 配置css-loaders"></a>4. 配置css-loaders</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> cssRegex = <span class="regexp">/\.css$/</span>;</div><div class="line"><span class="keyword">const</span> cssModuleRegex = <span class="regexp">/\.cssmodule\.css$/</span>;</div><div class="line"><span class="keyword">const</span> stylRegex = <span class="regexp">/\.styl$/</span>;</div><div class="line"><span class="keyword">const</span> stylModuleRegex = <span class="regexp">/\.cssmodule\.styl$/</span>;</div><div class="line"></div><div class="line"><span class="keyword">const</span> getStyleLoaders = (cssOptions, preProcessor) =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> loaders = [</div><div class="line">    <span class="built_in">require</span>.resolve(<span class="string">"style-loader"</span>),</div><div class="line">    &#123;</div><div class="line">      loader: <span class="built_in">require</span>.resolve(<span class="string">"css-loader"</span>),</div><div class="line">      options: cssOptions</div><div class="line">    &#125;</div><div class="line">  ];</div><div class="line">  <span class="keyword">if</span> (preProcessor) &#123;</div><div class="line">    loaders.push(<span class="built_in">require</span>.resolve(preProcessor));</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> loaders;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// webpack配置，添加getLocalIdent方法</span></div><div class="line">rules: [</div><div class="line">  &#123;</div><div class="line">    test: stylRegex,</div><div class="line">    exclude: stylModuleRegex,</div><div class="line">    use: getStyleLoaders(&#123; importLoaders: <span class="number">2</span> &#125;, <span class="string">"stylus-loader"</span>)</div><div class="line">  &#125;,</div><div class="line">  &#123;</div><div class="line">    test: stylModuleRegex,</div><div class="line">    use: getStyleLoaders(</div><div class="line">      &#123;</div><div class="line">        importLoaders: <span class="number">2</span>,</div><div class="line">        modules: <span class="literal">true</span>,</div><div class="line">        camelCase: <span class="string">"dashes"</span>,</div><div class="line">        getLocalIdent(&#123; resourcePath &#125;, localIdentName, localName) &#123;</div><div class="line">          <span class="keyword">return</span> generateScope(localName, resourcePath);</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      <span class="string">"stylus-loader"</span></div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<h3 id="5-配置babel-plugin-react-css-modules"><a href="#5-配置babel-plugin-react-css-modules" class="headerlink" title="5. 配置babel-plugin-react-css-modules"></a>5. 配置babel-plugin-react-css-modules</h3><p>generateScopedName需要与cssloader处理的结果一致，否则将会失效。</p>
+<p>同时，styl文件需要sugarss进行处理，记得安装</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">  <span class="string">"react-css-modules"</span>,</div><div class="line">  &#123;</div><div class="line">    generateScopedName: localIdentName,</div><div class="line">    filetypes: &#123; <span class="string">".styl"</span>: &#123; syntax: <span class="string">"sugarss"</span> &#125; &#125;,</div><div class="line">    webpackHotModuleReloading: <span class="literal">true</span>, <span class="comment">// 支持热加载</span></div><div class="line">    handleMissingStyleName: <span class="string">"warn"</span>, <span class="comment">// 没有时进行警告</span></div><div class="line">    exclude: <span class="string">".css$"</span></div><div class="line">  &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+<h3 id="6-运行"><a href="#6-运行" class="headerlink" title="6. 运行"></a>6. 运行</h3><p>删除之前的react-css-modules</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
+<li>同时处理多个文件时报错</li>
+</ul>
+<p>在文件中引用多个文件，会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">import &apos;./common.css&apos;</div><div class="line">import &apos;./index.cssmodule.styl&apos;</div></pre></td></tr></table></figure>
+<p>解决方案： 添加配置： exclude: “.css$”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Webpack/" rel="tag">#Webpack</a>
+          
+            <a href="/tags/React/" rel="tag">#React</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/12/basic-usage-of-mongo/" rel="next" title="Mongodb基本配置方法">
+                <i class="fa fa-chevron-left"></i> Mongodb基本配置方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">47</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Why"><span class="nav-number">1.</span> <span class="nav-text">Why</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#替换过程"><span class="nav-number">2.</span> <span class="nav-text">替换过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-安装babel-plugin-react-css-modules"><span class="nav-number">2.1.</span> <span class="nav-text">1. 安装babel-plugin-react-css-modules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-升级babel-7"><span class="nav-number">2.2.</span> <span class="nav-text">2. 升级babel 7</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-格式化stylus文件"><span class="nav-number">2.3.</span> <span class="nav-text">3. 格式化stylus文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-配置css-loaders"><span class="nav-number">2.4.</span> <span class="nav-text">4. 配置css-loaders</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-配置babel-plugin-react-css-modules"><span class="nav-number">2.5.</span> <span class="nav-text">5. 配置babel-plugin-react-css-modules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-运行"><span class="nav-number">2.6.</span> <span class="nav-text">6. 运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">3.</span> <span class="nav-text">问题</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

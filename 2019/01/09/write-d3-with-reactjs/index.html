@@ -1,0 +1,751 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="React,D3," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在进行前端可视化图定制开发的时候，我们往往会使用d3.js来进行开发，其自包含了针对数据集合的处理以及操作节点集合的方式。下面我们将介绍在配合React使用时，借用React的思路，充分发挥React的组件化，声明式特性，来优化D3的开发过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React+D3 声明式可视化展示">
+<meta property="og:url" content="http://yoursite.com/2019/01/09/write-d3-with-reactjs/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="在进行前端可视化图定制开发的时候，我们往往会使用d3.js来进行开发，其自包含了针对数据集合的处理以及操作节点集合的方式。下面我们将介绍在配合React使用时，借用React的思路，充分发挥React的组件化，声明式特性，来优化D3的开发过程。">
+<meta property="og:updated_time" content="2019-01-09T06:02:20.548Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React+D3 声明式可视化展示">
+<meta name="twitter:description" content="在进行前端可视化图定制开发的时候，我们往往会使用d3.js来进行开发，其自包含了针对数据集合的处理以及操作节点集合的方式。下面我们将介绍在配合React使用时，借用React的思路，充分发挥React的组件化，声明式特性，来优化D3的开发过程。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/09/write-d3-with-reactjs/"/>
+
+  <title> React+D3 声明式可视化展示 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                React+D3 声明式可视化展示
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-01-09T11:08:07+08:00" content="2019-01-09">
+              2019-01-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/心得实践/" itemprop="url" rel="index">
+                    <span itemprop="name">心得实践</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2019/01/09/write-d3-with-reactjs/" class="leancloud_visitors" data-flag-title="React+D3 声明式可视化展示">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在进行前端可视化图定制开发的时候，我们往往会使用d3.js来进行开发，其自包含了针对数据集合的处理以及操作节点集合的方式。下面我们将介绍在配合React使用时，借用React的思路，充分发挥React的组件化，声明式特性，来优化D3的开发过程。</p>
+<a id="more"></a>
+<h2 id="旧的方式"><a href="#旧的方式" class="headerlink" title="旧的方式"></a>旧的方式</h2><p>d3提供了d3-selection，来使用数据对节点进行驱动。我们可以根据数据拿到需要对节点进行的变更。往往我们会在componentDidMount中来进行节点操作,大概分为几个步骤：</p>
+<ol>
+<li>根据数据和容器宽度，获取比例尺</li>
+<li>根据data join的enter和exit选择集，来添加，删除或更新元素</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">Graph</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  componentDidMount () &#123;</div><div class="line">    <span class="keyword">const</span> &#123; data = [] &#125; = <span class="keyword">this</span>.props</div><div class="line">    </div><div class="line">    <span class="keyword">this</span>.renderBar(data)</div><div class="line">  &#125;</div><div class="line">  renderBar (data) &#123;</div><div class="line">    <span class="comment">// 拿到比例尺</span></div><div class="line">    <span class="keyword">const</span> scale = d3.scaleLinear()</div><div class="line">      .domain(d3.extent(data))</div><div class="line">      .range([<span class="number">0</span>, <span class="number">180</span>])</div><div class="line"></div><div class="line">    <span class="keyword">const</span> wrap = d3.select(<span class="string">'#qps-graph'</span>)</div><div class="line"></div><div class="line">    wrap.selectAll(<span class="string">`g.bar`</span>)</div><div class="line">      .data(data)</div><div class="line">      .enter()</div><div class="line">      .append(<span class="string">'g'</span>)</div><div class="line">      .attr(<span class="string">'class'</span>, <span class="string">'bar'</span>)</div><div class="line">      .append(<span class="string">'rect'</span>)</div><div class="line">      .attr(<span class="string">'class'</span>, <span class="string">'bar-rect'</span>)</div><div class="line"></div><div class="line">    wrap.selectAll(<span class="string">`g.bar`</span>)</div><div class="line">      .data(data)</div><div class="line">      .attr(<span class="string">"transform"</span>, (d, i) =&gt; <span class="string">`translate(<span class="subst">$&#123;i * 20&#125;</span>, <span class="subst">$&#123;180 - scale(d)&#125;</span>)`</span>)</div><div class="line">      .select(<span class="string">'rect'</span>)</div><div class="line">      .style(<span class="string">'height'</span>, d =&gt; scale(d))</div><div class="line"></div><div class="line">    wrap.selectAll(<span class="string">`g.bar`</span>)</div><div class="line">      .data(data)</div><div class="line">      .exit()</div><div class="line">      .remove()</div><div class="line">  &#125;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">height</span>=<span class="string">"180"</span> <span class="attr">width</span>=<span class="string">"1000"</span> <span class="attr">id</span>=<span class="string">"qps-graph"</span>&gt;</span><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种方式虽然完成了任务，但是我们依旧会感觉有不舒服的地方：</p>
+<ol>
+<li>我们很难对图形进行复用，图形稍微改动一点，就需要改动代码</li>
+<li>在声明式代码中掺杂了很多命令式的操作过程，不直观，不利于维护</li>
+<li>针对事件处理，会很难进行，我们往往需要使用d3创建新的元素，来控制它的内容、显示和隐藏</li>
+</ol>
+<h2 id="新的方式"><a href="#新的方式" class="headerlink" title="新的方式"></a>新的方式</h2><p>我们会发现，我们根据data join的enter和exit选择集，来添加，删除或更新元素，这个步骤，其实React也可以进行，并且可以使用更加直观的声明式来书写，类似这样:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">render()&#123;</div><div class="line">  <span class="keyword">const</span> scale = d3.scaleLinear()</div><div class="line">    .domain(d3.extent(data))</div><div class="line">    .range([<span class="number">0</span>, <span class="number">180</span>])</div><div class="line">  <span class="keyword">const</span> h = d =&gt; scale(d)</div><div class="line">  <span class="keyword">const</span> y = (d, i) =&gt; <span class="string">`translate(<span class="subst">$&#123;i * 20&#125;</span>, <span class="subst">$&#123;180 - scale(d)&#125;</span>)`</span></div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">height</span>=<span class="string">"180"</span> <span class="attr">width</span>=<span class="string">"1000"</span>&gt;</span></span></div><div class="line">    &#123;data.map((d, i) =&gt; &#123;</div><div class="line">      return (</div><div class="line">        <span class="tag">&lt;<span class="name">g</span> <span class="attr">key</span>=<span class="string">&#123;</span>`<span class="attr">bar-</span>$&#123;<span class="attr">i</span>&#125;`&#125; <span class="attr">transform</span>=<span class="string">&#123;y(d,</span> <span class="attr">i</span>)&#125;&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">rect</span></span></div><div class="line">            <span class="attr">height</span>=<span class="string">&#123;h(d)&#125;</span></div><div class="line">            <span class="attr">width</span>=<span class="string">&#123;10&#125;</span></div><div class="line">            <span class="attr">fill</span>=<span class="string">'#fc2e1c'</span></div><div class="line">          /&gt;</div><div class="line">        <span class="tag">&lt;/<span class="name">g</span>&gt;</span></div><div class="line">      );</div><div class="line">    &#125;)&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>是不是很简单！同时，我们可以利用React的组件化特性，来对我们的每个单元模块进行封装，独立功能，方便各个组件的复用，来让我们的可视化代码更加直观，类似这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">render()&#123;</div><div class="line">  <span class="keyword">const</span> scale = d3.scaleLinear()</div><div class="line">    .domain(d3.extent(data))</div><div class="line">    .range([<span class="number">0</span>, <span class="number">180</span>])</div><div class="line">  <span class="keyword">const</span> h = d =&gt; scale(d)</div><div class="line">  <span class="keyword">const</span> y = (d, i) =&gt; <span class="string">`translate(<span class="subst">$&#123;i * 20&#125;</span>, <span class="subst">$&#123;180 - scale(d)&#125;</span>)`</span></div><div class="line"></div><div class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">height</span>=<span class="string">"180"</span> <span class="attr">width</span>=<span class="string">"1000"</span>&gt;</span></span></div><div class="line">    &#123;data.map((d, i) =&gt; &#123;</div><div class="line">      return (</div><div class="line">        <span class="tag">&lt;<span class="name">Group</span> <span class="attr">key</span>=<span class="string">&#123;</span>`<span class="attr">bar-</span>$&#123;<span class="attr">i</span>&#125;`&#125; <span class="attr">left</span>=<span class="string">&#123;i</span> * <span class="attr">20</span>&#125; <span class="attr">top</span>=<span class="string">&#123;180</span> <span class="attr">-</span> <span class="attr">scale</span>(<span class="attr">d</span>)&#125;&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">Bar</span></span></div><div class="line">            <span class="attr">height</span>=<span class="string">&#123;h(d)&#125;</span></div><div class="line">            <span class="attr">width</span>=<span class="string">&#123;10&#125;</span></div><div class="line">            <span class="attr">fill</span>=<span class="string">'#fc2e1c'</span></div><div class="line">          /&gt;</div><div class="line">        <span class="tag">&lt;/<span class="name">Group</span>&gt;</span></div><div class="line">      );</div><div class="line">    &#125;)&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们有幸看到已经有人做了这个工作：<a href="https://github.com/hshoff/vx" target="_blank" rel="external">vx</a>,作者已经封装了很多的常用图形，我们的任务就是，对这些图形加上数据，进行拼接就可以了。同时，我们可以对其进行二次封装，以适应我们的项目。</p>
+<p>经过一系列封装，我们写一个图形，这样操作即可：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 定义getter</span></div><div class="line"><span class="keyword">const</span> x = d =&gt; <span class="keyword">new</span> <span class="built_in">Date</span>(d.date);</div><div class="line"><span class="keyword">const</span> y = d =&gt; +d.close;</div><div class="line"></div><div class="line"><span class="comment">// 定义容器配置</span></div><div class="line"><span class="keyword">const</span> padding = &#123;</div><div class="line">  top: <span class="number">20</span>,</div><div class="line">  left: <span class="number">40</span>,</div><div class="line">  bottom: <span class="number">20</span>,</div><div class="line">  right: <span class="number">20</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">LineGraph</span> </span>&#123;</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;Container width=&#123;1000&#125; height=&#123;200&#125; padding=&#123;padding&#125; x=&#123;x&#125; y=&#123;y&#125;&gt;</div><div class="line">        &#123;(&#123; width, height &#125;) =&gt; &#123;</div><div class="line">          // 根据数据定义x,y轴的scale</div><div class="line">          const xScale = scaleTime(&#123;</div><div class="line">            rangeRound: [0, width],</div><div class="line">            domain: d3.extent(data, x)</div><div class="line">          &#125;);</div><div class="line">          const yScale = scaleLinear(&#123;</div><div class="line">            rangeRound: [height, 0],</div><div class="line">            domain: d3.extent(data, y)</div><div class="line">          &#125;);</div><div class="line"></div><div class="line">          return (</div><div class="line">            &lt;Group&gt;</div><div class="line">              &lt;Grid</div><div class="line">                width=&#123;width&#125;</div><div class="line">                height=&#123;height&#125;</div><div class="line">                xScale=&#123;xScale&#125;</div><div class="line">                yScale=&#123;yScale&#125;</div><div class="line">              /&gt;</div><div class="line">              &lt;AxisBottom top=&#123;height&#125; scale=&#123;xScale&#125; /&gt;</div><div class="line">              &lt;AxisLeft scale=&#123;yScale&#125; /&gt;</div><div class="line">              &lt;AreaClosed</div><div class="line">                data=&#123;data&#125;</div><div class="line">                xScale=&#123;xScale&#125;</div><div class="line">                yScale=&#123;yScale&#125;</div><div class="line">                x=&#123;x&#125;</div><div class="line">                y=&#123;y&#125;</div><div class="line">              /&gt;</div><div class="line">            &lt;/Group&gt;</div><div class="line">          );</div><div class="line">        &#125;&#125;</div><div class="line">      &lt;/Container&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="More"><a href="#More" class="headerlink" title="More"></a>More</h2><p>其实不止这些基本的图形可以用这种方式，当我们进行更加复杂图形的书写时，也可以使用这种方式。<br>例如我们最近做了一个复杂的树形结构，其每个节点都包含了很复杂的内容和交互，我们可以将其进行简化成以下方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">render () &#123;</div><div class="line">  <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">Container</span>&gt;</span></span></div><div class="line">    <span class="tag">&lt;<span class="name">Defs</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">RootNode</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">TopTree</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">BottomTree</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">Container</span>&gt;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中Tree可以进行继续的封装，拼接：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">render () &#123;</div><div class="line">  <span class="keyword">const</span> nodeElements = nodes.map((node, index) =&gt; (</div><div class="line">    &lt;Node direction=&#123;direction&#125; node=&#123;node&#125; methods=&#123;methods&#125; /&gt;</div><div class="line">  ));</div><div class="line">  const linkElements = links.map((link, index) =&gt; &#123;</div><div class="line">    return (</div><div class="line">      &lt;Path</div><div class="line">        active=&#123;active&#125;</div><div class="line">        item=&#123;item&#125;</div><div class="line">        direction=&#123;direction&#125;</div><div class="line">        s=&#123;link.source&#125;</div><div class="line">        d=&#123;link.target&#125;</div><div class="line">        activeItem=&#123;activeItem&#125;</div><div class="line">      /&gt;</div><div class="line">    );</div><div class="line">  &#125;);</div><div class="line">  return &lt;Group&gt;</div><div class="line">    &#123;nodeElements&#125;</div><div class="line">    &#123;linkElements&#125;</div><div class="line">  &lt;/Group&gt;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后我们对Node，和Path组件，进行详细的书写，这样非常的简洁明了，不是吗？<br>同时，当我们其他可视化组件需要这样的Path活Node或者Tree时，我们直接拿来用即可！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag">#React</a>
+          
+            <a href="/tags/D3/" rel="tag">#D3</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/20/update-babel-plugin-react-cssmodules/" rel="next" title="使用babel-plugin-react-cssmodules替代react-css-modules">
+                <i class="fa fa-chevron-left"></i> 使用babel-plugin-react-cssmodules替代react-css-modules
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">48</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#旧的方式"><span class="nav-number">1.</span> <span class="nav-text">旧的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新的方式"><span class="nav-number">2.</span> <span class="nav-text">新的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#More"><span class="nav-number">3.</span> <span class="nav-text">More</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

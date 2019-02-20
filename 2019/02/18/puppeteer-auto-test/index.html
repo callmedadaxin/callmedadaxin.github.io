@@ -84,23 +84,17 @@
 
 
 
-<meta name="description" content="本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。
-
-起因目前我们在持续开发着一个几十个页面，十万+行代码的项目，随着产品的更迭，总会出现这样的问题。在对某些业务逻辑或者功能进行添加或者修改的时候（尤其是通用逻辑），这些通用的逻辑或者组件往往会牵扯到一些其他地方的问题。由于测试人">
+<meta name="description" content="本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Puppeteer自动化测试实践">
 <meta property="og:url" content="http://yoursite.com/2019/02/18/puppeteer-auto-test/index.html">
 <meta property="og:site_name" content="王卫新的博客">
-<meta property="og:description" content="本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。
-
-起因目前我们在持续开发着一个几十个页面，十万+行代码的项目，随着产品的更迭，总会出现这样的问题。在对某些业务逻辑或者功能进行添加或者修改的时候（尤其是通用逻辑），这些通用的逻辑或者组件往往会牵扯到一些其他地方的问题。由于测试人">
+<meta property="og:description" content="本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。">
 <meta property="og:image" content="http://yoursite.com/images/test-1.png">
-<meta property="og:updated_time" content="2019-02-20T09:21:36.105Z">
+<meta property="og:updated_time" content="2019-02-20T09:29:11.365Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Puppeteer自动化测试实践">
-<meta name="twitter:description" content="本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。
-
-起因目前我们在持续开发着一个几十个页面，十万+行代码的项目，随着产品的更迭，总会出现这样的问题。在对某些业务逻辑或者功能进行添加或者修改的时候（尤其是通用逻辑），这些通用的逻辑或者组件往往会牵扯到一些其他地方的问题。由于测试人">
+<meta name="twitter:description" content="本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。">
 <meta name="twitter:image" content="http://yoursite.com/images/test-1.png">
 
 
@@ -335,6 +329,7 @@
         <blockquote>
 <p>本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。</p>
 </blockquote>
+<a id="more"></a>
 <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>目前我们在持续开发着一个几十个页面，十万+行代码的项目，随着产品的更迭，总会出现这样的问题。在对某些业务逻辑或者功能进行添加或者修改的时候（尤其是通用逻辑），这些通用的逻辑或者组件往往会牵扯到一些其他地方的问题。由于测试人员受限，我们很难在完成一个模块单元后，对所有功能重新测试一遍。<br>同时，由于环境及数据的区别，（以及在开发过程中对代码完备性的疏忽），代码会在某些特殊数据的解析和和展示上出现问题，在开发和测试中很难去发现。总的来说，我们希望有一个这样的工具，帮我们解决上述几个问题：</p>
 <ol>
 <li>在进行代码和功能改动后，能够自动访问各个功能的页面，检测问题</li>
@@ -399,6 +394,7 @@
 <p>例如针对时间切换单元，我们做一下简单的介绍：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1. 获取测试单元的元素</span></div><div class="line"><span class="keyword">const</span> timeSwitch = <span class="keyword">await</span> page.$(<span class="string">'[test-role="time-switch"]'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 若页面没有timeSwitch, 则不用进行测试</span></div><div class="line"><span class="keyword">if</span> (!timeSwitch) <span class="keyword">return</span></div><div class="line"></div><div class="line"><span class="comment">// 2. time switch的切换按钮</span></div><div class="line"><span class="keyword">const</span> buttons = timeSwitch.$$(<span class="string">'.time-switch-button'</span>)</div><div class="line"></div><div class="line"><span class="comment">// 3. 对按钮进行循环点击</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; buttons.length; i++) &#123;</div><div class="line">  <span class="keyword">const</span> button = buttons[i]</div><div class="line"></div><div class="line">  <span class="comment">// 点击按钮</span></div><div class="line">  <span class="keyword">await</span> button.click()</div><div class="line"></div><div class="line">  <span class="comment">// 重点！ 等待对应的内容出现时，才认定页面访问成功</span></div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">await</span> page.waitFor(<span class="string">'[test-role="time-switch-content"]'</span>)</div><div class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</div><div class="line">    reportError (error)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 截图</span></div><div class="line">  <span class="keyword">await</span> page.screenshot()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>上面只是进行了一个简单的访问内容测试，我们可以根据我们的用例单元书写各自的测试逻辑，在我们日常开发时，只需要对需要测试的内容，加上对应的test-role即可。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>根据以上的功能划分，我们很好的将一整个应用拆分成各个测试单元进行单元测试。需要注意的是，我们目前仅仅是对页面的可访问性进行测试，仅仅验证当用户进行各种操作，访问各个页面单元时页面是否会出错。并没有对页面的具体展示效果进行测试，这样会和页面的功能内容耦合起来，就需要单独的测试用例的编写了。</p>
 
       
     </div>
@@ -552,7 +548,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能设定"><span class="nav-number">2.</span> <span class="nav-text">功能设定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Puppeteer"><span class="nav-number">3.</span> <span class="nav-text">Puppeteer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#访问一个带有ba认证的网站"><span class="nav-number">3.1.</span> <span class="nav-text">访问一个带有ba认证的网站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问登陆页面，并进行登录"><span class="nav-number">3.2.</span> <span class="nav-text">访问登陆页面，并进行登录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#waitUntil"><span class="nav-number">3.2.1.</span> <span class="nav-text">waitUntil</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#waitFor"><span class="nav-number">3.2.2.</span> <span class="nav-text">waitFor</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#针对列表内容里的链接进行批量访问"><span class="nav-number">3.3.</span> <span class="nav-text">针对列表内容里的链接进行批量访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进行错误和访问监听"><span class="nav-number">3.4.</span> <span class="nav-text">进行错误和访问监听</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最终功能"><span class="nav-number">4.</span> <span class="nav-text">最终功能</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能设定"><span class="nav-number">2.</span> <span class="nav-text">功能设定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Puppeteer"><span class="nav-number">3.</span> <span class="nav-text">Puppeteer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#访问一个带有ba认证的网站"><span class="nav-number">3.1.</span> <span class="nav-text">访问一个带有ba认证的网站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问登陆页面，并进行登录"><span class="nav-number">3.2.</span> <span class="nav-text">访问登陆页面，并进行登录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#waitUntil"><span class="nav-number">3.2.1.</span> <span class="nav-text">waitUntil</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#waitFor"><span class="nav-number">3.2.2.</span> <span class="nav-text">waitFor</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#针对列表内容里的链接进行批量访问"><span class="nav-number">3.3.</span> <span class="nav-text">针对列表内容里的链接进行批量访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进行错误和访问监听"><span class="nav-number">3.4.</span> <span class="nav-text">进行错误和访问监听</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最终功能"><span class="nav-number">4.</span> <span class="nav-text">最终功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
           </div>
         </section>

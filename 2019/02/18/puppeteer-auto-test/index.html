@@ -1,0 +1,800 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Puppeteer,测试," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。
+
+起因目前我们在持续开发着一个几十个页面，十万+行代码的项目，随着产品的更迭，总会出现这样的问题。在对某些业务逻辑或者功能进行添加或者修改的时候（尤其是通用逻辑），这些通用的逻辑或者组件往往会牵扯到一些其他地方的问题。由于测试人">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Puppeteer自动化测试实践">
+<meta property="og:url" content="http://yoursite.com/2019/02/18/puppeteer-auto-test/index.html">
+<meta property="og:site_name" content="王卫新的博客">
+<meta property="og:description" content="本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。
+
+起因目前我们在持续开发着一个几十个页面，十万+行代码的项目，随着产品的更迭，总会出现这样的问题。在对某些业务逻辑或者功能进行添加或者修改的时候（尤其是通用逻辑），这些通用的逻辑或者组件往往会牵扯到一些其他地方的问题。由于测试人">
+<meta property="og:image" content="http://yoursite.com/images/test-1.png">
+<meta property="og:updated_time" content="2019-02-20T09:21:36.105Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Puppeteer自动化测试实践">
+<meta name="twitter:description" content="本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。
+
+起因目前我们在持续开发着一个几十个页面，十万+行代码的项目，随着产品的更迭，总会出现这样的问题。在对某些业务逻辑或者功能进行添加或者修改的时候（尤其是通用逻辑），这些通用的逻辑或者组件往往会牵扯到一些其他地方的问题。由于测试人">
+<meta name="twitter:image" content="http://yoursite.com/images/test-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/18/puppeteer-auto-test/"/>
+
+  <title> Puppeteer自动化测试实践 | 王卫新的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?ed34ae32baefce4ac7df3e3d88315788";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">王卫新的博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Puppeteer自动化测试实践
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-02-18T19:09:23+08:00" content="2019-02-18">
+              2019-02-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/心得实践/" itemprop="url" rel="index">
+                    <span itemprop="name">心得实践</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2019/02/18/puppeteer-auto-test/" class="leancloud_visitors" data-flag-title="Puppeteer自动化测试实践">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>本篇内容将记录并介绍使用Puppeteer进行自动化网页测试，并依靠约定来避免反复修改测试用例的方案。主要解决页面众多时，修改代码导致的牵连错误无法被发现的运行时问题。</p>
+</blockquote>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>目前我们在持续开发着一个几十个页面，十万+行代码的项目，随着产品的更迭，总会出现这样的问题。在对某些业务逻辑或者功能进行添加或者修改的时候（尤其是通用逻辑），这些通用的逻辑或者组件往往会牵扯到一些其他地方的问题。由于测试人员受限，我们很难在完成一个模块单元后，对所有功能重新测试一遍。<br>同时，由于环境及数据的区别，（以及在开发过程中对代码完备性的疏忽），代码会在某些特殊数据的解析和和展示上出现问题，在开发和测试中很难去发现。总的来说，我们希望有一个这样的工具，帮我们解决上述几个问题：</p>
+<ol>
+<li>在进行代码和功能改动后，能够自动访问各个功能的页面，检测问题</li>
+<li>针对大量的数据内容，进行批量访问，检测对于不同数据的展示是否存在问题</li>
+<li>测试与代码功能尽量不耦合，避免每次上新功能都需要对测试用例进行修改，维护成本太大</li>
+<li>定期的测试任务，及时发现数据平台针对新数据的展示完备性</li>
+</ol>
+<p>其中，最重要的问题，就是将测试代码与功能解耦，避免每次迭代和修改都需要追加新的测试用例。我们如何做到这一点呢？首先我们来梳理下测试平台的功能。</p>
+<h2 id="功能设定"><a href="#功能设定" class="headerlink" title="功能设定"></a>功能设定</h2><p>由于我们的平台主要是进行数据展示，所以我们在测试过程中，主要以日常的展示数据为重心即可，针对一些复杂的表单操作先不予处理。针对上述的几个问题，我们针对自动化测试工具的功能如下：</p>
+<ol>
+<li>依次访问各个页面</li>
+<li>访问各个页面的具体内容，如时间切换、选项卡切换、分页切换、表格展开行等等</li>
+<li>针对数据表格中的详情链接，选择前100条进行访问，并进行下钻页的继续测试</li>
+<li>捕获在页面中的错误请求</li>
+<li>对错误信息进行捕获，统计和上报</li>
+</ol>
+<p>根据以上的梳理，我们可以把整个应用分为几个测试单元</p>
+<ul>
+<li>页面单元，检测各功能页面访问的稳定性</li>
+<li>详情页单元，根据页面的数据列表，进行批量的详情页跳转，检测不同参数下详情页的稳定性</li>
+<li>功能单元，用于检测页面和详情页各种展示类型点击切换后是否产生错误</li>
+</ul>
+<p><img src="/images/test-1.png" alt=""></p>
+<p>通过这样的划分，我们<strong><em>针对各个单元进行具体的测试逻辑书写用例</em></strong>，这样就可以避免再添加新功能和页面时，频繁对测试用例进行修改了。</p>
+<h2 id="Puppeteer"><a href="#Puppeteer" class="headerlink" title="Puppeteer"></a>Puppeteer</h2><p>带着上面我们的需求，我们来看下Puppeteer的功能和特性，是否能够满足我们的要求。</p>
+<p><a href="https://zhaoqize.github.io/puppeteer-api-zh_CN/#/" target="_blank" rel="external">文档地址</a></p>
+<p>Puppeteer是一个Node库，它提供了一个高级 API 来通过 DevTools 协议控制 Chromium 或 Chrome。Puppeteer 默认以 headless 模式运行，但是可以通过修改配置文件运行“有头”模式。</p>
+<p>我们可以使用Puppeteer完成以下工作:</p>
+<ul>
+<li>访问页面，进行截图</li>
+<li>自动进行键盘输入，提交表单</li>
+<li>模拟点击等用户操作</li>
+<li>等等等等。。</li>
+</ul>
+<p>我们来通过一些小案例，来介绍他们的基本功能：</p>
+<h3 id="访问一个带有ba认证的网站"><a href="#访问一个带有ba认证的网站" class="headerlink" title="访问一个带有ba认证的网站"></a>访问一个带有ba认证的网站</h3><p>puppeteer可以创建page实例，并使用goto方法进行页面访问，page包含一系列方法，可以对页面进行各种操作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">(<span class="keyword">async</span> () =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> browser = <span class="keyword">await</span> puppeteer.launch();</div><div class="line">  <span class="keyword">const</span> page = <span class="keyword">await</span> browser.newPage();</div><div class="line">  <span class="comment">// ba认证</span></div><div class="line">  <span class="keyword">await</span> page.authenticate(&#123;</div><div class="line">    username,</div><div class="line">    password</div><div class="line">  &#125;);</div><div class="line">  <span class="comment">// 访问页面</span></div><div class="line">  <span class="keyword">await</span> page.goto(<span class="string">'https://example.com'</span>);</div><div class="line">  <span class="comment">// 进行截图</span></div><div class="line">  <span class="keyword">await</span> page.screenshot(&#123;path: <span class="string">'example.png'</span>&#125;);</div><div class="line"></div><div class="line">  <span class="keyword">await</span> browser.close();</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+<h3 id="访问登陆页面，并进行登录"><a href="#访问登陆页面，并进行登录" class="headerlink" title="访问登陆页面，并进行登录"></a>访问登陆页面，并进行登录</h3><p>首先，对于SPA(单页面应用)，我们都知道，当页面进入后，客户端代码才开始进行渲染工作。我们需要等到页面内容渲染完成后，再进行对应的操作。我们有以下几种方法来使用</p>
+<h4 id="waitUntil"><a href="#waitUntil" class="headerlink" title="waitUntil"></a>waitUntil</h4><p>puppeteer针对页面的访问，切换等，提供了waitUntil参数，来确定满足什么条件才认为页面跳转完成。包括以下事件：</p>
+<ul>
+<li>load - 页面的load事件触发时</li>
+<li>domcontentloaded - 页面的DOMContentLoaded事件触发时</li>
+<li>networkidle0 - 不再有网络连接时触发（至少500毫秒后）</li>
+<li>networkidle2 - 只有2个网络连接时触发（至少500毫秒后）</li>
+</ul>
+<p>通过waitUnitl，我们可以当页面请求都完成之后，确定页面已经访问完成。</p>
+<h4 id="waitFor"><a href="#waitFor" class="headerlink" title="waitFor"></a>waitFor</h4><p>waitFor方法可以在指定动作完成后才进行resolve</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// wait for selector</span></div><div class="line"><span class="keyword">await</span> page.waitFor(<span class="string">'.foo'</span>);</div><div class="line"><span class="comment">// wait for 1 second</span></div><div class="line"><span class="keyword">await</span> page.waitFor(<span class="number">1000</span>);</div><div class="line"><span class="comment">// wait for predicate</span></div><div class="line"><span class="keyword">await</span> page.waitFor(() =&gt; !!<span class="built_in">document</span>.querySelector(<span class="string">'.foo'</span>));</div></pre></td></tr></table></figure>
+<p>我们可以利用waitForSelector方法，当登录框渲染成功后，才进行登录操作</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 等待密码输入框渲染</span></div><div class="line"><span class="keyword">await</span> page.waitFor(<span class="string">'#password'</span>);</div><div class="line"><span class="comment">// 输入用户名</span></div><div class="line"><span class="keyword">await</span> page.type(<span class="string">'input#username'</span>, <span class="string">"username"</span>);</div><div class="line"><span class="comment">// 输入密码</span></div><div class="line"><span class="keyword">await</span> page.type(<span class="string">'input#password'</span>, <span class="string">"testpass"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 点击登录按钮</span></div><div class="line"><span class="keyword">await</span> <span class="built_in">Promise</span>.all([</div><div class="line">  page.waitForNavigation(), <span class="comment">// 等跳转完成后resolve</span></div><div class="line">  page.click(<span class="string">'button.login-button'</span>), <span class="comment">// 点击该链接将间接导致导航(跳转)</span></div><div class="line">]);</div><div class="line"></div><div class="line"><span class="keyword">await</span> page.waitFor(<span class="number">2000</span>)</div><div class="line"></div><div class="line"><span class="comment">// 获取cookies</span></div><div class="line"><span class="keyword">const</span> cookies = <span class="keyword">await</span> page.cookies()</div></pre></td></tr></table></figure>
+<h3 id="针对列表内容里的链接进行批量访问"><a href="#针对列表内容里的链接进行批量访问" class="headerlink" title="针对列表内容里的链接进行批量访问"></a>针对列表内容里的链接进行批量访问</h3><p>主要利用到page实例的选择器功能</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> table = <span class="keyword">await</span> page.$(<span class="string">'.table'</span>)</div><div class="line"><span class="keyword">const</span> links = <span class="keyword">await</span> table.$$<span class="built_in">eval</span>(<span class="string">'a.link-detail'</span>, links =&gt;</div><div class="line">  links.map(link =&gt; link.href)</div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">// 循环访问links</span></div><div class="line">...</div></pre></td></tr></table></figure>
+<h3 id="进行错误和访问监听"><a href="#进行错误和访问监听" class="headerlink" title="进行错误和访问监听"></a>进行错误和访问监听</h3><p>puppeteer可以监听在页面访问过程中的报错，请求等等，这样我们就可以捕获到页面的访问错误并进行上报啦，这也是我们进行测试需要的基本功能~</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 当发生页面js代码没有捕获的异常时触发。</span></div><div class="line">page.on(<span class="string">'pagerror'</span>, () =&gt; &#123;&#125;)</div><div class="line"><span class="comment">// 当页面崩溃时触发。</span></div><div class="line">page.on(<span class="string">'error'</span>, () =&gt; &#123;&#125;)</div><div class="line"><span class="comment">// 当页面发送一个请求时触发</span></div><div class="line">page.on(<span class="string">'request'</span>)</div><div class="line"><span class="comment">// 当页面的某个请求接收到对应的 response 时触发。</span></div><div class="line">page.on(<span class="string">'response'</span>)</div></pre></td></tr></table></figure>
+<p>通过以上的几个小案例，我们发现Puppeteer的功能非常强大，完全能够满足我们以上的对页面进行自动访问的需求。接下来，我们针对我们的测试单元进行个单元用例的书写</p>
+<h2 id="最终功能"><a href="#最终功能" class="headerlink" title="最终功能"></a>最终功能</h2><p>通过我们上面对测试单元的规划，我们可以规划一下我们的测试路径</p>
+<p>访问网站 -&gt; 登陆 -&gt; 访问页面1 -&gt; 进行基本单元测试 -&gt; 获取详情页跳转链接 -&gt; 依次访问详情页 -&gt; 进行基本单元测试</p>
+<p>-&gt; 访问页面2 …</p>
+<p>所以，我们可以拆分出几个大类，和几个测试单元，来进行各项测试</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 包含基本的测试方法，log输出等</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">// 详情页单元，进行一些基本的单元测试</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">PageDetal</span> <span class="keyword">extends</span> <span class="title">Base</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">// 页面单元，进行基本的单元测试，并获取并依次访问详情页</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Page</span> <span class="keyword">extends</span> <span class="title">PageDetal</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">// 进行登录等操作，并依次访问页面单元进行测试</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Root</span> <span class="keyword">extends</span> <span class="title">Base</span> </span>&#123;&#125;</div></pre></td></tr></table></figure>
+<p>同时，我们如何在功能页面变化时，跟踪到测试的变化呢，我们可以针对我们测试的功能，为其添加自定义标签test-role，测试时，根据自定义标签进行测试逻辑的编写。</p>
+<p>例如针对时间切换单元，我们做一下简单的介绍：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1. 获取测试单元的元素</span></div><div class="line"><span class="keyword">const</span> timeSwitch = <span class="keyword">await</span> page.$(<span class="string">'[test-role="time-switch"]'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 若页面没有timeSwitch, 则不用进行测试</span></div><div class="line"><span class="keyword">if</span> (!timeSwitch) <span class="keyword">return</span></div><div class="line"></div><div class="line"><span class="comment">// 2. time switch的切换按钮</span></div><div class="line"><span class="keyword">const</span> buttons = timeSwitch.$$(<span class="string">'.time-switch-button'</span>)</div><div class="line"></div><div class="line"><span class="comment">// 3. 对按钮进行循环点击</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; buttons.length; i++) &#123;</div><div class="line">  <span class="keyword">const</span> button = buttons[i]</div><div class="line"></div><div class="line">  <span class="comment">// 点击按钮</span></div><div class="line">  <span class="keyword">await</span> button.click()</div><div class="line"></div><div class="line">  <span class="comment">// 重点！ 等待对应的内容出现时，才认定页面访问成功</span></div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">await</span> page.waitFor(<span class="string">'[test-role="time-switch-content"]'</span>)</div><div class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</div><div class="line">    reportError (error)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 截图</span></div><div class="line">  <span class="keyword">await</span> page.screenshot()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面只是进行了一个简单的访问内容测试，我们可以根据我们的用例单元书写各自的测试逻辑，在我们日常开发时，只需要对需要测试的内容，加上对应的test-role即可。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Puppeteer/" rel="tag">#Puppeteer</a>
+          
+            <a href="/tags/测试/" rel="tag">#测试</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/09/write-d3-with-reactjs/" rel="next" title="React+D3 声明式可视化展示">
+                <i class="fa fa-chevron-left"></i> React+D3 声明式可视化展示
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="王卫新" />
+          <p class="site-author-name" itemprop="name">王卫新</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能设定"><span class="nav-number">2.</span> <span class="nav-text">功能设定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Puppeteer"><span class="nav-number">3.</span> <span class="nav-text">Puppeteer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#访问一个带有ba认证的网站"><span class="nav-number">3.1.</span> <span class="nav-text">访问一个带有ba认证的网站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问登陆页面，并进行登录"><span class="nav-number">3.2.</span> <span class="nav-text">访问登陆页面，并进行登录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#waitUntil"><span class="nav-number">3.2.1.</span> <span class="nav-text">waitUntil</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#waitFor"><span class="nav-number">3.2.2.</span> <span class="nav-text">waitFor</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#针对列表内容里的链接进行批量访问"><span class="nav-number">3.3.</span> <span class="nav-text">针对列表内容里的链接进行批量访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进行错误和访问监听"><span class="nav-number">3.4.</span> <span class="nav-text">进行错误和访问监听</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最终功能"><span class="nav-number">4.</span> <span class="nav-text">最终功能</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王卫新</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("J9pkRuJAfFbEvpYnOTJ7zoJF-gzGzoHsz", "VewaREVYKM6XViI8WmXjJv7i");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
